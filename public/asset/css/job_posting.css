@@ -1,0 +1,172 @@
+body {
+    overflow-x: hidden;
+}
+#sidebar {
+    min-width: 270px;
+    max-width: 270px;
+    background-color: #0F5078;
+    color: #fff;
+    transition: all 0.3s;
+    height: 260vh;
+    position: relative;
+    
+}
+#sidebar.active {
+    min-width: 70px;
+    max-width: 70px;
+}
+#sidebar .sidebar-header {
+    background-color: #e7e6e6;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s;
+}
+#sidebar.active .sidebar-header img {
+    display: none;
+}
+#sidebar.active .sidebar-header {
+    background-color: #0F5078;
+    justify-content: center; /* Center the hamburger icon */
+}
+#sidebar .sidebar-header img {
+    transition: opacity 0.3s;
+    width: 170px;
+    margin: -40px 0 -40px 40px;
+}
+#sidebar ul.components {
+    padding: 100px 0;
+}
+#sidebar ul li {
+    padding: 10px;
+    font-size: 16px;
+}
+#sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 20px 10px;
+    transition: all 0.3s;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#sidebar ul li a i {
+    min-width: 35px; /* Adjust this value as needed */
+    text-align: center;
+    font-size: 25px;
+    margin-right: 25px; /* Space between icon and text */
+}
+
+#sidebar ul li a span {
+    flex-grow: 1;
+    font-size: 21px;
+    white-space: nowrap;
+}
+
+#sidebar.active ul li a span {
+    display: none;
+    
+}
+#sidebar.active ul li a i {
+    margin-right: 0;
+    text-align: center;
+    width: 100%;
+}
+#sidebar ul li:hover {
+    background-color: #3D7190;
+}
+.sidebar-footer {
+    padding: 10px;
+    text-align: center;
+    background-color: #103e59;
+    font-size: 12px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+#sidebar.active footer {
+    display: none;
+}
+#sidebarCollapse {
+    background: none;
+    border: none;
+    color: #005a8d;
+    transition: color 0.3s;
+}
+#sidebar.active #sidebarCollapse {
+    color: white;
+}
+#sidebarCollapse {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+.dropdown-menu{
+    width: 93%;
+} 
+.dropdown-item{
+    padding: 0.5rem 2.1rem;
+    font-size: 20px;
+    font-weight: 800;
+    color: #0F5078;
+}
+/* Remove the white background when a dropdown item is focused or active */
+.dropdown-menu .dropdown-item:focus,
+.dropdown-menu .dropdown-item:active {
+    background-color: transparent; /* Remove the background color */
+    border: none; /* Remove any border if present */
+    outline: none; /* Remove the outline */
+}
+
+/* Optional: Adjust background color on hover */
+.dropdown-menu .dropdown-item:hover {
+    background-color: transparent; 
+    color: #4dabf7;
+}
+
+
+
+.input-group input:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.btn-outline-secondary {
+    color: #005a8d;
+}
+
+h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 1000;
+    margin-top: 6px;
+}
+
+.btn-custom {
+    background-color: #0F5078; 
+    color: #fff; 
+    border: none; 
+    padding: 10px 20px; 
+    display: inline-flex;
+    align-items: center;
+    gap: 15px; 
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.btn-custom i {
+    font-size: 20px; 
+}
+
+/* Hover effects */
+.btn-custom:hover {
+    background-color: #093a57; 
+    color: #fff; 
+}
+
+.text-custom-color{
+    color: #0F5078 !important;
+}

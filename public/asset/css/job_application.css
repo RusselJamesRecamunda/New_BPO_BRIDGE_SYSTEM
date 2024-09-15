@@ -1,0 +1,104 @@
+  /* Container with background color */
+  .applicant-container {
+    background-color: #D9D9D9;
+    padding: 20px;
+    border-radius: 8px;
+    height: 193vh;
+}
+
+/* Status badge styles */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    color: white;
+    font-weight: bold;
+}
+.badge-scheduled { background-color: #4CAF50; color: white; }
+.badge-in-process { background-color: #FFC107; color: white; }
+.badge-rejected { background-color: #F44336; color: white; }
+
+/* Status select styles */
+.status-select {
+    padding: 5px;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
+.status-select option {
+    font-weight: bold;
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: #0F5078;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0C3E5A;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.export-button {
+    background-color: #0F5078;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.export-button:hover {
+    background-color: #0C3E5A;
+}
+
+/* Table styles */
+table th, table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+ /* Tab styles */
+ .custom-tabs {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+.custom-tab {
+    position: relative;
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+    padding-bottom: 5px;
+}
+
+.custom-tab:hover, .custom-tab.active {
+    color: #0F5078;
+}
+
+.custom-tab::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #0F5078;
+    transition: width 0.3s ease-in-out;
+}
+
+.custom-tab:hover::after, .custom-tab.active::after {
+    width: 100%;
+}

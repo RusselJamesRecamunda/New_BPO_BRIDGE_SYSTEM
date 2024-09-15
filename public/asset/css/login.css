@@ -1,0 +1,143 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header .container-fluid {
+    padding: 10px 15px;
+}
+
+header .logo {
+    margin: 0;
+}
+
+header .logo img {
+    width: 100px;
+    height: 100px;
+    margin: -5% 0 -5% 0;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    max-width: 1000px;
+    width: 100%;
+    background-color: #fff;
+}
+
+.image-container img {
+    width: 400px;
+    margin-right: 40px;
+}
+
+.divider {
+    width: 2px;
+    background-color: #ddd;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.password-container {
+    position: relative;
+}
+
+.form-container p {
+    margin-top: 15px;
+    text-align: left;
+}
+
+.password-container input {
+    padding-right: 40px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.toggle-password img {
+    width: 20px;
+    height: 20px;
+}
+
+.warning {
+    color: #F23E3E;
+    font-size: 12px;
+    margin-top: 5px;
+    visibility: hidden;
+    height: 18px;
+}
+
+input.error + .warning {
+    visibility: visible;
+}
+
+footer {
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    background-color: #0F5078 !important;
+    margin-top: auto;
+    width: 100%;
+    position: sticky;
+    bottom: 0;
+}
+
+footer p {
+    margin-bottom: 5px;
+}
+
+footer a {
+    color: white;
+    text-decoration: underline;
+}
+
+footer a:hover {
+    text-decoration: none;
+}
+
+input.error {
+    border-color: #F23E3E;
+}
+
+/* Mobile Specific Adjustments */
+@media (max-width: 767.98px) {
+    .login-container {
+        padding: 20px;
+        max-width: 90%;
+        box-shadow: none;
+        margin-top: -100px;
+    }
+
+    main {
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        min-height: calc(100vh - 80px);
+    }
+
+    footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+}
