@@ -2,8 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\GmailController;
-use App\Http\Controllers\AdminContentController;
+use App\Http\Controllers\AdminControllers\ApplicantTrackerController;
+use App\Http\Controllers\AdminControllers\ApplicantResultsController;
+use App\Http\Controllers\AdminControllers\InterviewNotesController;
+use App\Http\Controllers\AdminControllers\EmployeeController;
+use App\Http\Controllers\AdminControllers\DepartmentsController;
+use App\Http\Controllers\AdminControllers\DepartmentInfoController;
+use App\Http\Controllers\AdminControllers\JobsController;
+use App\Http\Controllers\AdminControllers\JobPostingController;
+use App\Http\Controllers\AdminControllers\ApplicationsController;
+use App\Http\Controllers\AdminControllers\ManageUsersController;
+use App\Http\Controllers\AdminControllers\InterviewsController;
+use App\Http\Controllers\AdminControllers\ReportsController;
 
 // Public routes
 Route::get('/', function () {
@@ -25,24 +35,39 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Gmail authentication routes
 
 // routes for BPO sidebar
 Route::get('/sidebar', function () {
     return view('components.sidebar');
 });
 
-// Updated routes using the AdminContentController method
-Route::get('/applicant-tracker', [AdminContentController::class, 'showContent'])->name('applicant.tracker')->defaults('type', 'applicant-tracker');
-Route::get('/applicant-result', [AdminContentController::class, 'showContent'])->name('admin.applicant_results')->defaults('type', 'applicant-result');
-Route::get('/admin/notes', [AdminContentController::class, 'showContent'])->name('admin.notes')->defaults('type', 'notes');
-Route::get('/admin/employees', [AdminContentController::class, 'showContent'])->name('admin.employees')->defaults('type', 'employees');
-Route::get('/admin/departments', [AdminContentController::class, 'showContent'])->name('admin.departments')->defaults('type', 'departments');
-Route::get('/admin/jobs', [AdminContentController::class, 'showContent'])->name('admin.jobs')->defaults('type', 'jobs');
-Route::get('/admin/job-posting', [AdminContentController::class, 'showContent'])->name('admin.job-posting')->defaults('type', 'job-posting');
-Route::get('/admin/applications', [AdminContentController::class, 'showContent'])->name('admin.applications')->defaults('type', 'applications');
-Route::get('/admin/users', [AdminContentController::class, 'showContent'])->name('admin.users')->defaults('type', 'users');
-Route::get('/admin/interviews', [AdminContentController::class, 'showContent'])->name('admin.interviews')->defaults('type', 'interviews');
+
+Route::prefix('admin')->group(function () {
+
+    // Applicant Tracker View and Controller
+    Route::resource('applicant-tracker', ApplicantTrackerController::class);
+    Route::resource('applicant-results', ApplicantResultsController::class);
+    Route::resource('notes', InterviewNotesController::class);
+
+    // Employees View and Controller 
+    Route::resource('employees', EmployeeController::class);
+    Route::resource('departments', DepartmentsController::class);
+    Route::resource('department-info', DepartmentInfoController::class);
+    
+    // Jobs View and Controller
+    Route::resource('jobs', JobsController::class);
+    Route::resource('job-posting', JobPostingController::class);
+    Route::resource('applications', ApplicationsController::class);
+
+    // Users View and Controller
+    Route::resource('users', ManageUsersController::class);
+
+    //Interviews View and Controller
+    Route::resource('interviews', InterviewsController::class);
+
+    //General Reports View and Controller
+    Route::resource('reports', ReportsController::class);
+});
 
 // Include additional authentication routes
 require __DIR__.'/auth.php';

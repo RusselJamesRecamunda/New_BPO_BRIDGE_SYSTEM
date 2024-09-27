@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,9 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('job_types', function (Blueprint $table) {
-            $table->id('job_type_id'); // Automatically sets as primary key
+            $table->id('job_type_id');
             $table->string('job_type_name');
-            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

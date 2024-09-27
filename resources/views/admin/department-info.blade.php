@@ -1,6 +1,6 @@
 @extends('layouts.admin_pages')
 
-@section('title', 'Users')
+@section('title', 'Department Info')
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('asset/css/shares.css') }}">
@@ -18,8 +18,8 @@
             color: #0F5078;
             font-weight: bold;
         }
-        .badge-active { background-color: #A6AAFF; color: #0F5078; }
-        .badge-suspended { background-color: #A6AAFF; color: #0F5078; }
+        .badge-full-time { background-color: #A6AAFF; color: #0F5078; }
+        .badge-freelance { background-color: #A6AAFF; color: #0F5078; }
 
         .status-select {
             padding: 5px;
@@ -62,54 +62,66 @@
     </style>
 @endsection
 
-@section('users-content')
+@section('department-info-content')
 
     <!-- Top Bar -->
     @include('components.topbar')
-    <h2 class="mb-4 fw-bold text-primary" style="margin-top: -20px;"><i class="fa-solid fa-users-gear me-3"></i>User Management</h2>
+    <h2 class="mb-4 fw-bold text-dark" style="margin-top: -20px;"></i>Department</h2>
+    <a href="{{ route('departments.index') }}" class="text-decoration-none ">
+        <h6 class="mb-4 fw-bold text-primary" style="margin: -20px 0;">
+            <i class="fa-solid fa-circle-arrow-left"></i> All Departments
+        </h6>
+    </a>
+
     <div class="employees-container mb-4">
         <!-- Search bar and Add New Candidate button -->
         <div class="mb-4">
-            <div class="d-flex justify-content-between align-items-center">
-            <h2 class="mb-4 fw-bold text-dark">Listed Users</h2>
+            <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="custom-search-bar">
                         <input type="text" placeholder="Search">
                         <button type="submit">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
+                <button class="btn btn-primary"><i class="fa-solid fa-circle-plus me-2"></i>Add New Employee</button>
             </div>
         </div>
-
-        <!-- User Management Table -->
-        <div id="user-management-section" class="table-responsive">
+        <h2 class="mb-4 fw-bold text-dark" style="margin-top: -10px;"></i>Department Manager</h2>
+        <h4 class="mb-4 fw-bold text-dark" style="margin-top: -20px;">Russel</h4>
+        <!-- Dept. info Result Table -->
+        <div id="info-result-section" class="table-responsive">
             <table class="table table-bordered table-hover align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th>User Name</th>
-                        <th>User ID</th>
-                        <th>User Role</th>
-                        <th>Address</th>
-                        <th>Phone</th>
-                        <th>Date of birth</th>
-                        <th>Activity Status</th>
-                        <th>User Status</th>
+                        <th>Employee Name</th>
+                        <th>Employee ID</th>
+                        <th>Email</th>
+                        <th>Work Designation</th>
+                        <th>Role</th>
+                        <th>Work Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>Carlo Dela Peña</td>
                         <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>carlodelapeña@gmail.com</td>
                         <td>Software Engineer</td>
                         <td>Office</td>
-                        <td></td>
                         <td>
-                            <select class="status-select badge-status">
-                                <option value="Active" class="badge-active">Active</option>
-                                <option value="Suspended" class="badge-suspended" selected>Suspended</option>
+                            <select class="status-select badge-2nd-round">
+                                <option value="Full-Time" class="badge-full-time">Full-Time</option>
+                                <option value="Freelance" class="badge-freelance" selected>Freelance</option>
                             </select>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-outline-primary btn-sm">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-primary btn-sm">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -124,7 +136,7 @@
         // Ensure that the script only runs inside the specific 'result-content' area
         $(document).ready(function() {
             // Scope the script to the #applicant-result-section
-            $('#user-management-section .status-select').each(function() {
+            $('#info-result-section .status-select').each(function() {
                 updateStatusColor(this);
 
                 $(this).on('change', function () {

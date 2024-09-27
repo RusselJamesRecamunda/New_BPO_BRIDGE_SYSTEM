@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('asset/css/shares.css') }}">
 @endsection
 
-@section('tracker-content')
+@section('applicant-tracker-content')
             <!-- Top Bar -->
             @include('components.topbar')
 

@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BPO Login</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/login.css') }}">
 </head>
 <body>
     <header class="bg-light border-bottom">
         <div class="container-fluid d-flex align-items-center py-1">
             <div class="logo">
-                <img src="{{ asset('assets/img/bpo_logo.png') }}" alt="BPO Logo">
+                <img src="{{ asset('asset/img/bpo_logo.png') }}" alt="BPO Logo">
             </div>
         </div>
     </header>
@@ -20,7 +20,7 @@
         <div class="container login-container bg-white p-5">
             <div class="row">
                 <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center">
-                    <img src="{{ asset('assets/img/login-image.png') }}" alt="Login Image" class="img-fluid">
+                    <img src="{{ asset('asset/img/login-image.png') }}" alt="Login Image" class="img-fluid">
                 </div>
                 <div class="col-md-1 d-none d-md-block">
                     <div class="divider"></div>
@@ -40,8 +40,8 @@
                             <div class="password-container">
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required autocomplete="current-password">
                                 <span class="toggle-password" onclick="togglePasswordVisibility()">
-                                    <img id="show-password" src="{{ asset('assets/img/eye-icon-show.png') }}" alt="Show Password">
-                                    <img id="hide-password" src="{{ asset('assets/img/eye-icon-hide.png') }}" alt="Hide Password" style="display: none;">
+                                    <img id="show-password" src="{{ asset('asset/img/eye-icon-show.png') }}" alt="Show Password">
+                                    <img id="hide-password" src="{{ asset('asset/img/eye-icon-hide.png') }}" alt="Hide Password" style="display: none;">
                                 </span>
                             </div>
                             <x-input-error :messages="$errors->get('password')" class="mt-2 text-danger" />

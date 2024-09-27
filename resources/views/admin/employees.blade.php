@@ -107,8 +107,8 @@
                         <td>Office</td>
                         <td>
                             <select class="status-select badge-2nd-round">
-                                <option value="1st Round Passed" class="badge-full-time">Full-Time</option>
-                                <option value="2nd Round Passed" class="badge-freelance" selected>Freelance</option>
+                                <option value="Full-Time" class="badge-full-time">Full-Time</option>
+                                <option value="Freelance" class="badge-freelance" selected>Freelance</option>
                             </select>
                         </td>
                         <td>

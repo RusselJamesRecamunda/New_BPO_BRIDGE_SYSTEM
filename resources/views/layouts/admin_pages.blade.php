@@ -9,7 +9,6 @@
     <!-- Font Awesome (for icons) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('asset/css/shares.css') }}">
     @yield('styles') <!-- For additional CSS files -->
 </head>
 <body>
@@ -24,16 +23,18 @@
         <div id="content" class="w-100 p-4 flex-grow-1">
             
             <!-- Content Admin Pages -->
-            @yield('tracker-content')
+            @yield(section: 'applicant-tracker-content')
             @yield('result-content')
             @yield('notes-content')
             @yield('employees-content')
             @yield('departments-content')
+            @yield('department-info-content')
             @yield('jobs-content')
             @yield('job-posting-content')
             @yield('applications-content')    
             @yield('users-content')
             @yield('interviews-content') 
+            @yield('reports-content') 
         </div>
     </div>
         <!-- Include Footer -->

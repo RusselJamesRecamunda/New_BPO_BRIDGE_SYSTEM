@@ -7,20 +7,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     emailInput.addEventListener("blur", function () {
         if (emailInput.value === "" || !emailInput.value.includes("@")) {
-            emailWarning.style.display = "block";
+            emailWarning.style.visibility = "visible";
             emailInput.classList.add("error");
         } else {
-            emailWarning.style.display = "none";
+            emailWarning.style.visibility = "hidden";
             emailInput.classList.remove("error");
         }
     });
 
     passwordInput.addEventListener("blur", function () {
         if (passwordInput.value === "") {
-            passwordWarning.style.display = "block";
+            passwordWarning.style.visibility = "visible";
             passwordInput.classList.add("error");
         } else {
-            passwordWarning.style.display = "none";
+            passwordWarning.style.visibility = "hidden";
             passwordInput.classList.remove("error");
         }
     });
@@ -29,20 +29,20 @@ document.addEventListener("DOMContentLoaded", function () {
         let valid = true;
 
         if (emailInput.value === "" || !emailInput.value.includes("@")) {
-            emailWarning.style.display = "block";
+            emailWarning.style.visibility = "visible";
             emailInput.classList.add("error");
             valid = false;
         } else {
-            emailWarning.style.display = "none";
+            emailWarning.style.visibility = "hidden";
             emailInput.classList.remove("error");
         }
 
         if (passwordInput.value === "") {
-            passwordWarning.style.display = "block";
+            passwordWarning.style.visibility = "visible";
             passwordInput.classList.add("error");
             valid = false;
         } else {
-            passwordWarning.style.display = "none";
+            passwordWarning.style.visibility = "hidden";
             passwordInput.classList.remove("error");
         }
 

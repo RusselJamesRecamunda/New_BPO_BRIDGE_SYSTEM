@@ -19,19 +19,19 @@
             <ul class="dropdown-menu" aria-labelledby="applicantTrackerDropdown">
                 <li>
                     <!-- Clicking this will go to the 'applicant.tracker' route -->
-                    <button class="dropdown-item fs-6" type="button" data-url="{{ route('applicant.tracker') }}">
+                    <button class="dropdown-item fs-6" type="button" data-url="{{ route('applicant-tracker.index') }}">
                         <i class="fa-solid fa-chart-line me-3"></i>Home Tracker
                     </button>
                 </li>
                 <li>
                     <!-- Clicking this will go to the 'applicant.results' route -->
-                    <button class="dropdown-item fs-6" type="button" data-url="{{ route('admin.applicant_results') }}">
+                    <button class="dropdown-item fs-6" type="button" data-url="{{ route('applicant-results.index') }}">
                         <i class="fa-solid fa-check-to-slot me-3"></i>Applicant Results
                     </button>
                 </li>
                 <li>
                     <!-- Clicking this will go to the 'interview.notes' route -->
-                    <button class="dropdown-item fs-6" type="button" data-url="{{ route('admin.notes') }}">
+                    <button class="dropdown-item fs-6" type="button" data-url="{{ route('notes.index') }}">
                         <i class="fa-solid fa-comment me-3"></i>Interview Notes
                     </button>
                 </li>
@@ -47,13 +47,13 @@
             <ul class="dropdown-menu" aria-labelledby="employeesDropdown">
                 <li>
                     <!-- Clicking this will go to the 'employees' route -->
-                    <button class="dropdown-item fs-6" type="button" data-url="{{ route('admin.employees') }}">
+                    <button class="dropdown-item fs-6" type="button" data-url="{{ route('employees.index') }}">
                     <i class="fa-solid fa-user-tie me-4"></i>All Employees
                     </button>
                 </li>
                 <li>
                     <!-- Clicking this will go to the 'departments' route -->
-                    <button class="dropdown-item fs-6" type="button" data-url="{{ route('admin.departments') }}">
+                    <button class="dropdown-item fs-6" type="button" data-url="{{ route('departments.index') }}">
                         <i class="fa-solid fa-building me-4"></i>All Departments
                     </button>
                 </li>
@@ -69,26 +69,26 @@
             <ul class="dropdown-menu" aria-labelledby="jobBoardDropdown">
                 <li>
                     <!-- Clicking this will go to the 'jobs' route -->
-                    <button class="dropdown-item fs-6" type="button" data-url="{{ route('admin.jobs') }}">
+                    <button class="dropdown-item fs-6" type="button" data-url="{{ route('jobs.index') }}">
                         <i class="fa-solid fa-briefcase me-4"></i>Jobs
                     </button>
                 </li>
                 <li>
                     <!-- Clicking this will go to the 'applications' route -->
-                    <button class="dropdown-item fs-6" type="button" data-url="{{ route('admin.applications') }}">
+                    <button class="dropdown-item fs-6" type="button" data-url="{{ route('applications.index') }}">
                         <i class="fa-solid fa-file-lines me-4"></i>Applications
                     </button>
                 </li>
             </ul>
         </li>
         <li class="nav-item">
-            <a href="{{ route('admin.users') }}"><i class="fas fa-user-cog"></i> <span>User Accounts</span></a>
+            <a href="{{ route('users.index') }}"><i class="fas fa-user-cog"></i> <span>User Accounts</span></a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('admin.interviews') }}"><i class="fa-solid fa-calendar-check"></i> <span>Interviews</span></a>
+            <a href="{{ route('interviews.index') }}"><i class="fa-solid fa-calendar-check"></i> <span>Interviews</span></a>
         </li>
         <li class="nav-item">
-            <a href="#"><i class="fas fa-folder-open"></i> <span>General Reports</span></a>
+            <a href="{{ route('reports.index') }}"><i class="fas fa-folder-open"></i> <span>General Reports</span></a>
         </li>
     </ul>
     <footer class="sidebar-footer">

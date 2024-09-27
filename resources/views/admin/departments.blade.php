@@ -102,7 +102,7 @@
                 <div class="department-card">
                     <div class="department-header">
                         <h5>Design Department</h5>
-                        <a href="#">View All</a>
+                        <a href="{{ route('department-info.index') }}">View All</a>
                     </div>
                     <p>20 Members</p>
                     <div class="department-members">
@@ -124,7 +124,7 @@
                 <div class="department-card">
                     <div class="department-header">
                         <h5>Sales Department</h5>
-                        <a href="#">View All</a>
+                        <a href="{{ route('department-info.index') }}">View All</a>
                     </div>
                     <p>14 Members</p>
                     <div class="department-members">
