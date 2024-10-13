@@ -13,11 +13,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+         // Call the UsersTableSeeder first
+         $this->call(UsersTableSeeder::class);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+         // Call the AdminInfoTableSeeder after UsersTableSeeder
+         $this->call(AdminInfoTableSeeder::class);
+
+         // Call the JobTypeSeeder to insert Full-time and Freelance job types
+        $this->call(JobTypeSeeder::class);
     }
 }

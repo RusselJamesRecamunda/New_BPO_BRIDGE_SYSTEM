@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminControllers\ApplicantTrackerController;
 use App\Http\Controllers\AdminControllers\ApplicantResultsController;
 use App\Http\Controllers\AdminControllers\InterviewNotesController;
 use App\Http\Controllers\AdminControllers\EmployeeController;
+use App\Http\Controllers\AdminControllers\AddEmployeeController;
 use App\Http\Controllers\AdminControllers\DepartmentsController;
 use App\Http\Controllers\AdminControllers\DepartmentInfoController;
 use App\Http\Controllers\AdminControllers\JobsController;
@@ -51,6 +52,7 @@ Route::prefix('admin')->group(function () {
 
     // Employees View and Controller 
     Route::resource('employees', EmployeeController::class);
+    Route::resource('add-employee', AddEmployeeController::class);
     Route::resource('departments', DepartmentsController::class);
     Route::resource('department-info', DepartmentInfoController::class);
     
@@ -64,6 +66,8 @@ Route::prefix('admin')->group(function () {
 
     //Interviews View and Controller
     Route::resource('interviews', InterviewsController::class);
+    Route::get('interviews/fetch', [InterviewsController::class, 'fetch'])->name('interviews.fetch');
+
 
     //General Reports View and Controller
     Route::resource('reports', ReportsController::class);

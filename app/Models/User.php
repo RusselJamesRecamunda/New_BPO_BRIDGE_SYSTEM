@@ -31,7 +31,9 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',            // Add 'name' here
+        'first_name',      // Add 'first_name' here
+        'middle_name',     // Add 'middle_name' here
+        'last_name',       // Add 'last_name' here
         'email',
         'password',
     ];
@@ -57,5 +59,30 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Define a one-to-one relationship with AdminInfo.
+     */
+    public function adminInfo()
+    {
+        return $this->hasOne(AdminInfo::class, 'user_id', 'user_id'); 
+    } 
+
+   // A user must have at least one document submission
+   public function documentSubmissions()
+   {
+       return $this->hasMany(DocumentSubmission::class, 'user_id');
+   }
+    /**
+     * Defines the relationship between User and Notifications.
+     * 
+     * A user can have many notifications.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function notifications()
+    {
+        return $this->hasMany(Notifications::class, 'user_id');
     }
 }

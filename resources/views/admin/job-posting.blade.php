@@ -101,8 +101,9 @@
                     <div class="row mb-3">
                         <!-- Basic Pay -->
                         <div class="col-md-6">
-                            <label for="basicPayInput" class="form-label fw-bold" style="font-family: 'Poppins', sans-serif;">Basic Pay</label>
-                            <input type="number" class="form-control" id="basic_pay" name="basic_pay" placeholder="Enter basic pay amount">
+                            <label for="basicPayInput" class="form-label fw-bold" style="font-family: 'Poppins', sans-serif;">
+                            Basic Pay</label>
+                            <input type="text" class="form-control" id="basic_pay" name="basic_pay" placeholder="Enter Basic Pay">
                         </div>
                         <!-- Job Location -->
                         <div class="col-md-6">
@@ -184,27 +185,5 @@
         });
     }
 });
-
-// Custom validation to ensure TinyMCE fields are filled
-document.getElementById('jobPostingForm').addEventListener('submit', function(event) {
-    // Force TinyMCE to update the original textarea content
-    tinymce.triggerSave();
-
-    // Get content from TinyMCE editors
-    let jobDescriptionContent = tinymce.get('job_description').getContent();
-    let requirementsContent = tinymce.get('requirements').getContent();
-
-    if (!jobDescriptionContent || jobDescriptionContent.trim() === '') {
-        alert('Job Description is required.');
-        event.preventDefault();  // Prevent form submission
-    }
-
-    if (!requirementsContent || requirementsContent.trim() === '') {
-        alert('Requirements are required.');
-        event.preventDefault();  // Prevent form submission
-    }
-});
-
 </script>
-
 @endsection

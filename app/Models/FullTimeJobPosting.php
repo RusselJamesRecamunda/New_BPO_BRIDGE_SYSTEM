@@ -18,6 +18,7 @@ class FullTimeJobPosting extends Model
         // 'user_id', // Uncomment if you want to use user-related logic
         'job_location',
         'requirements',
+        'basic_pay',
         'company_benefits',
         'max_hires',
         'job_photo',

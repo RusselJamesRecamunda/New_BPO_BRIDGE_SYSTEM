@@ -27,6 +27,7 @@
             @yield('result-content')
             @yield('notes-content')
             @yield('employees-content')
+            @yield('add-employee-content')
             @yield('departments-content')
             @yield('department-info-content')
             @yield('jobs-content')
