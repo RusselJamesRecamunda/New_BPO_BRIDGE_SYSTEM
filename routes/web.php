@@ -66,7 +66,7 @@ Route::prefix('admin')->group(function () {
 
     //Interviews View and Controller
     Route::resource('interviews', InterviewsController::class);
-    Route::get('interviews/fetch', [InterviewsController::class, 'fetch'])->name('interviews.fetch');
+    // Route::get('interviews/fetch', [InterviewsController::class, 'fetch'])->name('interviews.fetch');
 
 
     //General Reports View and Controller

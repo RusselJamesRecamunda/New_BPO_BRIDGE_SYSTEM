@@ -1,0 +1,207 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header .container-fluid {
+    padding: 10px 15px;
+}
+
+header .logo {
+    margin: 0;
+}
+
+header .logo img {
+    width: 80px;
+    height: 80px;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f7f8fb;
+    text-align: center;
+}
+
+.register-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+form {
+    width: 100%;
+    text-align: left;
+}
+
+h1 {
+    font-size: 45px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.toggle-password img {
+    width: 20px;
+    height: 20px;
+}
+
+input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    padding-right: 35px;
+    margin-top: 5px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.warning {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none; /* Hide warnings by default */
+}
+
+input.error {
+    border-color: #F23E3E;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 10px;
+    vertical-align: top;
+    width: 20px;
+    height: 20px;
+}
+
+.checkbox-group label {
+    flex: 1;
+    font-size: 12px;
+    text-align: left;
+    line-height: 1.5;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+p {
+    margin-top: 15px;
+}
+
+p a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    background-color: #0F5078 !important;
+    margin-top: auto;
+    width: 100%;
+    position: sticky;
+    bottom: 0;
+}
+
+/* Mobile Specific Adjustments */
+@media (max-width: 767.98px) {
+    .register-container {
+        padding: 10px;
+        max-width: 90%;
+        margin-top: 90px;
+        box-shadow: none;
+    }
+
+    main {
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        min-height: calc(100vh - 80px);
+    }
+
+    footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+}
+
+.input-container {
+    position: relative;
+    width: 100%; /* Adjust as needed */
+}
+
+.form-control {
+    padding-right: 40px; /* Add padding to avoid text overlapping with the icon */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px; /* Adjust the position as needed */
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #aaa; /* Change color if needed */
+    pointer-events: auto; /* Ensure the icon is clickable */
+}

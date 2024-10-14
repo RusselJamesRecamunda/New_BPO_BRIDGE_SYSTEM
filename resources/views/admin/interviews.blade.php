@@ -52,6 +52,29 @@
             z-index: 1040;
             display: none;
         }
+
+        .color-palette {
+    display: flex;
+    justify-content: start;
+    margin-bottom: 20px;
+}
+
+.color-swatch {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.color-swatch:hover {
+    border: 2px solid #000;
+}
+
+.color-swatch.active {
+    border: 3px solid #000;
+}
+
     </style>
 @endsection
 
@@ -61,60 +84,106 @@
 
     <!-- Calendar Container -->
     <div id="calendar-container" class="container mt-4">
-        <div id="calendar" style="width: 100%; height: 100%;"></div>
+        <div id="calendar" style="width: 100%; height: 100%; margin-bottom: 300px"></div>
     </div>
 
     <!-- Backdrop Overlay -->
     <div class="modal-backdrop" id="modalBackdrop"></div>
 
     <!-- Modal for scheduling interview -->
-    <div class="modal" id="interviewModal" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add/Edit Interview Schedule</h5>
-                    <button type="button" class="close" id="closeModalBtn">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <form id="interviewForm">
-                        <div class="form-group">
-                            <label for="candidate_name">Candidate Name *</label>
-                            <input type="text" id="candidate_name" name="candidate_name" class="form-control" required>
+<div class="modal" id="interviewModal" style="display: none;">
+    <div class="modal-dialog modal-lg"> <!-- Added modal-lg for a larger modal size -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add/Edit Interview Schedule</h5>
+                <button type="button" class="close" id="closeModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="interviewForm">
+                    <!-- Color Palette Selector -->
+                    <div class="form-group">
+                        <label for="color_palette">Select Interview Color *</label>
+                        <div id="color_palette" class="color-palette">
+                            <div class="color-swatch" style="background-color: #ff0000;" data-color="#ff0000"></div>
+                            <div class="color-swatch" style="background-color: #00ff00;" data-color="#00ff00"></div>
+                            <div class="color-swatch" style="background-color: #0000ff;" data-color="#0000ff"></div>
+                            <input type="hidden" name="selected_color" id="selected_color" value="#ff0000">
                         </div>
-                        <div class="form-group">
-                            <label for="applied_job">Applied Job *</label>
-                            <input type="text" id="applied_job" name="applied_job" class="form-control" required>
+                    </div>
+
+                    <!-- First Row: Candidate Name & Applied Job -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="candidate_name">Candidate Name *</label>
+                                <input type="text" id="candidate_name" name="candidate_name" class="form-control" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="interview_mode">Interview Mode *</label>
-                            <select id="interview_mode" name="interview_mode" class="form-control" required>
-                                <option value="Online">Online</option>
-                                <option value="In-Person">In-Person</option>
-                            </select>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="applied_job">Applied Job *</label>
+                                <input type="text" id="applied_job" name="applied_job" class="form-control" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email *</label>
-                            <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+
+                    <!-- Second Row: Interview Mode & Email -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="interview_mode">Interview Mode *</label>
+                                <select id="interview_mode" name="interview_mode" class="form-control" required>
+                                    <option value="Online">Online</option>
+                                    <option value="In-Person">In-Person</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="phone">Phone *</label>
-                            <input type="text" id="phone" name="phone" class="form-control" required>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" class="form-control" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="interview_date">Interview Date *</label>
-                            <input type="date" id="interview_date" name="interview_date" class="form-control" required>
+                    </div>
+
+                    <!-- Third Row: Phone & Interview Date -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="phone">Phone *</label>
+                                <input type="text" id="phone" name="phone" class="form-control" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="interview_time">Interview Time *</label>
-                            <input type="time" id="interview_time" name="interview_time" class="form-control" required>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="interview_date">Interview Date *</label>
+                                <input type="date" id="interview_date" name="interview_date" class="form-control" required>
+                            </div>
                         </div>
+                    </div>
+
+                    <!-- Fourth Row: Interview Time -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="interview_time">Interview Time *</label>
+                                <input type="time" id="interview_time" name="interview_time" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="form-group">
                         <button type="submit" class="btn btn-primary">Save Interview</button>
+                        <button type="button" id="deleteInterviewBtn" class="btn btn-danger">Delete Interview</button>
                         <button type="button" class="btn btn-secondary" id="closeModalBtn">Cancel</button>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -122,138 +191,6 @@
 
 @section('scripts')
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-    
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Set up CSRF token for AJAX requests
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'
-            },
-            events: function (fetchInfo, successCallback, failureCallback) {
-                $.ajax({
-                    url: "{{ route('interviews.index') }}", // Fetch from index route
-                    method: 'GET',
-                    success: function (data) {
-                        console.log(data); // Check data structure
-
-                        // Transform data to match FullCalendar event structure
-                        var events = data.map(function (interview) {
-                            return {
-                                id: interview.id,
-                                title: interview.title,
-                                start: interview.start, // 'YYYY-MM-DDTHH:MM:SS' format
-                                extendedProps: {
-                                    applied_job: interview.applied_job,
-                                    interview_mode: interview.interview_mode,
-                                    email: interview.email,
-                                    phone: interview.phone
-                                }
-                            };
-                        });
-
-                        successCallback(events); // Render events on the calendar
-                    },
-                    error: function (xhr) {
-                        console.error(xhr.responseText); // Log error for debugging
-                        failureCallback(); // Handle fetch failure
-                    }
-                });
-            },
-            editable: true,
-            selectable: true,
-
-            select: function (info) {
-                openModal(info.startStr);
-            },
-
-            eventClick: function (info) {
-                $('#interviewModal').show();
-                $('.modal-backdrop').show();
-
-                // Fill form with event data
-                $('#candidate_name').val(info.event.title);
-                $('#applied_job').val(info.event.extendedProps.applied_job);
-                $('#interview_mode').val(info.event.extendedProps.interview_mode);
-                $('#email').val(info.event.extendedProps.email);
-                $('#phone').val(info.event.extendedProps.phone);
-                $('#interview_date').val(info.event.start.toISOString().split('T')[0]);
-                $('#interview_time').val(info.event.start.toTimeString().split(' ')[0].substring(0, 5));
-
-                // Update form submission for event update
-                $('#interviewForm').off('submit').on('submit', function (e) {
-                    e.preventDefault();
-                    var formData = $(this).serialize();
-                    $.ajax({
-                        url: `/interviews/${info.event.id}`, // Use event ID for update
-                        type: 'PUT',
-                        data: formData,
-                        success: function () {
-                            alert("Interview updated successfully.");
-                            calendar.refetchEvents(); // Reload events
-                            closeModal();
-                        },
-                        error: function (xhr) {
-                            console.error(xhr.responseText); // Log error
-                            alert("Failed to update interview.");
-                        }
-                    });
-                });
-            }
-        });
-
-        calendar.render();
-
-        // Close modal handler
-        $('#closeModalBtn').on('click', function () {
-            closeModal();
-        });
-
-        // Open modal for new interview
-        function openModal(startDate) {
-            $('#interviewModal').show();
-            $('.modal-backdrop').show();
-            $('#interviewForm')[0].reset(); // Reset form
-            $('#interview_date').val(startDate.split('T')[0]);
-            $('#interview_time').val('09:00'); // Default time
-
-            $('#interviewForm').off('submit').on('submit', function (e) {
-                e.preventDefault();
-                var formData = $(this).serialize();
-                $.ajax({
-                    url: "{{ route('interviews.store') }}",
-                    type: 'POST',
-                    data: formData,
-                    success: function () {
-                        alert("Interview scheduled successfully.");
-                        calendar.refetchEvents(); // Reload events
-                        closeModal();
-                    },
-                    error: function (xhr) {
-                        console.error(xhr.responseText); // Log error
-                        alert("Failed to schedule interview.");
-                    }
-                });
-            });
-        }
-
-        // Close modal function
-        function closeModal() {
-            $('#interviewModal').hide();
-            $('.modal-backdrop').hide();
-        }
-    });
-</script>
-
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('asset/js/interviews.js') }}"></script>
 @endsection

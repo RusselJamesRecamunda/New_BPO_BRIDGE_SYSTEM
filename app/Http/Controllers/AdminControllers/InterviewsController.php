@@ -111,29 +111,43 @@ public function store(Request $request)
 
       // Update an existing interview
       public function update(Request $request, $id)
-      {
-          $request->validate([
-              'candidate_name' => 'required|string|max:255',
-              'applied_job' => 'required|string|max:255',
-              'interview_mode' => 'required|string|max:255',
-              'email' => 'required|email|max:255',
-              'phone' => 'required|string|max:15',
-              'interview_date' => 'required|date',
-              'interview_time' => 'required|date_format:H:i',
-          ]);
-  
-          $interview = Interviews::findOrFail($id);
-          $interview->candidate_name = $request->candidate_name;
-          $interview->applied_job = $request->applied_job;
-          $interview->interview_mode = $request->interview_mode;
-          $interview->email = $request->email;
-          $interview->phone = $request->phone;
-          $interview->interview_date = $request->interview_date;
-          $interview->interview_time = $request->interview_time;
-          $interview->save();
-  
-          return response()->json(['success' => true, 'message' => 'Interview updated successfully.']);
-      }
+{
+    $request->validate([
+        'candidate_name' => 'required|string|max:255',
+        'applied_job' => 'required|string|max:255',
+        'interview_mode' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'phone' => 'required|string|max:15',
+        'interview_date' => 'required|date',
+        'interview_time' => 'required|date_format:H:i',
+    ]);
+
+    $interview = Interviews::findOrFail($id);
+    $interview->candidate_name = $request->candidate_name;
+    $interview->applied_job = $request->applied_job;
+    $interview->interview_mode = $request->interview_mode;
+    $interview->email = $request->email;
+    $interview->phone = $request->phone;
+    $interview->interview_date = $request->interview_date;
+    $interview->interview_time = $request->interview_time;
+    $interview->save();
+
+    // Return updated event data to the frontend
+    return response()->json([
+        'success' => true,
+        'message' => 'Interview updated successfully.',
+        'event' => [
+            'id' => $interview->interview_id,
+            'title' => $interview->candidate_name,
+            'start' => $interview->interview_date . 'T' . $interview->interview_time,
+            'applied_job' => $interview->applied_job,
+            'interview_mode' => $interview->interview_mode,
+            'email' => $interview->email,
+            'phone' => $interview->phone,
+        ]
+    ]);
+}
+
 
     // Delete an interview
     public function destroy($id)
