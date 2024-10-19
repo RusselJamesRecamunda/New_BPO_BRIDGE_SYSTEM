@@ -19,6 +19,7 @@ class UsersTableSeeder extends Seeder
             'last_name' => 'Admin',
             'email' => 'bpobridge2024@gmail.com',
             'password' => bcrypt('JobPortalSystem2024'),
+            'role' => 'admin',
         ]);
     }
 }

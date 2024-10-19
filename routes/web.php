@@ -2,12 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ApplicantController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AdminControllers\ApplicantTrackerController;
 use App\Http\Controllers\AdminControllers\ApplicantResultsController;
 use App\Http\Controllers\AdminControllers\InterviewNotesController;
 use App\Http\Controllers\AdminControllers\EmployeeController;
 use App\Http\Controllers\AdminControllers\AddEmployeeController;
-use App\Http\Controllers\AdminControllers\DepartmentsController;
+use App\Http\Controllers\AdminControllers\DepartmentsController; 
 use App\Http\Controllers\AdminControllers\DepartmentInfoController;
 use App\Http\Controllers\AdminControllers\JobsController;
 use App\Http\Controllers\AdminControllers\JobPostingController;
@@ -19,23 +24,26 @@ use App\Http\Controllers\AdminControllers\ReportsController;
 // Public routes
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
-// Admin Dashboard route (accessible without login)
-Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
+require __DIR__.'/auth.php';
 
-// Authenticated and verified routes
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [RegisterController::class, 'register']);
+Route::get('verify-otp', [RegisterController::class, 'showOtpForm'])->name('verify-otp');
+Route::post('verify-otp', [RegisterController::class, 'verifyOtp']);
 
-// Authenticated routes
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Login Session
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
 
+// This should match the logout action defined in your controller
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+// Admin Dashboard
+Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+// Applicant Page
+Route::get('/applicant/dashboard', [ApplicantController::class, 'index'])->name('applicant.index');
 
 // routes for BPO sidebar
 Route::get('/sidebar', function () {
@@ -73,5 +81,4 @@ Route::prefix('admin')->group(function () {
     Route::resource('reports', ReportsController::class);
 });
 
-// Include additional authentication routes
-require __DIR__.'/auth.php';
+

@@ -27,7 +27,6 @@
                 <div class="form-group">
                     <label for="email">{{ __('Email Address') }}</label>
                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="Enter email address">
-                    <div id="email-warning" class="warning" style="display:none;">Please enter a valid email address.</div>
                     @error('email')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -43,7 +42,6 @@
                             <i class="fa-solid fa-eye-slash hide-password" style="display: none;"></i>
                         </span>
                     </div>
-                    <div id="password-warning" class="warning" style="display:none;">Password is required.</div>
                     @error('password')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -53,23 +51,25 @@
                 <div class="form-group">
                     <label for="password_confirmation">{{ __('Confirm Password') }}</label>
                     <div class="input-container">
-                        <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Confirm password">
+                        <input id="password_confirmation" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" required autocomplete="new-password" placeholder="Confirm password">
                         <span class="toggle-password" onclick="togglePasswordVisibility('password_confirmation')">
                             <i class="fa-solid fa-eye show-password"></i>
                             <i class="fa-solid fa-eye-slash hide-password" style="display: none;"></i>
                         </span>
                     </div>
-                    <div id="confirm-password-warning" class="warning" style="display:none;">Passwords do not match.</div>
+                    @error('password_confirmation')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="form-group checkbox-group">
                     <input type="checkbox" id="agree-checkbox" name="agree" required>
                     <label for="agree-checkbox">By registering, I agree to the <a href="{{ url('privacypolicy') }}">Privacy Policy</a> and consent to the collection, storage, and use of my personal data as described in that policy.</label>
-                    <div id="checkbox-warning" class="warning" style="display:none;">You must agree before submitting.</div>
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-block">{{ __('Register') }}</button>
             </form>
+
             <p>Already have an account? <a href="{{ route('login') }}">{{ __('Login') }}</a></p>
         </div>
     </main>

@@ -6,7 +6,7 @@
             <i class="fas fa-search"></i>
         </button>
     </div>
-    
+     
     <!-- Notification Bell and Profile Dropdown -->
     <div class="d-flex align-items-center">
         <!-- Notification Bell -->
@@ -17,7 +17,7 @@
         <div class="dropdown">
             <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="{{ asset('asset/img/logo.png') }}" alt="Profile Picture" width="40" height="40" class="rounded-circle me-2">
-                <span>Username</span>
+                <span>{{ Auth::user()->first_name }}</span> <!-- Display first_name here -->
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown" style="font-family: 'Poppins', sans-serif;">
                 <li>
@@ -27,7 +27,10 @@
                 </li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
-                    <a class="dropdown-item d-flex align-items-center text-custom-color" href="#">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf <!-- Include CSRF token for security -->
+                    </form>
+                    <a class="dropdown-item d-flex align-items-center text-custom-color" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fa-solid fa-right-from-bracket me-2"></i>Logout
                     </a>
                 </li>

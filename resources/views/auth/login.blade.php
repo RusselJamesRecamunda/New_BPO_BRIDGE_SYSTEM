@@ -26,11 +26,11 @@
                     <div class="divider"></div>
                 </div>
                 <div class="col-md-5 mt-5">
-                    <form id="login-form" method="POST" action="{{ route('login') }}">
+                    <form id="login-form" method="POST" action="{{ url('/login') }}">
                         @csrf
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address" required autofocus autocomplete="username" :value="old('email')">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address" required autofocus autocomplete="username" value="{{ old('email') }}">
                             <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
                             <div id="email-warning" class="warning">Required Field</div>
                         </div>
@@ -70,5 +70,22 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{{ asset('asset/js/scripts.js') }}"></script>
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const showPasswordIcon = document.getElementById('show-password');
+            const hidePasswordIcon = document.getElementById('hide-password');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                showPasswordIcon.style.display = 'none';
+                hidePasswordIcon.style.display = 'inline';
+            } else {
+                passwordInput.type = 'password';
+                showPasswordIcon.style.display = 'inline';
+                hidePasswordIcon.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
