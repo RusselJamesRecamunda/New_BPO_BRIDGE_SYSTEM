@@ -160,7 +160,7 @@
 
 @section('scripts')
 <!-- TinyMCE API Script -->
-<script src="https://cdn.tiny.cloud/1/gg8j1hgwcxhu2b2hkv8qwbtrugjskcdyg7oyb3uwtouj8607/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/v8mtbncvjp2xyv599m6wgnrpkyn221w76zclh4mob1vkwfpx/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

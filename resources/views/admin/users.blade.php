@@ -1,6 +1,11 @@
 @extends('layouts.admin_pages')
 
-@section('title', 'Users')
+@section('title', 'Manage Users')
+
+@section('browser-icon')
+    <link rel="icon" href="{{ asset('asset/img/browser-icons/manage.png') }}" type="image/x-icon">
+@endsection
+
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('asset/css/shares.css') }}">
@@ -86,8 +91,8 @@
             <table class="table table-bordered table-hover align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th>User Name</th>
                         <th>User ID</th>
+                        <th>User Name</th>
                         <th>User Role</th>
                         <th>Address</th>
                         <th>Phone</th>

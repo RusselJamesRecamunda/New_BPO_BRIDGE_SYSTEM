@@ -19,7 +19,8 @@ class Interviews extends Model
         'email',
         'phone',
         'interview_date',
-        'interview_time'
+        'interview_time',
+        'zoom_link'
     ];
 
     // Relationship with Admin Information (admin)

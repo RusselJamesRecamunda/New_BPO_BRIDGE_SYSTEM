@@ -2,6 +2,10 @@
 
 @section('title', 'Jobs')
 
+@section('browser-icon')
+    <link rel="icon" href="{{ asset('asset/img/browser-icons/jobs.png') }}" type="image/x-icon">
+@endsection
+
 @section('styles')
     <!-- Add additional styles specific to this view here -->
     <link rel="stylesheet" href="{{ asset('asset/css/shares.css') }}">

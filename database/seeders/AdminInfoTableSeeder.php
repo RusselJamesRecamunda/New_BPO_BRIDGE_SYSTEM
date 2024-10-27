@@ -15,7 +15,7 @@ class AdminInfoTableSeeder extends Seeder
     {
         // Example admin info data for user with user_id 1
         $user1 = User::find(1);  // Fetch user with user_id 1
-        AdminInfo::create([
+        AdminInfo::create([ 
             'admin_fname' => $user1->first_name,
             'admin_lname' => $user1->last_name,
             'email' => $user1->email,

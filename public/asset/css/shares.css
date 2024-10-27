@@ -91,13 +91,13 @@ body {
     display: none;
 }
 #sidebarCollapse {
-    background: none;
-    border: none;
-    color: #005a8d;
-    transition: color 0.3s;
+    background: none !important;
+    border: none !important;
+    color: #005a8d !important;
+    transition: color 0.3s !important;
 }
 #sidebar.active #sidebarCollapse {
-    color: white;
+    color: white !important;
 }
 #sidebarCollapse {
     position: absolute;
@@ -106,25 +106,25 @@ body {
 }
 /* General dropdown styling */
 .dropdown-menu {
-    width: 93%;
-    transition: width 0.3s; /* Smooth transition */
-    left: 0; /* Reset left positioning when sidebar is expanded */
+    width: 93% !important;
+    transition: width 0.3s !important; /* Smooth transition */
+    left: 0 !important; /* Reset left positioning when sidebar is expanded */
 }
 
 /* When sidebar is collapsed */
 #sidebar.active .dropdown-menu {
-    width: calc(22vw - 50px); /* Full width minus the sidebar width */
-    position: absolute; /* Position relative to the screen */
-    left: 70px; /* Move the dropdown out to the right to avoid overlap with the sidebar */
-    z-index: 1000; /* Ensure it stays on top */
+    width: calc(22vw - 50px) !important; /* Full width minus the sidebar width */
+    position: absolute !important; /* Position relative to the screen */
+    left: 70px !important; /* Move the dropdown out to the right to avoid overlap with the sidebar */
+    z-index: 1000 !important; /* Ensure it stays on top */
 }
 
-/* Dropdown items */
+/* Dropdown items */ 
 .dropdown-item {
-    padding: 0.5rem 2.1rem;
+    padding: 0.5rem 2.1rem !important;
     font-size: 20px;
-    font-weight: 800;
-    color: #0F5078;
+    font-weight: 800 !important;
+    color: #0F5078 !important;
 }
 
 /* Remove the white background when a dropdown item is focused or active */

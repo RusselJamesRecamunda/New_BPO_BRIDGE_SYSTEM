@@ -15,7 +15,7 @@
         </button>
         <!-- Profile Dropdown -->
         <div class="dropdown">
-            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle fw-bold" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="{{ asset('asset/img/logo.png') }}" alt="Profile Picture" width="40" height="40" class="rounded-circle me-2">
                 <span>{{ Auth::user()->first_name }}</span> <!-- Display first_name here -->
             </a>

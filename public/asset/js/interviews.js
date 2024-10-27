@@ -14,6 +14,8 @@ document.addEventListener("DOMContentLoaded", function () {
             center: "title",
             right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
         },
+        height: 820,
+        contentHeight: "500px",
         slotLabelFormat: {
             hour: "numeric",
             minute: "2-digit",
@@ -22,10 +24,9 @@ document.addEventListener("DOMContentLoaded", function () {
         slotMinTime: "06:00:00",
         slotMaxTime: "20:00:00",
         events: function (fetchInfo, successCallback, failureCallback) {
-            // Fetch interviews and holidays simultaneously
             $.when(
                 $.ajax({
-                    url: "/admin/interviews", // Updated for external JS context
+                    url: "/admin/interviews",
                     method: "GET",
                 }),
                 $.ajax({
@@ -42,7 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log(interviewResponse[0]);
                     console.log(holidayResponse[0]);
 
-                    // Map interviews to FullCalendar event format
                     var interviewEvents = interviewResponse[0].map(function (
                         interview
                     ) {
@@ -51,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             title: interview.title,
                             start: interview.start,
                             end: interview.end,
+                            backgroundColor: interview.selected_color,
                             extendedProps: {
                                 applied_job: interview.applied_job,
                                 interview_mode: interview.interview_mode,
@@ -60,7 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         };
                     });
 
-                    // Map holidays to FullCalendar event format
                     var holidayEvents =
                         holidayResponse[0].response.holidays.map(function (
                             holiday
@@ -74,7 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             };
                         });
 
-                    // Combine both interview and holiday events
                     var allEvents = interviewEvents.concat(holidayEvents);
                     successCallback(allEvents);
                 })
@@ -93,11 +92,10 @@ document.addEventListener("DOMContentLoaded", function () {
             let appliedJob = arg.event.extendedProps.applied_job || "";
             let interviewMode = arg.event.extendedProps.interview_mode || "";
 
-            // Render custom event content
             let html = `
                 <div>
                     <strong>${startTime}</strong><br>
-                    <strong>${candidateName}</strong><br>  <!-- Bold text without a line -->
+                    <strong>${candidateName}</strong><br>
                     <span>${appliedJob}</span><br>
                     <em>${interviewMode}</em>
                 </div>
@@ -105,8 +103,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             return { html: html };
         },
-        dayMaxEvents: 2, // Limits visible events to 2 per day
-        eventLimitClick: "popover", // Display more events in a popover when clicked
+        dayMaxEvents: 2,
+        eventLimitClick: "popover",
         editable: true,
         selectable: true,
 
@@ -118,7 +116,6 @@ document.addEventListener("DOMContentLoaded", function () {
             $("#interviewModal").show();
             $(".modal-backdrop").show();
 
-            // Populate modal fields with event details
             $("#candidate_name").val(info.event.title);
             $("#applied_job").val(info.event.extendedProps.applied_job || "");
             $("#interview_mode").val(
@@ -133,14 +130,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 info.event.start.toTimeString().split(" ")[0].substring(0, 5)
             );
 
-            // Bind update form submission
             $("#interviewForm")
                 .off("submit")
                 .on("submit", function (e) {
                     e.preventDefault();
                     var formData = $(this).serialize();
                     $.ajax({
-                        url: `/admin/interviews/${info.event.id}`, // Updated route for the event
+                        url: `/admin/interviews/${info.event.id}`,
                         type: "PUT",
                         data: formData,
                         success: function () {
@@ -155,7 +151,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
                 });
 
-            // Bind delete button click
             $("#deleteInterviewBtn")
                 .off("click")
                 .on("click", function () {
@@ -165,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         )
                     ) {
                         $.ajax({
-                            url: `/admin/interviews/${info.event.id}`, // Update route for deletion
+                            url: `/admin/interviews/${info.event.id}`,
                             type: "DELETE",
                             success: function () {
                                 alert("Interview deleted successfully.");
@@ -179,6 +174,39 @@ document.addEventListener("DOMContentLoaded", function () {
                         });
                     }
                 });
+        },
+
+        // Functionality for dragging and dropping events
+        eventDrop: function (info) {
+            var newStartDate = info.event.start.toISOString(); // New start date after drag
+            var newEndDate = info.event.end
+                ? info.event.end.toISOString()
+                : null; // Optional: Update end date if applicable
+
+            $.ajax({
+                url: `/admin/interviews/${info.event.id}`, // Assuming the update URL is structured like this
+                type: "PUT",
+                data: {
+                    candidate_name: info.event.title, // Pass the candidate name
+                    applied_job: info.event.extendedProps.applied_job, // Pass applied job
+                    interview_mode: info.event.extendedProps.interview_mode, // Pass interview mode
+                    email: info.event.extendedProps.email, // Pass email
+                    phone: info.event.extendedProps.phone, // Pass phone number
+                    start: newStartDate, // Pass the new start date
+                    end: newEndDate, // Pass the new end date (optional)
+                    interview_date: newStartDate.split("T")[0], // Pass interview date
+                    interview_time: newStartDate.split("T")[1].substring(0, 5), // Pass interview time
+                    _method: "PUT", // In case you are using a PUT method
+                },
+                success: function () {
+                    alert("Interview date updated successfully.");
+                },
+                error: function (xhr) {
+                    console.error(xhr.responseText);
+                    alert("Failed to update interview date.");
+                    info.revert(); // Revert the event to the original date if the update fails
+                },
+            });
         },
     });
 
@@ -201,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 e.preventDefault();
                 var formData = $(this).serialize();
                 $.ajax({
-                    url: "/admin/interviews", // Ensure this route points to the correct location
+                    url: "/admin/interviews",
                     type: "POST",
                     data: formData,
                     success: function () {

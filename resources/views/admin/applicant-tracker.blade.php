@@ -1,8 +1,12 @@
 @extends('layouts.admin_pages')
 
-@section('title', 'Applicant Tracker')
+@section('title', 'Applicant Tracker' )
 
-@section('styles')
+@section('browser-icon')
+    <link rel="icon" href="{{ asset('asset/img/browser-icons/data-analysis.png') }}" type="image/x-icon">
+@endsection
+
+@section('styles') 
     <!-- Add additional styles specific to this view here -->
     <link rel="stylesheet" href="{{ asset('asset/css/shares.css') }}">
 @endsection

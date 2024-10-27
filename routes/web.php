@@ -19,6 +19,7 @@ use App\Http\Controllers\AdminControllers\JobPostingController;
 use App\Http\Controllers\AdminControllers\ApplicationsController;
 use App\Http\Controllers\AdminControllers\ManageUsersController;
 use App\Http\Controllers\AdminControllers\InterviewsController;
+use App\Http\Controllers\AdminControllers\ScheduleNotificationController;
 use App\Http\Controllers\AdminControllers\ReportsController;
 
 // Public routes
@@ -32,7 +33,7 @@ Route::get('register', [RegisterController::class, 'showRegistrationForm'])->nam
 Route::post('register', [RegisterController::class, 'register']);
 Route::get('verify-otp', [RegisterController::class, 'showOtpForm'])->name('verify-otp');
 Route::post('verify-otp', [RegisterController::class, 'verifyOtp']);
-
+ 
 // Login Session
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -40,7 +41,7 @@ Route::post('/login', [LoginController::class, 'login']);
 // This should match the logout action defined in your controller
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-// Admin Dashboard
+// Admin Dashboard 
 Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 // Applicant Page
 Route::get('/applicant/dashboard', [ApplicantController::class, 'index'])->name('applicant.index');
@@ -74,9 +75,9 @@ Route::prefix('admin')->group(function () {
 
     //Interviews View and Controller
     Route::resource('interviews', InterviewsController::class);
-    // Route::get('interviews/fetch', [InterviewsController::class, 'fetch'])->name('interviews.fetch');
-
-
+    
+    // This creates routes for all standard resource actions
+    Route::resource('schedule-notification', ScheduleNotificationController::class);
     //General Reports View and Controller
     Route::resource('reports', ReportsController::class);
 });

@@ -2,6 +2,10 @@
 
 @section('title', 'Interview Notes')
 
+@section('browser-icon')
+    <link rel="icon" href="{{ asset('asset/img/browser-icons/evaluation.png') }}" type="image/x-icon">
+@endsection
+ 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('asset/css/shares.css') }}">
     <style>

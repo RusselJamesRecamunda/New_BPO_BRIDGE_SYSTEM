@@ -10,7 +10,7 @@
         <li class="nav-item">
             <a href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown"> 
             <!-- Applicant Tracker as a link that toggles the dropdown -->
             <a href="#" class="nav-item" id="applicantTrackerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-chart-line"></i> <span>Applicant Tracker</span>
@@ -70,7 +70,7 @@
                 <li>
                     <!-- Clicking this will go to the 'jobs' route -->
                     <button class="dropdown-item fs-6" type="button" data-url="{{ route('jobs.index') }}">
-                        <i class="fa-solid fa-briefcase me-4"></i>Jobs
+                        <i class="fa-solid fa-briefcase me-4"></i>Manage Jobs
                     </button>
                 </li>
                 <li>
