@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+// use App\Http\Controllers\AdminControllers\DashboardController;
 use App\Http\Controllers\AdminControllers\ApplicantTrackerController;
 use App\Http\Controllers\AdminControllers\ApplicantResultsController;
 use App\Http\Controllers\AdminControllers\InterviewNotesController;
@@ -15,12 +16,14 @@ use App\Http\Controllers\AdminControllers\AddEmployeeController;
 use App\Http\Controllers\AdminControllers\DepartmentsController; 
 use App\Http\Controllers\AdminControllers\DepartmentInfoController;
 use App\Http\Controllers\AdminControllers\JobsController;
+use App\Http\Controllers\AdminControllers\OverviewJobController;
 use App\Http\Controllers\AdminControllers\JobPostingController;
 use App\Http\Controllers\AdminControllers\ApplicationsController;
 use App\Http\Controllers\AdminControllers\ManageUsersController;
 use App\Http\Controllers\AdminControllers\InterviewsController;
 use App\Http\Controllers\AdminControllers\ScheduleNotificationController;
 use App\Http\Controllers\AdminControllers\ReportsController;
+use App\Http\Controllers\ZoomMeetingController;
 
 // Public routes
 Route::get('/', function () {
@@ -28,6 +31,9 @@ Route::get('/', function () {
 })->name('welcome');
 
 require __DIR__.'/auth.php';
+
+// Zoom Meeting Creation
+// Route::post('generate-meet-link', [ZoomMeetingController::class, 'generateMeetingLink'])->name('generate.meet.link');
 
 Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [RegisterController::class, 'register']);
@@ -37,6 +43,7 @@ Route::post('verify-otp', [RegisterController::class, 'verifyOtp']);
 // Login Session
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
+
 
 // This should match the logout action defined in your controller
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
@@ -54,6 +61,9 @@ Route::get('/sidebar', function () {
 
 Route::prefix('admin')->group(function () {
 
+    // Dashboard View and Controller
+    // Route::resource('dashboard', DashboardController::class);
+
     // Applicant Tracker View and Controller
     Route::resource('applicant-tracker', ApplicantTrackerController::class);
     Route::resource('applicant-results', ApplicantResultsController::class);
@@ -64,9 +74,10 @@ Route::prefix('admin')->group(function () {
     Route::resource('add-employee', AddEmployeeController::class);
     Route::resource('departments', DepartmentsController::class);
     Route::resource('department-info', DepartmentInfoController::class);
-    
+     
     // Jobs View and Controller
     Route::resource('jobs', JobsController::class);
+    Route::resource('overview-job', OverviewJobController::class);
     Route::resource('job-posting', JobPostingController::class);
     Route::resource('applications', ApplicationsController::class);
 

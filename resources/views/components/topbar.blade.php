@@ -6,7 +6,7 @@
             <i class="fas fa-search"></i>
         </button>
     </div>
-     
+      
     <!-- Notification Bell and Profile Dropdown -->
     <div class="d-flex align-items-center">
         <!-- Notification Bell -->

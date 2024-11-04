@@ -33,6 +33,7 @@
             @yield('departments-content')
             @yield('department-info-content')
             @yield('jobs-content')
+            @yield('overview-content')
             @yield('job-posting-content')
             @yield('applications-content')    
             @yield('users-content')

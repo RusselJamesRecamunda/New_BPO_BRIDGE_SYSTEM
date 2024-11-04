@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
@@ -63,7 +64,7 @@ class RegisterController extends Controller
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
 
-            $mail->setFrom('bpobridge2024@gmail.com', 'BPO Bridge System OTP Code');
+            $mail->setFrom('bpobridge2024@gmail.com', 'BPO Bridge OTP Code');
             $mail->addAddress($email);
 
             $mail->isHTML(true);
@@ -73,7 +74,7 @@ class RegisterController extends Controller
             $mail->send();
             return true;
         } catch (Exception $e) {
-            \Log::error("Mailer Error: {$mail->ErrorInfo}");
+            Log::error("Mailer Error: {$mail->ErrorInfo}");
             return false;
         }
     }

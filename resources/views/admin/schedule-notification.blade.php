@@ -43,7 +43,7 @@
                             <br>
                             Time: <strong>{{ $interview_time }}</strong>
                             <br>
-                            Mode of Interview: <strong>{{ $interview_mode }} </strong>
+                            Mode of Interview: <strong>{{ $interview_mode }} </strong> <br> {{ $zoom_link }}
                             <br>
                         </p>
                         <p>Please confirm your availability <strong>by filling out the form below</strong>, within 48 hours of receiving this email. </p>

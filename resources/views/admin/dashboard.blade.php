@@ -9,7 +9,7 @@
 @section('styles')
     <!-- Add additional styles specific to this view here -->
     <link rel="stylesheet" href="{{ asset('asset/css/shares.css') }}">
-@endsection
+@endsection 
 
 @section('content')
         <!-- Top Bar -->
@@ -25,12 +25,13 @@
                         <p class="mb-3 fw-bold">Scheduled Interviews</p>
                         <div class="d-flex justify-content-center align-items-center">
                             <i class="fa-solid fa-calendar-day fa-3x me-4"></i>
-                            <h2 class="mb-0">100</h2>
+                            <h2 class="mb-0">{{ $scheduledInterviewsCount }}</h2> <!-- Display Interviews count here -->
                         </div>
                     </div>
                 </div>
 
-                <!-- Other Cards -->
+
+                <!-- Other Cards --> 
                 <div class="col-lg-3 col-md-6 mb-3">
                     <div class="card bg-custom-2 text-white p-3 text-center">
                         <p class="mb-3 fw-bold">Total Employees</p>
@@ -54,7 +55,7 @@
                         <p class="mb-3 fw-bold">Total Users</p>
                         <div class="d-flex justify-content-center align-items-center">
                             <i class="fas fa-user fa-3x me-4"></i>
-                            <h2 class="mb-0">970</h2>
+                            <h2 class="mb-0">{{$UsersCount}}</h2> <!-- Display Users count here -->
                         </div>
                     </div>
                 </div>

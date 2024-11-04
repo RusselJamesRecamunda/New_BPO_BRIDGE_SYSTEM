@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BPO Login</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="{{ asset('asset/img/browser-icons/bpo_icon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('asset/css/login.css') }}">
 </head>
 <body>
@@ -49,9 +50,7 @@
                         </div>
 
                         <div class="forgot-password-container text-right mb-3">
-                            @if (Route::has('password.request'))
-                                <a href="{{ route('password.request') }}" class="forgot-password">Forgot Password?</a>
-                            @endif
+                            <a href="{{ route('password.request') }}" class="forgot-password">Forgot Password?</a>
                         </div>
                         
                         <button type="submit" class="btn btn-primary btn-block">Login</button>

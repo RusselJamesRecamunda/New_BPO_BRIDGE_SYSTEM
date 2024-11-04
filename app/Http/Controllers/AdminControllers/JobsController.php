@@ -3,7 +3,7 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\FreelanceJobPosting;
-use App\Models\FullTimeJobPosting;
+use App\Models\FullTimeJobPosting; 
 use Illuminate\Http\Request;
 
 class JobsController extends Controller
@@ -12,13 +12,13 @@ class JobsController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-{
-    $freelanceJobs = FreelanceJobPosting::all();
-    $fullTimeJobs = FullTimeJobPosting::all();
+    {
+        $freelanceJobs = FreelanceJobPosting::all();
+        $fullTimeJobs = FullTimeJobPosting::all();
 
-    // Pass the collections separately to the view
-    return view('admin.jobs', compact('freelanceJobs', 'fullTimeJobs'));
-}
+        // Pass the collections separately to the view
+        return view('admin.jobs', compact('freelanceJobs', 'fullTimeJobs'));
+    } 
 
 
     /**

@@ -25,6 +25,8 @@ return new class extends Migration
             $table->string('role')->nullable();
             $table->string('otp_code')->nullable();
             $table->rememberToken();
+            $table->string('activity_status')->nullable();
+            $table->string('user_status')->nullable();
             $table->timestamps();
         });
 

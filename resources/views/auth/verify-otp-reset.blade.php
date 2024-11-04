@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>BPO Bridge - OTP Verification</title>
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
     <style>
         body {
             background-color: #f8f9fa;
@@ -85,29 +82,6 @@
 
                     <p class="text-danger">Click resend if you didn't receive the code</p>
                 </div>
-
-                <!-- Footer -->
-                <footer class="text-center mt-4">
-                    <small>&copy;BPOBridge Ltd. <a href="#">Contact</a> | <a href="#">Privacy Policy</a></small>
-                </footer>
-            </div>
-        </div>
-    </div>
-
-    <!-- Success Modal -->
-    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h5 class="modal-title text-center w-100" id="successModalLabel">Successfully Registered New Account!</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <img src="{{ asset('asset/img/cheers.png') }}" alt="Success Icon" class="mb-3" style="width: 240px; height: auto;">
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <a href="{{ route('login') }}" class="btn btn-primary fw-bold w-50"><i class="fa-solid fa-arrow-left fw-bold me-3"></i>Go back to login</a>
-                </div>
             </div>
         </div>
     </div>
@@ -116,7 +90,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Auto-move to the next input and merge OTP inputs
         function moveToNext(input) {
             const index = parseInt(input.getAttribute('data-index'));
             const nextInput = document.getElementById(`otp-${index + 1}`);
@@ -129,7 +102,6 @@
             }
         }
 
-        // Merge OTP values into a hidden input
         const otpInputs = document.querySelectorAll('.otp-input');
         otpInputs.forEach(input => {
             input.addEventListener('input', function() {
@@ -141,12 +113,10 @@
             });
         });
 
-        // Handle OTP verification
         document.getElementById('verifyOtpButton').addEventListener('click', function() {
             const otpCode = document.getElementById('otp_code').value;
 
-            // AJAX request to verify the OTP
-            fetch('{{ url("/verify-otp") }}', {
+            fetch('{{ url("/verify-otp-reset") }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -154,28 +124,23 @@
                 },
                 body: JSON.stringify({ otp_code: otpCode })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
-                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                    successModal.show(); // Show the modal on success
+                    window.location.href = '{{ route("password.reset") }}?email=' + encodeURIComponent(data.email);
                 } else {
-                    // Handle errors (showing on the page or alert)
-                    alert(data.message || 'An error occurred. Please try again.');
+                    alert(data.message || 'Invalid OTP. Please try again.');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
                 alert('An error occurred. Please try again.');
             });
-        });
-
-        // Show modal on successful OTP verification if already logged in
-        document.addEventListener('DOMContentLoaded', function () {
-            if ("{{ session('success') }}") {
-                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                successModal.show();
-            }
         });
     </script>
 </body>

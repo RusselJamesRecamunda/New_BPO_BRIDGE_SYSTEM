@@ -56,6 +56,9 @@
             z-index: 1040;
             display: none;
         }
+        .modal-content{
+            margin-top: -6%;
+        }
 
         .color-palette {
         display: flex;
@@ -104,16 +107,6 @@
                 </div>
                 <div class="modal-body">
                     <form id="interviewForm">
-                        <!-- Color Palette Selector -->
-                        <div class="form-group">
-                            <label for="color_palette">Select Interview Color *</label>
-                            <div id="color_palette" class="color-palette">
-                                <div class="color-swatch" style="background-color: #ff0000;" data-color="#ff0000"></div>
-                                <div class="color-swatch" style="background-color: #00ff00;" data-color="#00ff00"></div>
-                                <div class="color-swatch" style="background-color: #0000ff;" data-color="#0000ff"></div>
-                                <input type="hidden" name="selected_color" id="selected_color" value="#ff0000">
-                            </div>
-                        </div>
 
                         <!-- First Row: Candidate Name & Applied Job -->
                         <div class="row">
@@ -131,9 +124,9 @@
                             </div>
                         </div>
 
-                        <!-- Second Row: Interview Mode & Email -->
+                        <!-- Second Row: Interview Mode  -->
                         <div class="row">
-                        <div class="col-md-6">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="interview_mode">Interview Mode *</label>
                                     <select id="interview_mode" name="interview_mode" class="form-control" required>
@@ -144,37 +137,44 @@
                                     </select>
                                 </div>
                             </div>
-
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="zoom_link">Upload Meeting Link</label>
+                                    <input type="zoom_link" id="zoom_link" name="zoom_link" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- Third Row: Email & Phone -->
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="email">Email *</label>
                                     <input type="email" id="email" name="email" class="form-control" required>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Third Row: Phone & Interview Date -->
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">Phone *</label>
                                     <input type="text" id="phone" name="phone" class="form-control" required>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="interview_date">Interview Date *</label>
-                                    <input type="date" id="interview_date" name="interview_date" class="form-control" required>
-                                </div>
-                            </div>
                         </div>
 
-                        <!-- Fourth Row: Interview Time -->
+                        <!-- Fourth Row: Interview Time & Date -->
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="interview_time">Interview Time *</label>
                                     <input type="time" id="interview_time" name="interview_time" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="interview_date">Interview Date *</label>
+                                    <input type="date" id="interview_date" name="interview_date" class="form-control" required>
                                 </div>
                             </div>
                         </div>

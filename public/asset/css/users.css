@@ -1,0 +1,97 @@
+ /* Container with background color */
+ .users-container {
+    background-color: #D9D9D9;
+    padding: 20px;
+    border-radius: 8px;
+    height: 186vh;
+}
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    color: #0F5078;
+    font-weight: bold;
+}
+.badge-active { background-color: #A6AAFF; color: #0F5078; }
+.badge-suspended { background-color: #A6AAFF; color: #0F5078; }
+.status-select {
+    padding: 5px;
+    font-weight: bold;
+    color: #0F5078;
+    border-radius: 5px;
+    border: none;
+}
+.status-select option {
+    font-weight: bold;
+}
+/* Table styles */
+table th, table td {
+    text-align: center;
+    vertical-align: middle;
+}
+/* Button styles */
+.btn-primary {
+    background-color: #0F5078;
+    border: none;
+    padding: 10px 10px;
+    font-weight: bold;
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #0C3E5A;
+}
+.btn-sm {
+    background-color: #0F5078;
+    border: none;
+    padding: 5px 10px;
+    font-weight: bold;
+    color: white;  
+}
+
+  /* Pagination controls styling */
+  .pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #D9D9D9;
+    padding: 2px 20px;
+    border-radius: 8px;
+}
+.pagination-dropdown {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: #2c2b2b;
+}
+.pagination-dropdown select {
+    margin-left: 8px;
+    padding: 5px;
+    border: 1px solid #d1d1d1;
+    border-radius: 4px;
+    color: #2c2b2b;
+}
+.pagination-info {
+    font-weight: bold;
+    color: #2c2b2b;
+}
+.custom-pagination {
+    display: flex;
+    list-style: none;
+    gap: 5px;
+    margin: 0;
+    padding: 0;
+}
+.custom-pagination li a {
+    color: #2c2b2b;
+    padding: 5px 10px;
+    border: 1px solid #2c2b2b;
+    border-radius: 4px;
+    text-decoration: none;
+}
+.custom-pagination .active a {
+    border-color: #0F5078;
+    color: #0F5078;
+    font-weight: bold;
+}
+.custom-pagination .disabled a {
+    color: #ddd;
+}

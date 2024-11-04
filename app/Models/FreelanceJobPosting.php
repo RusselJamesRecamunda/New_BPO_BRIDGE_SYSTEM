@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FreelanceJobPosting extends Model
+class FreelanceJobPosting extends Model 
 {
     use HasFactory;
 
@@ -16,7 +16,7 @@ class FreelanceJobPosting extends Model
         'fl_job_description',
         'fl_category_id',
         'fl_job_type_id',
-        // 'fl_user_id', // Uncomment if you want to use user-related logic
+        'fl_user_id', 
         'fl_job_location',
         'fl_requirements',
         'fl_basic_pay',

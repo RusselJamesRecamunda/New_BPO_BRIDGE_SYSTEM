@@ -39,10 +39,10 @@
             </div>
             <button class="btn btn-primary" type="button" data-url="{{ route('job-posting.index') }}" id="jobPostingButton"><i class="fa-solid fa-circle-plus me-2"></i>Post New Job</button>
         </div>
-    </div>
+    </div> 
 
     <!-- Job Cards Display -->
-<div class="row">
+    <div class="row">
     <!-- Loop through Full-Time Job Postings -->
     @foreach($fullTimeJobs as $job)
         <div class="col-lg-4 col-md-6 mb-4">
@@ -54,7 +54,7 @@
                         $fullTimePhotoPath = $job->job_photo ? asset($job->job_photo) : null; 
                     @endphp
                     @if($fullTimePhotoPath)
-                    <img src="{{ $fullTimePhotoPath }}" alt="Company Logo" style="width: 50px;">
+                        <img src="{{ $fullTimePhotoPath }}" alt="Company Logo" style="width: 100px;">
                     @else
                         <span>No image available</span>
                     @endif
@@ -75,7 +75,9 @@
                     <div class="progress mb-3">
                         <div class="progress-bar bg-primary" style="width: 0%;"></div>
                     </div>
-                    <a href="#" class="btn btn-primary">View Applications</a>
+                        <center><button class="btn btn-primary" type="button" data-url="{{ route('overview-job.index') }}" id="overviewButton">
+                            <i class="fa-solid fa-circle-plus me-2"></i>View Applications
+                        </button></center>
                     <p class="text-muted mt-2">
                         <small><i class="fas fa-map-marker-alt"></i> {{ $job->job_location }}</small>
                     </p>
@@ -118,7 +120,9 @@
                     <div class="progress mb-3">
                         <div class="progress-bar bg-primary" style="width: 0%;"></div>
                     </div>
-                    <a href="#" class="btn btn-primary">View Applications</a>
+                        <center><button class="btn btn-primary" type="button" data-url="{{ route('overview-job.index') }}" id="overviewButton">
+                            <i class="fa-solid fa-circle-plus me-2"></i>View Applications
+                        </button></center>
                     <p class="text-muted mt-2">
                         <small><i class="fas fa-map-marker-alt"></i> {{ $job->fl_job_location }}</small>
                     </p>
@@ -131,9 +135,12 @@
 
 @section('scripts')
 <script>
-    document.getElementById('jobPostingButton').addEventListener('click', function() {
-        var url = this.getAttribute('data-url');
-        window.location.href = url;
+    // Adding event listeners for both buttons
+    document.querySelectorAll('#jobPostingButton, #overviewButton').forEach(button => {
+        button.addEventListener('click', function() {
+            const url = this.getAttribute('data-url');
+            window.location.href = url;
+        });
     });
 </script>
 @endsection

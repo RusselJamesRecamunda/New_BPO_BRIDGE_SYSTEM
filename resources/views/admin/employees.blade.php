@@ -8,90 +8,69 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('asset/css/shares.css') }}">
-    <style>
-        /* Container with background color */
-        .employees-container {
-            background-color: #D9D9D9;
-            padding: 20px;
-            border-radius: 8px;
-            height: 183vh; /* Adjust to auto for dynamic content height */
-        }
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 15px;
-            color: #0F5078;
-            font-weight: bold;
-        }
-        .badge-full-time { background-color: #A6AAFF; color: #0F5078; }
-        .badge-freelance { background-color: #A6AAFF; color: #0F5078; }
-
-        .status-select {
-            padding: 5px;
-            font-weight: bold;
-            color: #0F5078;
-            border-radius: 5px;
-            border: none;
-        }
-
-        .status-select option {
-            font-weight: bold;
-        }
-
-        /* Table styles */
-        table th, table td {
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        /* Button styles */
-        .btn-primary {
-            background-color: #0F5078;
-            border: none;
-            padding: 10px 10px;
-            font-weight: bold;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #0C3E5A;
-        }
-
-        .btn-sm {
-            background-color: #0F5078;
-            border: none;
-            padding: 5px 10px;
-            font-weight: bold;
-            color: white;  
-        }
-        .filter-card {
-            width: 300px;
-            position: absolute; /* Change from fixed to absolute */
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1050;
-        }
-
-        .blur-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-            z-index: 1049;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('asset/css/employee.css') }}">
 @endsection
 
 @section('employees-content')
-
     <!-- Top Bar -->
     @include('components.topbar')
     <h2 class="mb-4 fw-bold text-primary" style="margin-top: -20px;"><i class="fa-solid fa-user-tie me-3"></i> All Employees</h2>
     <h6 class="mb-4 fw-bold text-primary" style="margin: -20px 0 0 54px;">All Employee Information</h6>
     <div class="employees-container mb-4">
+        <div class="row mb-4">
+            <!-- Total Employee Card -->
+            <div class="col-md-3">
+                <div class="card p-3 shadow-sm">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h6 class="mb-0">Employees</h6>
+                            <h3 class="mb-0">614</h3>
+                        </div>
+                        <canvas id="totalEmployeeChart" width="100" height="40"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- New Employee Card -->
+            <div class="col-md-3">
+                <div class="card p-3 shadow-sm">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h6 class="mb-0">New Hires</h6>
+                            <h3 class="mb-0">124</h3>
+                        </div>
+                        <canvas id="newEmployeeChart" width="100" height="40"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Male Employee Card -->
+            <div class="col-md-3">
+                <div class="card p-3 shadow-sm">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h6 class="mb-0">Freelance</h6>
+                            <h3 class="mb-0">504</h3>
+                        </div>
+                        <canvas id="maleEmployeeChart" width="100" height="40"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Female Employee Card -->
+            <div class="col-md-3">
+                <div class="card p-3 shadow-sm">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h6 class="mb-0">Full-Time</h6>
+                            <h3 class="mb-0">110</h3>
+                        </div>
+                        <canvas id="femaleEmployeeChart" width="100" height="40"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
         <!-- Search bar, Add New Employee button, and Filter button -->
         <div class="mb-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -108,65 +87,17 @@
                     <button class="btn btn-secondary fw-bold" id="filterButton">
                         <i class="fa-solid fa-sliders me-2"></i>Filter
                     </button>
-                </div>
-            </div>
+                    <!-- Blur Overlay -->
+                    <div id="blurOverlay" class="blur-overlay" style="display: none;"></div>
 
-            <!-- Blur Overlay -->
-            <div id="blurOverlay" class="blur-overlay" style="display: none;"></div>
-
-            <!-- Filter Card -->
-            <div id="filterCard" class="card p-3 shadow filter-card" style="display: none;">
-                <h5 class="card-title">Filter</h5>
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Search Employee" aria-label="Search Employee">
-                </div>
-                <div class="mb-3">
-                    <h6>Department</h6>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="design">
-                                <label class="form-check-label" for="design">Design</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="hr">
-                                <label class="form-check-label" for="hr">HR</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="sales">
-                                <label class="form-check-label" for="sales">Sales</label>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="java">
-                                <label class="form-check-label" for="java">Java</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="python">
-                                <label class="form-check-label" for="python">Python</label>
-                            </div>
-                        </div>
+                    <!-- Filter Card -->
+                    <div id="filterCard" class="card p-3 shadow filter-card" style="display: none;">
+                        <h5 class="card-title">Filter</h5>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <h6>Select Type</h6>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="jobType" id="fullTime" value="Full-time">
-                        <label class="form-check-label" for="fullTime">Full-time</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="jobType" id="freelance" value="Freelance">
-                        <label class="form-check-label" for="freelance">Freelance</label>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <button class="btn btn-light">Cancel</button>
-                    <button class="btn btn-primary">Apply</button>
                 </div>
             </div>
         </div>
-
+        
         <!-- Employees Table -->
         <div id="employees-section" class="table-responsive">
             <table class="table table-bordered table-hover align-middle">
@@ -174,22 +105,20 @@
                     <tr>
                         <th>Employee Name</th>
                         <th>Employee ID</th>
+                        <th>Phone</th>
                         <th>Project Department</th>
-                        <th>Manager</th>
-                        <th>Work Designation</th>
-                        <th>Role</th>
+                        <th>Date Hired</th>
                         <th>Work Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Carlo Dela Peña</td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>Software Engineer</td>
-                        <td>Office</td>
+                        <td></td>
+                        <td></td>
                         <td>
                             <select class="status-select badge-2nd-round">
                                 <option value="Full-Time" class="badge-full-time">Full-Time</option>
@@ -213,6 +142,62 @@
 @endsection
 
 @section('scripts')
+<!-- Include Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  // Generate ordered data for compact charts
+function generateCompactData() {
+    // Array of ascending values from small to high
+    return [10, 20, 30, 40, 50];
+}
+
+// Initialize a compact chart
+function initializeCompactChart(ctx, color) {
+    return new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Array.from({ length: 4 }, (_, i) => i + 1),
+            datasets: [{
+                label: 'Data',
+                backgroundColor: color,
+                borderColor: color,
+                data: generateCompactData(),
+            }]
+        },
+        options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 1000 // Animation duration only on load
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    display: false
+                },
+                x: {
+                    display: false
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            layout: {
+                padding: 0
+            }
+        }
+    });
+}
+
+// Initialize charts for each card only once on page load
+const totalEmployeeChart = initializeCompactChart(document.getElementById('totalEmployeeChart'), 'rgba(54, 162, 235, 1)');
+const newEmployeeChart = initializeCompactChart(document.getElementById('newEmployeeChart'), 'rgba(75, 192, 192, 1)');
+const maleEmployeeChart = initializeCompactChart(document.getElementById('maleEmployeeChart'), 'rgba(153, 102, 255, 1)');
+const femaleEmployeeChart = initializeCompactChart(document.getElementById('femaleEmployeeChart'), 'rgba(255, 159, 64, 1)');
+</script>
     <script>
         $(document).ready(function() {
     // Show filter card and overlay

@@ -8,7 +8,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('asset/css/shares.css') }}">
-    <style>
+    <style> 
           /* Container with background color */
         .department-container {
             background-color: #D9D9D9;

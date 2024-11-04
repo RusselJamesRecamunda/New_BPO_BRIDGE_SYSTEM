@@ -137,16 +137,22 @@
                     <div class="col-md-12">
                         <div class="row mb-3">
                             <div class="col-md-4">
-                                <label for="employee-id" class="form-label fw-bold">Employee ID</label>
-                                <input type="text" class="form-control" id="employee-id" placeholder="Employee ID" required>
+                                <label for="dept_manager" class="form-label fw-bold">Name of Department Manager</label>
+                                <input type="text" class="form-control" style="width: 150%;" id="dept_manager" placeholder="Department Manager" required >
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="official_emp_id" class="form-label fw-bold">Employee ID</label>
+                                <input type="text" class="form-control" id="official_emp_id" placeholder="Employee ID" required>
                             </div>
                             <div class="col-md-4">
-                                <label for="user-name" class="form-label fw-bold">User Name</label>
-                                <input type="text" class="form-control" id="user-name" placeholder="User Name">
+                                <label for="mst_account" class="form-label fw-bold">MS Team Account</label>
+                                <input type="text" class="form-control" id="mst_account" placeholder="MS Team Account">
                             </div>
                             <div class="col-md-4">
-                                <label for="employee-type" class="form-label fw-bold">Employee Type</label required>
-                                <select class="form-select" id="employee-type">
+                                <label for="work_status" class="form-label fw-bold">Work Status</label required>
+                                <select class="form-select" id="work_status">
                                     <option selected>Choose...</option>
                                     <option value="full-time">Full-Time</option>
                                     <option value="part-time">Part-Time</option>
@@ -158,8 +164,8 @@
 
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="email-address-professional" class="form-label fw-bold">Employee Email Address</label>
-                                <input type="email" class="form-control" id="email-address-professional" placeholder="Employee Email Address" required>
+                                <label for="email_address_prof" class="form-label fw-bold">Employee Email Address</label>
+                                <input type="email" class="form-control" id="email_address_prof" placeholder="Employee Email Address" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="department" class="form-label fw-bold">Department</label>

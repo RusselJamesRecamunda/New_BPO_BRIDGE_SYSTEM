@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Form submission validation
     form.addEventListener("submit", function (event) {
-        let valid = true;
+        let valid = true; 
 
         if (emailInput.value === "" || !emailInput.value.includes("@")) {
             emailWarning.style.display = "block";

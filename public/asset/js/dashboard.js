@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var vacancyStatsChart = new Chart(ctx, {
         type: "bar",
-        data: {
+        data: { 
             labels: [
                 "Week 1",
                 "Week 2",

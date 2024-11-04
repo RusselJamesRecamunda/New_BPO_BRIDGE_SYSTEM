@@ -17,7 +17,7 @@ class InterviewsController extends Controller
     {
         if ($request->ajax()) {
             // Fetch and return data for FullCalendar when called via AJAX
-            $interviews = Interviews::all(['interview_id', 'candidate_name', 'applied_job', 'interview_mode', 'email', 'phone', 'interview_date', 'interview_time']);
+            $interviews = Interviews::all(['interview_id', 'candidate_name', 'applied_job', 'interview_mode', 'email', 'phone', 'interview_date', 'interview_time','zoom_link']);
             
             $events = $interviews->map(function ($interview) {
                 return [
@@ -28,6 +28,7 @@ class InterviewsController extends Controller
                     'interview_mode' => $interview->interview_mode,
                     'email' => $interview->email,
                     'phone' => $interview->phone,
+                    'zoom_link' => $interview->zoom_link,
                 ];
             });
 
@@ -47,7 +48,6 @@ class InterviewsController extends Controller
     }
 
     // Store a new interview
-    // Store a new interview
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -58,6 +58,7 @@ class InterviewsController extends Controller
             'phone' => 'required|string|max:15',
             'interview_date' => 'required|date',
             'interview_time' => 'required|string|max:5',
+            'zoom_link' => 'nullable|string|max:255', 
         ]);
 
         // Save the interview
@@ -146,6 +147,7 @@ class InterviewsController extends Controller
             'phone' => 'required|string|max:15',
             'interview_date' => 'required|date',
             'interview_time' => 'required|date_format:H:i',
+            'zoom_link' => 'nullable|string|max:255', // Modified to make zoom_link optional
         ]);
 
         $interview = Interviews::findOrFail($id);
@@ -156,6 +158,7 @@ class InterviewsController extends Controller
         $interview->phone = $request->phone;
         $interview->interview_date = $request->interview_date;
         $interview->interview_time = $request->interview_time;
+        $interview->zoom_link = $request->zoom_link;
         $interview->save();
 
         // Return updated event data to the frontend
@@ -170,6 +173,7 @@ class InterviewsController extends Controller
                 'interview_mode' => $interview->interview_mode,
                 'email' => $interview->email,
                 'phone' => $interview->phone,
+                'zoom_link' => $interview->zoom_link,
             ]
         ]);
     }

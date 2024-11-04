@@ -38,3 +38,4 @@
     @yield('scripts') <!-- For additional JavaScript files -->
 </body>
 </html>
+ 

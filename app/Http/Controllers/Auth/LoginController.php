@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\AdminInfo; // Import the AdminInfo model
+use App\Models\User; // Import the User model
 
-class LoginController extends Controller
+class LoginController extends Controller 
 {
     // Show the login form
     public function showLoginForm()
@@ -27,6 +28,15 @@ class LoginController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
 
+            // Check if the user is an instance of User
+            if (!($user instanceof User)) {
+                return redirect()->back()->withErrors(['email' => 'User is not an instance of User model.']);
+            }
+
+            // Update activity status to 'Online'
+            $user->activity_status = 'Online';
+            $user->save(); // Save the user with updated activity status
+
             // If the user role is admin, verify the presence in the admin_info table
             if ($user->role === 'admin') {
                 // Check if the admin_info record exists for this user
@@ -39,13 +49,13 @@ class LoginController extends Controller
                 }
             }
 
-            // Role-based redirection (no changes required here)
+            // Role-based redirection
             if ($user->role === 'admin') {
                 return redirect()->route('admin.dashboard'); 
             } elseif ($user->role === 'applicant') {
                 return redirect()->route('applicant.index'); 
             }
-        }
+        } 
 
         // On failure, redirect back with an error message
         return redirect()->back()->withErrors(['email' => 'Invalid credentials.']);

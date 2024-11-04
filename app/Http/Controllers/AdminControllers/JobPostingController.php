@@ -7,6 +7,7 @@ use App\Models\FreelanceJobPosting;
 use App\Models\Category;
 use App\Models\JobType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class JobPostingController extends Controller
@@ -59,12 +60,12 @@ class JobPostingController extends Controller
     // Initialize $data array for common fields
     $data = [
         'job_title' => $request->job_title,
-        'job_description' => $jobDescription,  // Saving without HTML tags
+        'job_description' => $jobDescription,
         'category_id' => $request->jobCategory,
         'job_type_id' => $request->jobType,
         'job_location' => $request->job_location,
-        'requirements' => $requirements,  // Saving without HTML tags
-        'company_benefits' => $companyBenefits,  // Saving without HTML tags
+        'requirements' => $requirements,
+        'company_benefits' => $companyBenefits,
         'keywords' => $request->keywords,
         'creation_date' => now(),
         'max_hires' => $request->max_hires,
@@ -74,48 +75,53 @@ class JobPostingController extends Controller
     if ($request->hasFile('job_photo')) {
         $file = $request->file('job_photo');
         $fileName = time() . '_' . $file->getClientOriginalName();
-        $filePath = $file->storeAs('uploads/job-postings', $fileName, 'public'); // Store the file in the directory
-        
-        // Save the file path in the $data array
-        $data['job_photo'] = '/storage/' . $filePath;
+        $uploadPath = public_path('uploads/job-postings');
+        $file->move($uploadPath, $fileName);
+
+        $data['job_photo'] = 'uploads/job-postings/' . $fileName;
     }
 
+    // Get the logged-in user ID
+    $userId = Auth::id();
+    
     // Determine the job type and save to the correct table
     $jobType = JobType::where('job_type_id', $request->jobType)->first();
 
     if ($jobType) {
         if ($jobType->job_type_name === 'Full-time') {
-            // Add specific fields for Full-time job
+            // Add specific fields for Full-time job and assign user_id
             FullTimeJobPosting::create([
                 'job_title' => $data['job_title'],
                 'job_description' => $data['job_description'],
                 'category_id' => $data['category_id'],
                 'job_type_id' => $data['job_type_id'],
+                'user_id' => $userId, // Add logged-in user ID here
                 'job_location' => $data['job_location'],
                 'requirements' => $data['requirements'],
-                'basic_pay' => $request->basic_pay,  // Field specific to Full-time
+                'basic_pay' => $request->basic_pay,
                 'company_benefits' => $data['company_benefits'],
                 'keywords' => $data['keywords'],
                 'creation_date' => $data['creation_date'],
                 'max_hires' => $data['max_hires'],
-                'job_photo' => isset($data['job_photo']) ? $data['job_photo'] : null,  // Handle if no file is uploaded
+                'job_photo' => $data['job_photo'] ?? null,
             ]);
         } elseif ($jobType->job_type_name === 'Freelance') {
-            // Add specific fields for Freelance job
+            // Add specific fields for Freelance job and assign fl_user_id
             FreelanceJobPosting::create([
                 'fl_job_title' => $data['job_title'],
                 'fl_job_description' => $data['job_description'],
                 'fl_category_id' => $data['category_id'],
                 'fl_job_type_id' => $data['job_type_id'],
+                'fl_user_id' => $userId, // Add logged-in user ID here
                 'fl_job_location' => $data['job_location'],
                 'fl_requirements' => $data['requirements'],
-                'fl_basic_pay' => $request->basic_pay,  // Field specific to Freelance
+                'fl_basic_pay' => $request->basic_pay,
                 'fl_company_benefits' => $data['company_benefits'],
                 'keywords' => $data['keywords'],
                 'creation_date' => $data['creation_date'],
                 'max_hires' => $data['max_hires'],
-                'job_duration' => $request->job_duration,  // Freelance specific field
-                'job_photo' => isset($data['job_photo']) ? $data['job_photo'] : null,  // Handle if no file is uploaded
+                'job_duration' => $request->job_duration,
+                'job_photo' => $data['job_photo'] ?? null,
             ]);
         }
     }
@@ -123,11 +129,9 @@ class JobPostingController extends Controller
     return redirect()->route('job-posting.index')->with('success', 'Job posted successfully!');
 }
 
-
-
     /**
      * Display the specified resource.
-     */
+     */ 
     public function show(string $id)
     {
         //

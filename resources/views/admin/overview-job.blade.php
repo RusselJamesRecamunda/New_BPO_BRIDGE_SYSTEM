@@ -1,6 +1,6 @@
 @extends('layouts.admin_pages')
 
-@section('title', 'Job Applications')
+@section('title', 'Overview Job Position')
 
 @section('browser-icon')
     <link rel="icon" href="{{ asset('asset/img/browser-icons/application.png') }}" type="image/x-icon">
@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('asset/css/job_application.css') }}">
 @endsection
 
-@section('applications-content')
+@section('overview-content')
 
     <!-- Top Bar -->
     @include('components.topbar')
