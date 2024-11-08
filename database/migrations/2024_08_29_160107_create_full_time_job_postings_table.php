@@ -32,8 +32,7 @@ return new class extends Migration
             $table->boolean('is_active')->default(true); // Status of the job posting
             $table->integer('max_hires'); // Maximum number of hires
             $table->text('job_photo')->nullable(); // Path to the job photo (png or jpg)
-            $table->date('creation_date')->nullable(); // Date when the job was created
-            $table->date('end_date')->nullable();
+            $table->timestamp('creation_date')->nullable(); // Date when the job was created
         });
     }
 

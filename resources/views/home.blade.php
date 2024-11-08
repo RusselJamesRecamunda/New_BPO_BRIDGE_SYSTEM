@@ -6,7 +6,7 @@
     <!-- Search Bar -->
     <div class="search-bar">
         <div class="container" id="search-container">
-            <div class="row mb-3">
+            <div class="row mb-3"> 
                 <div class="col-md-3 position-relative">
                     <label for="keywords" class="form-label fw-bold">Search Jobs</label>
                     <input type="text" id="keywords" class="form-control" placeholder="Enter Keywords">
@@ -128,7 +128,7 @@
                             <ul class="job-benefits">
                                 <li>{{ $job->company_benefits }}</li>
                             </ul>
-                            <p class="job-posted">1d ago (Expiration Date)</p>
+                            <p class="job-posted">{{ $job->creation_date->diffForHumans() }}</p>
                             <a href="#" class="job-link">Click for more information</a>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
                             <ul class="job-benefits">
                                 <li>{{ $job->fl_company_benefits }}</li>
                             </ul>
-                            <p class="job-posted">1d ago (Expiration Date)</p>
+                            <p class="job-posted">{{ $job->creation_date->diffForHumans() }}</p>
                             <a href="#" class="job-link">Click for more information</a>
                         </div>
                     </div>

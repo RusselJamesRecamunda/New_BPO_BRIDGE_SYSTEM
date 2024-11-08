@@ -215,87 +215,7 @@ button.flatpickr-clear, button.flatpickr-close {
                             <label for="Duration" class="form-label fw-bold" style="font-family: 'Poppins', sans-serif;">Job Duration</label>
                             <input type="text" class="form-control" id="job_duration" name="job_duration" placeholder="Enter Duration">
                         </div>
-                         <!-- Button to Open the Modal -->
-                        <div class="col-md-3" style="width: 27%;">
-                            <label for="select_date" class="form-label fw-bold mt-3" style="font-family: 'Poppins', sans-serif;">Select Date</label>
-                            <button type="button" class="btn btn-primary w-100 fw-bold" data-bs-toggle="modal" data-bs-target="#dateModal">
-                            <i class="fa-solid fa-calendar-days me-3"></i>Select Date
-                            </button>
-                        </div>
-
-                         <!-- Add New Category -->
-                        <div class="col-md-3" style="width: 25%;">
-                            <label for="new_category" class="form-label fw-bold mt-3" style="font-family: 'Poppins', sans-serif;">New Job Category</label>
-                            <button class="btn btn-primary fw-bold" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
-                                <i class="fa-solid fa-circle-plus me-2"></i>Add Category
-                            </button>
-                        </div>
-
-                           <!-- Date Modal Structure -->
-                            <div class="modal fade" id="dateModal" tabindex="-1" aria-labelledby="dateModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header d-flex justify-content-center">
-                                            <h5 class="modal-title fw-bold" id="dateModalLabel">Select Date Range</h5>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form>
-                                                <div class="row">
-                                                    <!-- Start Date Input with Calendar Icon -->
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="start_date" class="form-label">From</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">
-                                                                <i class="fas fa-calendar-alt"></i> <!-- Font Awesome Calendar Icon -->
-                                                            </span>
-                                                            <input type="text" class="form-control" id="start_date" name="start_date" required>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Date Input with Calendar Icon -->
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="end_date" class="form-label">To</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">
-                                                                <i class="fas fa-calendar-alt"></i> <!-- Font Awesome Calendar Icon -->
-                                                            </span>
-                                                            <input type="text" class="form-control" id="end_date" name="end_date" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary" onclick="saveDateRange()">Save</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <!-- Category Modal Structure -->
-                            <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="addCategoryModalLabel">Add New Category</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="addCategoryForm">
-                                                <div class="mb-3">
-                                                    <label for="categoryName" class="form-label">Category Name</label>
-                                                    <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Enter category name">
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary" onclick="saveCategory()">Save</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                       
                     </div>
                     <!-- Submit Button -->
                     <button type="submit" class="btn btn-custom">
@@ -371,20 +291,5 @@ button.flatpickr-clear, button.flatpickr-close {
         const modal = new bootstrap.Modal(document.getElementById('dateModal'));
         modal.hide();
     }
-
-    function saveCategory() {
-        const categoryName = document.getElementById("categoryName").value;
-        
-        if (categoryName) {
-            // You can handle form submission here, for example, sending data via AJAX.
-            alert(`Category "${categoryName}" saved!`);
-            // Close the modal after saving
-            const addCategoryModal = new bootstrap.Modal(document.getElementById('addCategoryModal'));
-            addCategoryModal.hide();
-        } else {
-            alert("Please enter a category name.");
-        }
-    }
 </script>
-
 @endsection

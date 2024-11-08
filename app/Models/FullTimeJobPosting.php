@@ -9,6 +9,10 @@ class FullTimeJobPosting extends Model
     use HasFactory;
  
     protected $table = 'full_time_job_postings'; // Specify the table name
+    // Option 2: Using $casts
+    protected $casts = [
+        'creation_date' => 'datetime',
+    ];
 
     protected $fillable = [
         'job_title',
@@ -24,7 +28,6 @@ class FullTimeJobPosting extends Model
         'job_photo',
         'keywords',
         'creation_date',
-        'end_date',
     ];
 
     public $timestamps = false; // Assuming no created_at or updated_at columns

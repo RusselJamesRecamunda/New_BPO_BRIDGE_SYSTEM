@@ -10,6 +10,7 @@ class FreelanceJobPosting extends Model
     use HasFactory;
 
     protected $table = 'freelance_job_postings'; // Specify the table name
+    protected $dates = ['creation_date']; // This line ensures creation_date is a Carbon instance
 
     protected $fillable = [
         'fl_job_title',
@@ -26,7 +27,6 @@ class FreelanceJobPosting extends Model
         'job_photo',
         'keywords',
         'creation_date',
-        'end_date',
     ];
 
     public $timestamps = false; // Assuming no created_at or updated_at columns

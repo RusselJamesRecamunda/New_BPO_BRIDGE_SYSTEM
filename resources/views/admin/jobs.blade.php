@@ -69,18 +69,21 @@
                     <p class="card-text">
                         {{ Str::limit($job->job_description, 100, '...') }}
                     </p>
-                    <p class="card-text">
+                    <p class="job-posted">{{ $job->creation_date->diffForHumans() }}</p>
+                    <p class="card-text fw-bold">
                         Opening Jobs (0/{{ $job->max_hires }})
                     </p>
                     <div class="progress mb-3">
                         <div class="progress-bar bg-primary" style="width: 0%;"></div>
                     </div>
-                        <center><button class="btn btn-primary" type="button" data-url="{{ route('overview-job.index') }}" id="overviewButton">
-                            <i class="fa-solid fa-circle-plus me-2"></i>View Applications
-                        </button></center>
-                    <p class="text-muted mt-2">
-                        <small><i class="fas fa-map-marker-alt"></i> {{ $job->job_location }}</small>
-                    </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-primary" type="button" data-url="{{ route('overview-job.index') }}" id="overviewButton">
+                                <i class="fa-solid fa-circle-plus me-2"></i>View Jobs List
+                            </button>
+                            <p class="text-muted mb-0">
+                                <small><i class="fas fa-map-marker-alt"></i> {{ $job->job_location }}</small>
+                            </p>
+                        </div>
                 </div>
             </div>
         </div>
@@ -100,7 +103,7 @@
                     @endphp
                     @if($freelancePhotoPath)
                         <img src="{{ $freelancePhotoPath }}" alt="Company Logo" style="width: 50px;">
-                    @else
+                    @else 
                         <span>No image available</span>
                     @endif
                         <div>
@@ -114,18 +117,20 @@
                     <p class="card-text">
                         {{ Str::limit($job->fl_job_description, 100, '...') }}
                     </p>
-                    <p class="card-text">
+                    <p class="card-text fw-bold">
                         Opening Jobs (0/{{ $job->max_hires }})
                     </p>
                     <div class="progress mb-3">
                         <div class="progress-bar bg-primary" style="width: 0%;"></div>
                     </div>
-                        <center><button class="btn btn-primary" type="button" data-url="{{ route('overview-job.index') }}" id="overviewButton">
-                            <i class="fa-solid fa-circle-plus me-2"></i>View Applications
-                        </button></center>
-                    <p class="text-muted mt-2">
-                        <small><i class="fas fa-map-marker-alt"></i> {{ $job->fl_job_location }}</small>
-                    </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-primary" type="button" data-url="{{ route('overview-job.index') }}" id="overviewButton">
+                                    <i class="fa-solid fa-circle-plus me-2"></i>View Jobs List
+                                </button>
+                            <p class="text-muted mt-2">
+                                <small><i class="fas fa-map-marker-alt"></i> {{ $job->fl_job_location }}</small>
+                            </p>
+                        </div>
                 </div>
             </div>
         </div>
