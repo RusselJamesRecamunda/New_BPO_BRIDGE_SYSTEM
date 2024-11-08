@@ -59,11 +59,11 @@ function togglePasswordVisibility() {
 
     if (passwordInput.type === "password") {
         passwordInput.type = "text";
-        showPasswordIcon.style.display = "none";
-        hidePasswordIcon.style.display = "block";
-    } else {
-        passwordInput.type = "password";
         showPasswordIcon.style.display = "block";
         hidePasswordIcon.style.display = "none";
+    } else {
+        passwordInput.type = "password";
+        showPasswordIcon.style.display = "none";
+        hidePasswordIcon.style.display = "block";
     }
 }

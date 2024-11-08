@@ -3,22 +3,39 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\FreelanceJobPosting;
-use App\Models\FullTimeJobPosting; 
+use App\Models\FullTimeJobPosting;
+use App\Models\Category;
+use App\Models\JobType; 
 use Illuminate\Http\Request;
+
 
 class JobsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index($forHome = false)
+{
+    // Retrieve all categories and job types
+    $categories = Category::all()->keyBy('category_id');
+    $jobTypes = JobType::all();
+
+    if ($forHome) {
+        // Data specific to the home view
+        $freelanceJobs = FreelanceJobPosting::all();
+        $fullTimeJobs = FullTimeJobPosting::orderBy('creation_date', 'desc')->take(4)->get(); // Order by creation_date
+
+        return view('home', compact('freelanceJobs', 'fullTimeJobs', 'categories', 'jobTypes'));
+    } else {
+        // Data specific to the admin jobs view
         $freelanceJobs = FreelanceJobPosting::all();
         $fullTimeJobs = FullTimeJobPosting::all();
 
-        // Pass the collections separately to the view
-        return view('admin.jobs', compact('freelanceJobs', 'fullTimeJobs'));
-    } 
+        return view('admin.jobs', compact('freelanceJobs', 'fullTimeJobs', 'categories', 'jobTypes'));
+    }
+}
+
+ 
 
 
     /**

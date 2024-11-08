@@ -19,6 +19,7 @@ class CreateApplicationsTable extends Migration
             $table->string('applicant_name'); // Applicant's name
             $table->string('applicant_email'); // Applicant's email
             $table->string('applicant_phone'); // Applicant's phone
+            $table->string('applicant_location'); // Applicant's location
             $table->enum('job_type', ['Full-time', 'Freelance']); // Job type
             $table->string('job_category'); // Job category
             $table->string('resume_cv'); // Resume/CV

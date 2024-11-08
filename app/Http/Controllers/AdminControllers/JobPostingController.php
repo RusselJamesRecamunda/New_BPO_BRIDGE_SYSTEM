@@ -22,7 +22,7 @@ class JobPostingController extends Controller
         return view('admin.job-posting', compact('categories', 'jobTypes')); // Pass categories and job types to the view
     }
 
-
+ 
     /**
      * Show the form for creating a new resource.
      */
@@ -34,7 +34,7 @@ class JobPostingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request) 
 {
     // Validate the incoming data
     $request->validate([

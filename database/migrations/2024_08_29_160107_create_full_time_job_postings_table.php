@@ -33,6 +33,7 @@ return new class extends Migration
             $table->integer('max_hires'); // Maximum number of hires
             $table->text('job_photo')->nullable(); // Path to the job photo (png or jpg)
             $table->date('creation_date')->nullable(); // Date when the job was created
+            $table->date('end_date')->nullable();
         });
     }
 

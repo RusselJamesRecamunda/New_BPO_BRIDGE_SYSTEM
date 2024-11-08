@@ -43,7 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'role',
         'otp_code',
         'remember_token',
-        'activity_status',
+        'activity_status', 
         'user_status',
     ];
 
@@ -94,4 +94,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Notifications::class, 'user_id');
     }
+
+    // Relationship with Contracts Table
+    public function contract()
+    { 
+        return $this->hasOne(Contract::class, 'user_id'); 
+    }
+
 }

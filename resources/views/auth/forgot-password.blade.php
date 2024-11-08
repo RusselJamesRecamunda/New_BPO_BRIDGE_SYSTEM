@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>BPO Bridge - OTP Reset</title>
+    <link rel="icon" href="{{ asset('asset/img/browser-icons/bpo_icon.png') }}">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('asset/css/forgot-password.css') }}">
 </head>
@@ -25,7 +26,7 @@
                     <form method="POST" action="{{ route('password.email') }}" id="resetForm">
                         @csrf
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
+                            <label for="email" class="form-label fw-bold"><i class="fa-solid fa-envelope me-2 text-primary"></i>Email Address</label>
                             <input 
                                 type="email" 
                                 class="form-control" 

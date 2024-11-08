@@ -15,7 +15,7 @@ class FreelanceJobPosting extends Model
         'fl_job_title',
         'fl_job_description',
         'fl_category_id',
-        'fl_job_type_id',
+        'fl_job_type_id', 
         'fl_user_id', 
         'fl_job_location',
         'fl_requirements',
@@ -26,6 +26,7 @@ class FreelanceJobPosting extends Model
         'job_photo',
         'keywords',
         'creation_date',
+        'end_date',
     ];
 
     public $timestamps = false; // Assuming no created_at or updated_at columns

@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Form submission validation
     form.addEventListener("submit", function (event) {
-        let valid = true; 
+        let valid = true;
 
         if (emailInput.value === "" || !emailInput.value.includes("@")) {
             emailWarning.style.display = "block";
@@ -119,11 +119,11 @@ function togglePasswordVisibility(id) {
 
     if (passwordInput.type === "password") {
         passwordInput.type = "text"; // Show password
-        showPasswordIcon.style.display = "none"; // Hide show icon
-        hidePasswordIcon.style.display = "inline"; // Show hide icon
+        showPasswordIcon.style.display = "inline"; // Show 'eye' icon
+        hidePasswordIcon.style.display = "none"; // Hide 'eye-slash' icon
     } else {
         passwordInput.type = "password"; // Hide password
-        showPasswordIcon.style.display = "inline"; // Show show icon
-        hidePasswordIcon.style.display = "none"; // Hide hide icon
+        showPasswordIcon.style.display = "none"; // Hide 'eye' icon
+        hidePasswordIcon.style.display = "inline"; // Show 'eye-slash' icon
     }
 }

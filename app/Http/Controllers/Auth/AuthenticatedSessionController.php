@@ -41,7 +41,7 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user(); // Retrieve the authenticated user
 
         // Update activity status to 'Offline' if user is logged in
-        if ($user instanceof User) {
+        if ($user instanceof User) { 
             $user->activity_status = 'Offline';
             $user->save(); // Save the user with updated activity status
         }
@@ -50,6 +50,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();  // Invalidate session
         $request->session()->regenerateToken();  // Regenerate CSRF token
 
-        return redirect()->route('welcome');  // Redirect to welcome page
+        return redirect()->route('home');  // Redirect to BPO Homepage
     }
 }

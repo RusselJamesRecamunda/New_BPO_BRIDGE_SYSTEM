@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>BPO Bridge - Reset Password</title>
+    <link rel="icon" href="{{ asset('asset/img/browser-icons/bpo_icon.png') }}">
 
     <!-- Bootstrap CSS --> 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -33,7 +34,7 @@
                             <label for="newpassword" class="form-label">New Password</label>
                             <div class="position-relative">
                                 <input type="password" class="form-control pe-5" id="newpassword" name="password" placeholder="Enter new password" required>
-                                <i class="fa-regular fa-eye position-absolute toggle-password-icon" id="toggleNewPassword"></i>
+                                <i class="fa-regular fa-eye-slash position-absolute toggle-password-icon" id="toggleNewPassword"></i>
                             </div>
                         </div>
 
@@ -41,7 +42,7 @@
                             <label for="confirmpassword" class="form-label">Confirm Password</label>
                             <div class="position-relative">
                                 <input type="password" class="form-control pe-5" id="confirmpassword" name="password_confirmation" placeholder="Confirm password" required>
-                                <i class="fa-regular fa-eye position-absolute toggle-password-icon" id="toggleConfirmPassword"></i>
+                                <i class="fa-regular fa-eye-slash position-absolute toggle-password-icon" id="toggleConfirmPassword"></i>
                             </div>
                         </div>
 

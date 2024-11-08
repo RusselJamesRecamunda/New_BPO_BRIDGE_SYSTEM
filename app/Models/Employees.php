@@ -40,4 +40,16 @@ class Employees extends Model
     {
         return $this->hasMany(Reports::class, 'emp_id', 'emp_id');
     }
+
+     // Define the one-to-one relationship with the contracts
+    public function contracts()
+    {
+        return $this->hasOne(Contract::class, 'emp_id');
+    }
+
+    // Define the one-to-one relationship with the Employee Assets
+    public function assets()
+    {
+        return $this->hasOne(EmployeeAssets::class, 'emp_id');
+    }
 }

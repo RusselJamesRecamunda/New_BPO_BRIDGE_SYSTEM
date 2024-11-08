@@ -25,10 +25,15 @@ use App\Http\Controllers\AdminControllers\ScheduleNotificationController;
 use App\Http\Controllers\AdminControllers\ReportsController;
 use App\Http\Controllers\ZoomMeetingController;
 
+use App\Http\Controllers\ApplicantControllers\ApplicantProfileController;
+use App\Http\Controllers\ApplicantControllers\AboutUsController;
+
 // Public routes
 Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+    return view('home');
+})->name('home'); 
+
+Route::get('/', [JobsController::class, 'index'])->name('home')->defaults('forHome', true);
 
 require __DIR__.'/auth.php';
 
@@ -58,6 +63,14 @@ Route::get('/sidebar', function () {
     return view('components.sidebar');
 });
 
+Route::prefix('applicant')->group(function () {
+    
+    // Profile View and Controller
+    Route::resource('profile-page', ApplicantProfileController::class);
+    
+    // About Us View and Controller
+    Route::resource('about-us', AboutUsController::class);
+});
 
 Route::prefix('admin')->group(function () {
 

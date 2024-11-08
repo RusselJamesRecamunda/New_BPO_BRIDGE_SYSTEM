@@ -17,13 +17,14 @@ class FullTimeJobPosting extends Model
         'job_type_id',
         'user_id',
         'job_location',
-        'requirements',
+        'requirements', 
         'basic_pay',
         'company_benefits',
         'max_hires',
         'job_photo',
         'keywords',
         'creation_date',
+        'end_date',
     ];
 
     public $timestamps = false; // Assuming no created_at or updated_at columns

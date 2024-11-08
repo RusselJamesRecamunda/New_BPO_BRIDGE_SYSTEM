@@ -6,8 +6,73 @@
 @section('styles')
     <!-- Add additional styles specific to this view here -->
     <link rel="stylesheet" href="{{ asset('asset/css/job_posting.css') }}">
-@endsection
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        /* Custom Flatpickr Styles */
+.flatpickr-calendar {
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
 
+.flatpickr-day.today {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.flatpickr-day.selected {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.flatpickr-day:hover, .flatpickr-day:focus {
+    background-color: #007bff20;
+    color: #007bff;
+}
+
+.flatpickr-month {
+    font-weight: bold;
+}
+
+.flatpickr-weekday {
+    color: #333;
+}
+
+.flatpickr-monthDropdown-months, .flatpickr-next-month, .flatpickr-prev-month {
+    color: #007bff;
+}
+
+.flatpickr-day.disabled, .flatpickr-day.nextMonthDay, .flatpickr-day.prevMonthDay {
+    color: #ccc;
+}
+
+button.flatpickr-clear, button.flatpickr-close {
+    color: #dc3545;
+}
+
+/* Ensure the input fields have a visible border and no white hover effect */
+.input-group .form-control {
+    border: 1px solid #ced4da; /* Border color */
+    box-shadow: none; /* Remove any unwanted shadow effect */
+}
+
+.input-group .form-control:focus {
+    border-color: #80bdff; /* Border color on focus */
+    box-shadow: 0 0 0 0.25rem rgba(38, 143, 255, 0.5); /* Add focus shadow */
+}
+
+.input-group .input-group-text {
+    background-color: #fff; /* Ensure the background of the calendar icon is not white */
+    border: 1px solid #ced4da; /* Match the border color of the input field */
+}
+
+.input-group .form-control:focus + .input-group-text {
+    border-color: #80bdff; /* Make sure the calendar icon's border color changes on focus */
+}
+
+
+    </style>
+@endsection
+ 
 @section('job-posting-content')
         <!-- Top Bar -->
         @include('components.topbar')
@@ -17,7 +82,7 @@
             <div class="container p-4 mt-3 mb-3 bg-light" style="border-radius: 10px; height: 187vh; overflow-y: auto;">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2 class="mb-0 flex-shrink-1">Post New Job Details</h2>
-                    <div class="flex-shrink-0" style="max-width: 150px; margin: -40px 0 -50px 0;">
+                    <div class="flex-shrink-0" style="max-width: 150px; margin: -50px -15px -40px 0;">
                         <img src="{{ asset('asset/img/bpo_logo.png') }}" alt="BPO Logo" class="img-fluid">
                     </div>
                 </div>
@@ -59,7 +124,8 @@
                         <div class="col-md-6">
                             <label for="jobCategory" class="form-label fw-bold" style="font-family: 'Poppins', sans-serif;">
                                 Category <span class="text-danger">*</span>
-                            </label>
+                            </label> 
+
                             <select class="form-select" id="jobCategory" name="jobCategory" required>
                                     <option selected>Select category</option>
                                     @if (isset($categories) && $categories->isNotEmpty())
@@ -98,7 +164,7 @@
                             <input type="number" class="form-control" id="max_hires" name="max_hires" placeholder="Enter number of vacancies" required>
                         </div>
                     </div>
-                    <div class="row mb-3">
+                    <div class="row mb-3">  
                         <!-- Basic Pay -->
                         <div class="col-md-6">
                             <label for="basicPayInput" class="form-label fw-bold" style="font-family: 'Poppins', sans-serif;">
@@ -145,14 +211,95 @@
                             <input type="text" class="form-control" id="Keywords" name="keywords" placeholder="Enter Keywords">
                         </div>
                         <!-- Job Duration -->
-                        <div class="col-md-3" style="width: 30%">
+                        <div class="col-md-3" style="width: 25%">
                             <label for="Duration" class="form-label fw-bold" style="font-family: 'Poppins', sans-serif;">Job Duration</label>
                             <input type="text" class="form-control" id="job_duration" name="job_duration" placeholder="Enter Duration">
                         </div>
+                         <!-- Button to Open the Modal -->
+                        <div class="col-md-3" style="width: 27%;">
+                            <label for="select_date" class="form-label fw-bold mt-3" style="font-family: 'Poppins', sans-serif;">Select Date</label>
+                            <button type="button" class="btn btn-primary w-100 fw-bold" data-bs-toggle="modal" data-bs-target="#dateModal">
+                            <i class="fa-solid fa-calendar-days me-3"></i>Select Date
+                            </button>
+                        </div>
+
+                         <!-- Add New Category -->
+                        <div class="col-md-3" style="width: 25%;">
+                            <label for="new_category" class="form-label fw-bold mt-3" style="font-family: 'Poppins', sans-serif;">New Job Category</label>
+                            <button class="btn btn-primary fw-bold" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                                <i class="fa-solid fa-circle-plus me-2"></i>Add Category
+                            </button>
+                        </div>
+
+                           <!-- Date Modal Structure -->
+                            <div class="modal fade" id="dateModal" tabindex="-1" aria-labelledby="dateModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header d-flex justify-content-center">
+                                            <h5 class="modal-title fw-bold" id="dateModalLabel">Select Date Range</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="row">
+                                                    <!-- Start Date Input with Calendar Icon -->
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="start_date" class="form-label">From</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">
+                                                                <i class="fas fa-calendar-alt"></i> <!-- Font Awesome Calendar Icon -->
+                                                            </span>
+                                                            <input type="text" class="form-control" id="start_date" name="start_date" required>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Date Input with Calendar Icon -->
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="end_date" class="form-label">To</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">
+                                                                <i class="fas fa-calendar-alt"></i> <!-- Font Awesome Calendar Icon -->
+                                                            </span>
+                                                            <input type="text" class="form-control" id="end_date" name="end_date" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" onclick="saveDateRange()">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Category Modal Structure -->
+                            <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addCategoryModalLabel">Add New Category</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="addCategoryForm">
+                                                <div class="mb-3">
+                                                    <label for="categoryName" class="form-label">Category Name</label>
+                                                    <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Enter category name">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" onclick="saveCategory()">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                     <!-- Submit Button -->
                     <button type="submit" class="btn btn-custom">
-                        Post Job Details <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i> Post Job Details 
                     </button>
                 </form>
             </div>
@@ -163,6 +310,7 @@
 <script src="https://cdn.tiny.cloud/1/v8mtbncvjp2xyv599m6wgnrpkyn221w76zclh4mob1vkwfpx/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
   tinymce.init({
@@ -186,4 +334,57 @@
     }
 });
 </script>
+<!-- JavaScript for Handling Modal Data (optional) -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize Flatpickr for start and end date inputs
+        flatpickr("#start_date", {
+            dateFormat: "d F, Y", // Display format: "29 November, 2024"
+            enableTime: false,
+            altInput: true,
+            altFormat: "j F, Y",   // Alternate input format for readability
+            locale: {
+                firstDayOfWeek: 1  // Monday as the first day of the week
+            }
+        });
+
+        flatpickr("#end_date", {
+            dateFormat: "d F, Y",
+            enableTime: false,
+            altInput: true,
+            altFormat: "j F, Y",
+            locale: {
+                firstDayOfWeek: 1
+            }
+        });
+    });
+
+    function saveDateRange() {
+        const startDate = document.getElementById("start_date").value;
+        const endDate = document.getElementById("end_date").value;
+
+        // Process the selected dates (optional: display it somewhere on your page)
+        console.log("Start Date:", startDate);
+        console.log("End Date:", endDate);
+
+        // Close the modal
+        const modal = new bootstrap.Modal(document.getElementById('dateModal'));
+        modal.hide();
+    }
+
+    function saveCategory() {
+        const categoryName = document.getElementById("categoryName").value;
+        
+        if (categoryName) {
+            // You can handle form submission here, for example, sending data via AJAX.
+            alert(`Category "${categoryName}" saved!`);
+            // Close the modal after saving
+            const addCategoryModal = new bootstrap.Modal(document.getElementById('addCategoryModal'));
+            addCategoryModal.hide();
+        } else {
+            alert("Please enter a category name.");
+        }
+    }
+</script>
+
 @endsection

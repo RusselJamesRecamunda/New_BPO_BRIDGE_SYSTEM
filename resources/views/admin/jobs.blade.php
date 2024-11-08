@@ -57,10 +57,10 @@
                         <img src="{{ $fullTimePhotoPath }}" alt="Company Logo" style="width: 100px;">
                     @else
                         <span>No image available</span>
-                    @endif
+                    @endif 
                         <div>
                             <h5 class="card-title">{{ $job->job_title }}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">{{ $job->job_title }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ $categories[$job->category_id]->category_name ?? 'Uncategorized' }}</h6>
                         </div>
                     </div>
                     <p class="card-text">
@@ -105,7 +105,7 @@
                     @endif
                         <div>
                             <h5 class="card-title">{{ $job->fl_job_title }}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">{{ $job->fl_job_title }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ $categories[$job->fl_category_id]->category_name ?? 'Uncategorized' }}</h6>
                         </div>
                     </div>
                     <p class="card-text">

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <link rel="icon" href="{{ asset('asset/img/browser-icons/bpo_icon.png') }}">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('asset/css/register.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome Link -->
@@ -38,8 +39,8 @@
                     <div class="input-container">
                         <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Enter password">
                         <span class="toggle-password" onclick="togglePasswordVisibility('password')">
-                            <i class="fa-solid fa-eye show-password"></i>
-                            <i class="fa-solid fa-eye-slash hide-password" style="display: none;"></i>
+                            <i class="fa-solid fa-eye-slash hide-password" style="display: inline;"></i>
+                            <i class="fa-solid fa-eye show-password" style="display: none;"></i>
                         </span>
                     </div>
                     @error('password')
@@ -53,8 +54,8 @@
                     <div class="input-container">
                         <input id="password_confirmation" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" required autocomplete="new-password" placeholder="Confirm password">
                         <span class="toggle-password" onclick="togglePasswordVisibility('password_confirmation')">
-                            <i class="fa-solid fa-eye show-password"></i>
-                            <i class="fa-solid fa-eye-slash hide-password" style="display: none;"></i>
+                            <i class="fa-solid fa-eye-slash hide-password" style="display: inline;"></i>
+                            <i class="fa-solid fa-eye show-password" style="display: none;"></i>
                         </span>
                     </div>
                     @error('password_confirmation')
