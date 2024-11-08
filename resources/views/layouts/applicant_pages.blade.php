@@ -78,6 +78,7 @@
     <main>
         @yield('profile-content')
         @yield('about-us-content')
+        @yield('job-info-content')
     </main>
 
     <!-- Footer -->

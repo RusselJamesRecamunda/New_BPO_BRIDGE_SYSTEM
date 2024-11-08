@@ -9,7 +9,7 @@ class FullTimeJobPosting extends Model
     use HasFactory;
  
     protected $table = 'full_time_job_postings'; // Specify the table name
-    // Option 2: Using $casts
+    // Using $casts
     protected $casts = [
         'creation_date' => 'datetime',
     ];

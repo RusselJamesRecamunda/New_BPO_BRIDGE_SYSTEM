@@ -27,6 +27,7 @@ use App\Http\Controllers\ZoomMeetingController;
 
 use App\Http\Controllers\ApplicantControllers\ApplicantProfileController;
 use App\Http\Controllers\ApplicantControllers\AboutUsController;
+use App\Http\Controllers\ApplicantControllers\JobInfoController;
 
 // Public routes
 Route::get('/', function () {
@@ -36,7 +37,7 @@ Route::get('/', function () {
 Route::get('/', [JobsController::class, 'index'])->name('home')->defaults('forHome', true);
 
 require __DIR__.'/auth.php';
-
+ 
 // Zoom Meeting Creation
 // Route::post('generate-meet-link', [ZoomMeetingController::class, 'generateMeetingLink'])->name('generate.meet.link');
 
@@ -70,6 +71,9 @@ Route::prefix('applicant')->group(function () {
     
     // About Us View and Controller
     Route::resource('about-us', AboutUsController::class);
+
+    // About Us View and Controller
+    Route::resource('job-info', JobInfoController::class);
 });
 
 Route::prefix('admin')->group(function () {

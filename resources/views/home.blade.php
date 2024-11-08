@@ -129,7 +129,7 @@
                                 <li>{{ $job->company_benefits }}</li>
                             </ul>
                             <p class="job-posted">{{ $job->creation_date->diffForHumans() }}</p>
-                            <a href="#" class="job-link">Click for more information</a>
+                            <a href="{{ route('job-info.index') }}" class="job-link">Click for more information</a>
                         </div>
                     </div>
                 </div>
@@ -156,7 +156,7 @@
                                 <li>{{ $job->fl_company_benefits }}</li>
                             </ul>
                             <p class="job-posted">{{ $job->creation_date->diffForHumans() }}</p>
-                            <a href="#" class="job-link">Click for more information</a>
+                            <a href="{{ route('job-info.index') }}" class="job-link">Click for more information</a>
                         </div>
                     </div>
                 </div>

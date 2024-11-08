@@ -1,6 +1,6 @@
 @extends('layouts.applicant_pages')
 
-@section('title', 'About BPO-Bridge')
+@section('title', 'Job Information')
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('asset/css/about-us.css') }}">
@@ -9,7 +9,7 @@
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 @endsection
 
-@section('about-us-content')
+@section('job-info-content')
  <!-- Job Posting Section -->
  <div class="job-posting">
         <div class="header">

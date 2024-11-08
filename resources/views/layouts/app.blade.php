@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-
+ 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <img src="{{ asset('asset/img/bpo_logo.png') }}" alt="BPO Logo" style="width: 100px; height: 100px; margin: -20px 30px -20px;">

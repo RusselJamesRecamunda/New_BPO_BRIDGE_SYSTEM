@@ -5,15 +5,15 @@ namespace App\Http\Controllers\ApplicantControllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AboutUsController extends Controller
-{ 
+class JobInfoController extends Controller
+{
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
-        return view(view: 'applicant.about-us');
+        return view(view: 'applicant.job-info');
     }
 
     /**
