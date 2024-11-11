@@ -12,28 +12,28 @@ use Illuminate\Http\Request;
 class JobsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource. 
      */
     public function index($forHome = false)
-{
-    // Retrieve all categories and job types
-    $categories = Category::all()->keyBy('category_id');
-    $jobTypes = JobType::all();
+    {
+        // Retrieve all categories and job types
+        $categories = Category::all()->keyBy('category_id');
+        $jobTypes = JobType::all();
 
-    if ($forHome) {
-        // Data specific to the home view
-        $freelanceJobs = FreelanceJobPosting::orderBy('creation_date', 'desc')->take(2)->get();
-        $fullTimeJobs = FullTimeJobPosting::orderBy('creation_date', 'desc')->take(2)->get(); // Order by creation_date
+        if ($forHome) {
+            // Data specific to the home view
+            $freelanceJobs = FreelanceJobPosting::orderBy('creation_date', 'desc')->take(2)->get();
+            $fullTimeJobs = FullTimeJobPosting::orderBy('creation_date', 'desc')->take(2)->get(); // Order by creation_date
 
-        return view('home', compact('freelanceJobs', 'fullTimeJobs', 'categories', 'jobTypes'));
-    } else {
-        // Data specific to the admin jobs view
-        $freelanceJobs = FreelanceJobPosting::all();
-        $fullTimeJobs = FullTimeJobPosting::all();
+            return view('home', compact('freelanceJobs', 'fullTimeJobs', 'categories', 'jobTypes'));
+        } else {
+            // Data specific to the admin jobs view
+            $freelanceJobs = FreelanceJobPosting::all();
+            $fullTimeJobs = FullTimeJobPosting::all();
 
-        return view('admin.jobs', compact('freelanceJobs', 'fullTimeJobs', 'categories', 'jobTypes'));
+            return view('admin.jobs', compact('freelanceJobs', 'fullTimeJobs', 'categories', 'jobTypes'));
+        }
     }
-}
 
  
 

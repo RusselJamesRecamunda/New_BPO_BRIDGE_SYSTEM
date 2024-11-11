@@ -4,12 +4,10 @@ namespace App\Http\Controllers\ApplicantControllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Category;
-use App\Models\JobType;
-use App\Models\FreelanceJobPosting;
 use App\Models\FullTimeJobPosting;
+use App\Models\FreelanceJobPosting;
 
-class JobInfoController extends Controller
+class ApplicationFormController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +15,7 @@ class JobInfoController extends Controller
     public function index()
     {
         //
-        return view(view: 'applicant.job-info');
+        return view(view: 'applicant.application-form');
     }
 
     /**
@@ -39,22 +37,24 @@ class JobInfoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id, Request $request)
+    public function show($application_form, Request $request)
     {
-        $jobType = $request->query('type');
-        
-        if ($jobType === 'full-time') {
-            $job = FullTimeJobPosting::with('category', 'jobType')->where('full_job_ID', $id)->firstOrFail();
-        } elseif ($jobType === 'freelance') {
-            $job = FreelanceJobPosting::with('category', 'jobType')->where('fl_jobID', $id)->firstOrFail();
-        } else {
-            abort(404);
-        }
-
-        return view('applicant.job-info', compact('job'));
-    }
-
+        $jobType = $request->query('type'); // Get the job type from the query string
     
+        // Fetch the job based on the application_form (job_id)
+        if ($jobType === 'full-time') {
+            $job = FullTimeJobPosting::where('full_job_ID', $application_form)->firstOrFail();
+        } elseif ($jobType === 'freelance') {
+            $job = FreelanceJobPosting::where('fl_jobID', $application_form)->firstOrFail();
+        } else {
+            return abort(404); // If type is invalid
+        }
+    
+        return view('applicant.application-form', compact('job', 'jobType'));
+    }
+    
+    
+
 
 
     /**

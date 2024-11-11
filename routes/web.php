@@ -28,6 +28,7 @@ use App\Http\Controllers\ZoomMeetingController;
 use App\Http\Controllers\ApplicantControllers\ApplicantProfileController;
 use App\Http\Controllers\ApplicantControllers\AboutUsController;
 use App\Http\Controllers\ApplicantControllers\JobInfoController;
+use App\Http\Controllers\ApplicantControllers\ApplicationFormController;
 
 // Public routes
 Route::get('/', function () {
@@ -74,6 +75,9 @@ Route::prefix('applicant')->group(function () {
 
     // About Us View and Controller
     Route::resource('job-info', JobInfoController::class);
+
+    // Application Form View and Controller
+    Route::resource('application-form', ApplicationFormController::class);
 });
 
 Route::prefix('admin')->group(function () {

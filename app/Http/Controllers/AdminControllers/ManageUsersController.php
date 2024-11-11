@@ -48,7 +48,7 @@ class ManageUsersController extends Controller
         }
 
         // Use saved columns for querying if they exist
-        $selectedColumns = $savedColumns ?: $databaseColumns;
+        $selectedColumns = $savedColumns ?: $databaseColumns; 
 
         try {
             $users = User::select($selectedColumns)

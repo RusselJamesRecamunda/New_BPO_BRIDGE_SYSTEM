@@ -52,10 +52,10 @@ class JobPostingController extends Controller
         'basic_pay' => 'required|string|max:500',
     ]);
 
-    // Strip HTML tags to avoid saving them in the database
-    $jobDescription = strip_tags($request->job_description);
-    $requirements = strip_tags($request->requirements);
-    $companyBenefits = strip_tags($request->company_benefits);
+    // Store HTML content directly without stripping tags
+    $jobDescription = $request->job_description;
+    $requirements = $request->requirements;
+    $companyBenefits = $request->company_benefits;
 
     // Initialize $data array for common fields
     $data = [
@@ -95,7 +95,7 @@ class JobPostingController extends Controller
                 'job_description' => $data['job_description'],
                 'category_id' => $data['category_id'],
                 'job_type_id' => $data['job_type_id'],
-                'user_id' => $userId, // Add logged-in user ID here
+                'user_id' => $userId,
                 'job_location' => $data['job_location'],
                 'requirements' => $data['requirements'],
                 'basic_pay' => $request->basic_pay,
@@ -112,7 +112,7 @@ class JobPostingController extends Controller
                 'fl_job_description' => $data['job_description'],
                 'fl_category_id' => $data['category_id'],
                 'fl_job_type_id' => $data['job_type_id'],
-                'fl_user_id' => $userId, // Add logged-in user ID here
+                'fl_user_id' => $userId,
                 'fl_job_location' => $data['job_location'],
                 'fl_requirements' => $data['requirements'],
                 'fl_basic_pay' => $request->basic_pay,

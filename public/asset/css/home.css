@@ -55,7 +55,7 @@
 .navbar .dropdown-toggle .dropdown-icon {
     position: relative;
     top: 10px;
-    margin-left: 25px;
+    margin-left: 25px; 
     transition: transform 0.3s;
     font-size: 0.8em;
 }
@@ -68,7 +68,7 @@
 .search-bar {
     position: relative; /* Set position relative for the overlay */
     color: white; /* Text color */
-    padding: 120px 0 100px; /* Use padding for content spacing only */
+    padding: 140px 0 100px; /* Use padding for content spacing only */
 }
 
 .search-bar::before {
@@ -89,7 +89,7 @@
     right: 0;
     bottom: 0;
     z-index: 0; /* Ensure the image is below the overlay */
-    object-fit: cover; /* Maintain aspect ratio */
+    object-fit:fill; /* Maintain aspect ratio */
     width: 100%; /* Full width */
     height: 100%; /* Full height */
 }
@@ -99,6 +99,7 @@
     z-index: 2; /* Bring the container above the overlay */
     background-color: #5492b3af;
     margin-top: 10%; /* Adjust margin-top to create space above the container */
+    top: -40px;
     padding: 20px; /* Padding for the container */
 }
 
@@ -201,47 +202,49 @@
     align-items: flex-start;
     position: relative;
     transition: box-shadow 0.3s;
+    width: 100%; /* Ensures consistency in width within the column */
+    min-height: 300px; /* Fixed height for all job cards */
+    max-height: 300px;
+    overflow: hidden; /* Hides any content exceeding the card */
 }
 
 .job-card:hover {
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Job Logo Styling */ 
 .job-logo {
-    width: 80px;
-    height: auto;
-    flex-shrink: 0;
+    width: 80px; /* Fixed width for job logo image */
+    height: 80px; /* Fixed height for job logo image */
+    object-fit: cover; /* Ensures images fill the designated area */
 }
 
+/* Job Details Styling */
 .job-details {
-    flex-grow: 1;
+    flex: 1;
+    overflow: hidden;
 }
 
-.job-title {
-    font-size: 16px;
-    font-weight: bold;
-    color: #0F5078;
-    margin-bottom: 5px;
-}
-
+.job-title,
 .job-location,
 .job-category,
+.basic-pay,
+.job-description,
 .job-posted {
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 5px;
+    margin: 6px; /* Removes default margin to keep content compact */
+    line-height: 1.5;
+    overflow: hidden; /* Ensures content doesn't exceed bounds */
+    text-overflow: ellipsis; /* Adds "..." to overflowed text */
 }
 
-.job-benefits {
-    list-style: none;
-    padding-left: 0;
-    font-size: 14px;
-    margin-bottom: 5px;
+/* Job Description Specific Styling */
+.job-description {
+    display: block; /* Allows for wrapping text */
+    max-height: 4.5em; /* Limits the visible description to ~3 lines */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.job-benefits li {
-    margin-bottom: 3px;
-}
 
 .job-link {
     font-size: 14px;

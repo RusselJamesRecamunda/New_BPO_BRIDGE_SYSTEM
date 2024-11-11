@@ -3,7 +3,7 @@
 @section('title', 'Manage Users')
 
 @section('browser-icon')
-    <link rel="icon" href="{{ asset('asset/img/browser-icons/manage.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('asset/img/browser-icons/bpo_icon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 @endsection
 
@@ -124,7 +124,7 @@
                             <td data-column="created_at">{{ $user->created_at ? $user->created_at->format('F d, Y') : 'N/A' }}</td>
                             <td data-column="updated_at">{{ $user->updated_at ? $user->updated_at->format('F d, Y') : 'N/A' }}</td>
                         </tr>
-                    @endforeach
+                    @endforeach 
                 </tbody>
             </table>
 

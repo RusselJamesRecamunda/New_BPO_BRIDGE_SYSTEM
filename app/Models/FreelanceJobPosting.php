@@ -15,6 +15,7 @@ class FreelanceJobPosting extends Model
         'creation_date' => 'datetime',
     ];
     protected $fillable = [
+        'fl_jobID',
         'fl_job_title',
         'fl_job_description',
         'fl_category_id',

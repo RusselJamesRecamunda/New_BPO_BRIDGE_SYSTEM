@@ -14,7 +14,8 @@ class FullTimeJobPosting extends Model
         'creation_date' => 'datetime',
     ];
 
-    protected $fillable = [
+    protected $fillable = [ 
+        'full_job_ID',
         'job_title',
         'job_description',
         'category_id',

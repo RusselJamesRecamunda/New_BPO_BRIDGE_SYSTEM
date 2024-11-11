@@ -3,7 +3,7 @@
 @section('title', 'General Reports')
 
 @section('browser-icon')
-    <link rel="icon" href="{{ asset('asset/img/browser-icons/archive.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('asset/img/browser-icons/bpo_icon.png') }}" type="image/x-icon">
 @endsection
 
 @section('styles')
@@ -28,8 +28,6 @@
 
             <div class="export-buttons">
                 <button class="export-button"><i class="fa-solid fa-file-excel me-2"></i>Excel</button>
-                <button class="export-button"><i class="fa-solid fa-file-pdf me-2"></i>PDF</button>
-                <button class="export-button"><i class="fa-solid fa-print me-2"></i>Print</button>
             </div>
         </div>
 

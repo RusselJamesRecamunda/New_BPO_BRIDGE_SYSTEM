@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('asset/css/home.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
  
@@ -81,7 +82,7 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container text-center">
+        <div class="container text-center"> 
             <div class="row">
                 <div class="col-md-4 text-start">
                     <p>Company Information</p>
@@ -100,6 +101,7 @@
     </footer>
 
     <!-- Scripts -->
+     @yield('scripts')
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <script src="{{ asset('asset/js/home.js') }}"></script>

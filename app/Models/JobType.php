@@ -10,7 +10,7 @@ class JobType extends Model
 
     protected $fillable = ['job_type_name'];
 
-    protected $primaryKey = 'job_type_id';  // Correct primary key
+    protected $primaryKey = 'job_type_id';  // Correct primary key 
 
     // Relationship with FullTimeJobPosting
     public function fullTimeJobPostings()

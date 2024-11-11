@@ -24,6 +24,7 @@ class CreateApplicationsTable extends Migration
             $table->string('job_category'); // Job category
             $table->string('resume_cv'); // Resume/CV
             $table->string('cover_letter'); // Cover letter
+            $table->string('applicant_emp_status'); // Applicant employment status
             $table->string('application_status'); // Application status
             $table->foreignId('user_id') // Foreign key to users table
             ->nullable() // Make it nullable

@@ -107,7 +107,6 @@
         <h3>Available Jobs</h3>
         <div class="row job-listing">
              <!-- Job Cards -->
-
              <!-- Loop through Full-Time Job Postings -->
              @foreach($fullTimeJobs as $job)
                 <div class="col-md-6">
@@ -125,11 +124,10 @@
                             <h5 class="job-title">{{ $job->job_title }}</h5>
                             <p class="job-location">{{ $job->job_location }}</p>
                             <p class="job-category">{{ $categories[$job->category_id]->category_name ?? 'Uncategorized' }}</p>
-                            <ul class="job-benefits">
-                                <li>{{ $job->company_benefits }}</li>
-                            </ul>
+                            <p class="basic-pay"><i class="fa-solid fa-peso-sign me-1"></i>{{ $job->basic_pay }}  per month</p>
+                            <p class="job-description">{{ $job->job_description }}</p>
                             <p class="job-posted">{{ $job->creation_date->diffForHumans() }}</p>
-                            <a href="{{ route('job-info.index') }}" class="job-link">Click for more information</a>
+                            <a href="{{ route('job-info.show', ['job_info' => $job->full_job_ID, 'type' => 'full-time']) }}" class="job-link">Click for more information</a>
                         </div>
                     </div>
                 </div>
@@ -152,28 +150,18 @@
                             <h5 class="job-title">{{ $job->fl_job_title  }}</h5>
                             <p class="job-location">{{ $job->fl_job_location }}</p>
                             <p class="job-category">{{ $categories[$job->fl_category_id]->category_name ?? 'Uncategorized' }}</p>
-                            <ul class="job-benefits">
-                                <li>{{ $job->fl_company_benefits }}</li>
-                            </ul>
+                            <p class="basic-pay"><i class="fa-solid fa-peso-sign me-1"></i>{{ $job->fl_basic_pay }} per month</p>
+                            <p class="job-description">{{ $job->fl_job_description }}</p>
                             <p class="job-posted">{{ $job->creation_date->diffForHumans() }}</p>
-                            <a href="{{ route('job-info.index') }}" class="job-link">Click for more information</a>
+                            <a href="{{ route('job-info.show', ['job_info' => $job->fl_jobID, 'type' => 'freelance']) }}" class="job-link">Click for more information</a>
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-        const searchBar = document.querySelector('.search-bar');
-
-        // Create an image element
-        const img = document.createElement('img');
-        img.src = '/asset/img/home-filter.webp'; // Set the source of the image
-        img.alt = 'Background'; // Alt text for the image
-        searchBar.appendChild(img); // Append the image to the search bar
-    });
-    </script>
 @endsection
 
+@section('scripts')
+<script src="{{ asset('asset/js/home.js') }}"></script>
+@endsection

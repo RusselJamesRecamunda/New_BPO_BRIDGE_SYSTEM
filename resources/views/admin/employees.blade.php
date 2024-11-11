@@ -3,7 +3,7 @@
 @section('title', 'Employees')
 
 @section('browser-icon')
-    <link rel="icon" href="{{ asset('asset/img/browser-icons/team.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('asset/img/browser-icons/bpo_icon.png') }}" type="image/x-icon">
 @endsection
 
 @section('styles')

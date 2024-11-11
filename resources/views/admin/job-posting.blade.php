@@ -1,7 +1,11 @@
-
+ 
 @extends('layouts.admin_pages')
 
 @section('title', 'Job Details')
+
+@section('browser-icon')
+    <link rel="icon" href="{{ asset('asset/img/browser-icons/bpo_icon.png') }}" type="image/x-icon">
+@endsection
 
 @section('styles')
     <!-- Add additional styles specific to this view here -->
@@ -68,8 +72,6 @@ button.flatpickr-clear, button.flatpickr-close {
 .input-group .form-control:focus + .input-group-text {
     border-color: #80bdff; /* Make sure the calendar icon's border color changes on focus */
 }
-
-
     </style>
 @endsection
  
