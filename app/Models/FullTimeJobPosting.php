@@ -9,10 +9,13 @@ class FullTimeJobPosting extends Model
     use HasFactory;
  
     protected $table = 'full_time_job_postings'; // Specify the table name
+    
+    protected $primaryKey = 'full_job_ID'; 
+
     // Using $casts
     protected $casts = [
         'creation_date' => 'datetime',
-    ];
+    ]; 
 
     protected $fillable = [ 
         'full_job_ID',
@@ -39,10 +42,23 @@ class FullTimeJobPosting extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
-    // Define relationship with JobType
+    // Define relationship with JobType 
     public function jobType()
     {
         return $this->belongsTo(JobType::class, 'job_type_id');
     }
+
+    // Relationship with Applications
+    public function applications()
+    {
+        return $this->hasMany(Applications::class, 'full_jobID');
+    }
+
+    // Relationship with SavedJobs
+    public function savedJobs()
+    {
+        return $this->hasMany(SavedJobs::class, 'full_job_id', 'full_job_ID');
+    }
+
 }
 

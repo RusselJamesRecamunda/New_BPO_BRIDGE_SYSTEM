@@ -21,16 +21,20 @@
                 @endif
             </div>
 
-            <form>
+            <form action="{{ route('application-form.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="jobType" value="{{ $jobType }}">
+                    <input type="hidden" name="jobId" value="{{ $job->full_job_ID ?? $job->fl_jobID }}">
+               
                 <div class="row mb-3">
                     <div class="col">
                         <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="firstName" required>
+                        <input type="text" name="firstName" id="firstName" class="form-control" required>
                         <div class="error-message" id="firstNameError">First Name cannot be empty.</div>
                     </div>
                     <div class="col">
                         <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
-                        <input type="text" id="lastName" class="form-control" required>
+                        <input type="text" name="lastName" id="lastName" class="form-control" required>
                         <div class="error-message" id="lastNameError">Last Name cannot be empty.</div>
                     </div>
                 </div>
@@ -38,27 +42,24 @@
                 <div class="row mb-3">
                     <div class="col">
                         <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                        <input type="email" id="email" class="form-control" required>
+                        <input type="email" name="email" id="email" class="form-control" required>
                         <div class="error-message" id="emailError">Email cannot be empty.</div>
                     </div>
                     <div class="col">
                         <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
-                        <input type="tel" id="phone" class="form-control" required>
+                        <input type="tel" name="phone" id="phone" class="form-control" required>
                         <div class="error-message" id="phoneError">Phone cannot be empty.</div>
                     </div>
                 </div>
                 
-                <div class="mb-3">
-                    <label for="location" class="form-label">Home Address <span class="text-danger">*</span></label>
-                    <input type="text" id="location" class="form-control" required>
-                    <div class="error-message" id="locationError">Field cannot be empty.</div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="address" class="form-label">Home Address <span class="text-danger">*</span></label>
+                        <input type="address" name="address" id="address" class="form-control" required>
+                        <div class="error-message" id="addressError">Address cannot be empty.</div>
+                    </div>
                 </div>
-                
-                <div class="mb-3">
-                    <label for="startDate" class="form-label">Available start date: <span class="text-danger">*</span></label>
-                    <input type="date" id="startDate" class="form-control" required>
-                    <div class="error-message" id="calendarError">Field cannot be empty.</div>
-                </div>
+
                 
                 <div class="mb-3">
                     <label class="form-label">What is your current employment status? <span class="text-danger">*</span></label>
@@ -87,7 +88,7 @@
                     <div class="file-upload" onclick="document.getElementById('resume').click()">
                         <img src="{{ asset('asset/img/applicant/upload.png') }}" alt="Upload Icon" class="upload-icon">
                         <p>Upload a File<br><small>Drag and drop files here</small></p>
-                        <input type="file" id="resume" accept=".pdf" required style="display: none;">
+                        <input type="file" name="resume" id="resume" accept=".pdf" required style="display: none;">
                     </div>
                     <div class="uploaded-file-name" id="resumeFileName"></div>
                     <div class="note">Note: File should be in PDF format.</div>
@@ -98,7 +99,7 @@
                     <div class="file-upload" onclick="document.getElementById('coverLetter').click()">
                         <img src="{{ asset('asset/img/applicant/upload.png') }}" alt="Upload Icon" class="upload-icon">
                         <p>Upload a File<br><small>Drag and drop files here</small></p>
-                        <input type="file" id="coverLetter" accept=".pdf" style="display: none;">
+                        <input type="file" name="coverLetter" id="coverLetter" accept=".pdf" style="display: none;">
                     </div>
                     <div class="uploaded-file-name" id="coverLetterFileName"></div>
                 </div>
@@ -118,9 +119,9 @@
             </form>
         </div>
     </div>
-@endsection
+@endsection 
 
-@section('scripts')
+@section('applicant-scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('asset/js/application-form.js') }}"></script>
 @endsection

@@ -23,9 +23,11 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'agree' => 'accepted', // Ensure agreement checkbox is checked
+            'agree' => 'accepted',
         ]);
 
         if ($validator->fails()) {
@@ -37,10 +39,13 @@ class RegisterController extends Controller
 
         // Store registration data in session
         $request->session()->put('registration_data', [
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'otp_code' => $otpCode,
         ]);
+        
 
         // Send OTP to email
         if (!$this->sendOtpEmail($request->email, $otpCode)) {
@@ -99,19 +104,20 @@ class RegisterController extends Controller
         }
 
         if ($sessionData['otp_code'] == $request->otp_code) {
-            // Create new user account
             User::create([
+                'first_name' => $sessionData['first_name'],
+                'last_name' => $sessionData['last_name'],
                 'email' => $sessionData['email'],
                 'password' => $sessionData['password'],
-                'email_verified_at' => now(), // Set email verification time
+                'email_verified_at' => now(),
                 'role' => 'applicant',
             ]);
-
+        
             $request->session()->forget('registration_data');
-
-            // Return success response
+        
             return response()->json(['success' => true, 'message' => 'Successfully Registered New Account!']);
         }
+        
 
         return response()->json(['success' => false, 'message' => 'Invalid OTP code. Please try again.'], 400);
     }

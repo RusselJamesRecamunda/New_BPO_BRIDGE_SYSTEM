@@ -29,6 +29,8 @@ use App\Http\Controllers\ApplicantControllers\ApplicantProfileController;
 use App\Http\Controllers\ApplicantControllers\AboutUsController;
 use App\Http\Controllers\ApplicantControllers\JobInfoController;
 use App\Http\Controllers\ApplicantControllers\ApplicationFormController;
+use App\Http\Controllers\ApplicantControllers\ApplySuccessController;
+use App\Http\Controllers\ApplicantControllers\AppliedSavedController;
 
 // Public routes
 Route::get('/', function () {
@@ -78,6 +80,10 @@ Route::prefix('applicant')->group(function () {
 
     // Application Form View and Controller
     Route::resource('application-form', ApplicationFormController::class);
+    Route::resource('thank-you', ApplySuccessController::class);
+
+    // Applied-Saved View and Controller
+    Route::resource('applied-saved', AppliedSavedController::class);
 });
 
 Route::prefix('admin')->group(function () {

@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('asset/css/about-us.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-@endsection
+@endsection 
 
 @section('about-us-content')
     <!-- About Us Section -->

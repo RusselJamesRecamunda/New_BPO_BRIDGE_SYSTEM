@@ -24,6 +24,26 @@
             <form method="POST" action="{{ route('register') }}" id="register-form">
                 @csrf
 
+                <!-- First Name and Last Name -->
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <label for="first_name">{{ __('First Name') }}</label>
+                        <input id="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" value="{{ old('first_name') }}" required autocomplete="first_name" placeholder="First Name">
+                        @error('first_name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="last_name">{{ __('Last Name') }}</label>
+                        <input id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" required autocomplete="last_name" placeholder="Last Name">
+                        @error('last_name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+
                 <!-- Email Address -->
                 <div class="form-group">
                     <label for="email">{{ __('Email Address') }}</label>

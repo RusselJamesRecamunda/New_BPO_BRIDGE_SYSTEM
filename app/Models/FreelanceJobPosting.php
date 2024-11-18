@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class FreelanceJobPosting extends Model 
 {
-    use HasFactory;
+    use HasFactory; 
 
     protected $table = 'freelance_job_postings'; // Specify the table name
+
+    protected $primaryKey = 'fl_jobID'; 
+
     // Using $casts
     protected $casts = [
         'creation_date' => 'datetime',
@@ -39,10 +42,23 @@ class FreelanceJobPosting extends Model
     {
         return $this->belongsTo(Category::class, 'fl_category_id');
     }
-
+ 
     // Define relationship with JobType
     public function jobType()
     {
         return $this->belongsTo(JobType::class, 'fl_job_type_id');
     }
+ 
+    // Relationship with Applications
+    public function applications()
+    {
+        return $this->hasMany(Applications::class, 'fl_jobID');
+    }
+
+    // Relationship with SavedJobs
+    public function savedJobs()
+    {
+        return $this->hasMany(SavedJobs::class, 'fl_job_id', 'fl_jobID');
+    }
+
 }

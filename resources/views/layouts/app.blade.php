@@ -19,16 +19,16 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav" style="margin-left: -40px;">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('home') }}">Available Jobs</a>
+                        <a class="nav-link {{ Route::is('home') ? 'active' : '' }}" href="{{ route('home') }}">Available Jobs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Profile</a>
+                        <a class="nav-link {{ Route::is('profile') ? 'active' : '' }}" href="#">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('about-us.index') }}">About BPO Bridge</a>
+                        <a class="nav-link {{ Route::is('about-us.index') ? 'active' : '' }}" href="{{ route('about-us.index') }}">About BPO Bridge</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link {{ Route::is('contact') ? 'active' : '' }}" href="#">Contact</a>
                     </li>
                 </ul>
                 @if (Route::has('login'))
@@ -42,8 +42,8 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                                     <li><a class="dropdown-item" href="#">Profile</a></li>
-                                    <li><a class="dropdown-item" href="#">Job applications</a></li>
-                                    <li><a class="dropdown-item" href="settings.html">Settings</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('applied-saved.index') }}">Job applications</a></li>
+                                    <li><a class="dropdown-item" href="#">Settings</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

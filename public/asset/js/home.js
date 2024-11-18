@@ -20,32 +20,22 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Close the dropdown when an item is clicked
+    // Ensure dropdown items handle clicks correctly
     document.querySelectorAll(".dropdown-item").forEach((item) => {
         item.addEventListener("click", function (event) {
-            event.preventDefault(); // Prevent the page from jumping
-            if (dropdownButton) {
-                bootstrap.Dropdown.getInstance(dropdownButton).hide(); // Close dropdown
+            const link = item.getAttribute("href");
+
+            if (link && link !== "#") {
+                return; // Let the browser navigate
+            }
+
+            event.preventDefault();
+            const dropdown = bootstrap.Dropdown.getInstance(dropdownButton);
+            if (dropdown) {
+                dropdown.hide(); // Close the dropdown
             }
         });
     });
-
-    // Updating dropdown buttons to reflect selected value
-    document
-        .querySelectorAll(".dropdown-menu a")
-        .forEach(function (dropdownItem) {
-            dropdownItem.addEventListener("click", function (e) {
-                const button = e.target
-                    .closest(".dropdown")
-                    ?.querySelector(".dropdown-toggle");
-                if (button) {
-                    button.childNodes[0].textContent =
-                        e.target.textContent + " ";
-                    e.preventDefault();
-                }
-            });
-        });
-
     // Optional: Remove clicked state after a short delay
     const searchButton = document.querySelector(".search-bar .btn");
     if (searchButton) {

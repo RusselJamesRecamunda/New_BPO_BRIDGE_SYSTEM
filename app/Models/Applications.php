@@ -16,14 +16,16 @@ class Applications extends Model
         'applicant_name',
         'applicant_email',
         'applicant_phone',
+        'applicant_location',
         'job_type',
         'job_category',
         'resume_cv',
         'cover_letter',
         'max_hires',
+        'applicant_emp_status',
         'application_status',
         'user_id',
-        'full_jobID',
+        'full_job_ID',
         'fl_jobID'
     ];
 
@@ -46,7 +48,7 @@ class Applications extends Model
     }
 
     // Relationship with Freelance Job Postings
-    public function freelanceJobPosting()
+    public function freelanceJobPosting() 
     {
         return $this->belongsTo(FreelanceJobPosting::class, 'fl_jobID');
     }

@@ -3,31 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @yield('csrf-head')
     <link rel="icon" href="{{ asset('asset/img/browser-icons/bpo_icon.png') }}">
     <title>@yield('title', 'BPO-BRIDGE')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('asset/css/navbar.css') }}">
     @yield('styles')
 </head>
 <body>
-
+ 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <img src="{{ asset('asset/img/bpo_logo.png') }}" alt="BPO Logo" style="width: 100px; height: 100px; margin: -20px 30px -20px;">
         <div class="container">
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav" style="margin-left: -40px;">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}">Available Jobs</a>
+                <li class="nav-item">
+                        <a class="nav-link {{ Route::is('home') ? 'active' : '' }}" href="{{ route('home') }}">Available Jobs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Profile</a>
+                        <a class="nav-link {{ Route::is('profile') ? 'active' : '' }}" href="#">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('about-us.index') }}">About BPO Bridge</a>
+                        <a class="nav-link {{ Route::is('about-us.index') ? 'active' : '' }}" href="{{ route('about-us.index') }}">About BPO Bridge</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link {{ Route::is('contact') ? 'active' : '' }}" href="#">Contact</a>
                     </li>
                 </ul>
                 @if (Route::has('login'))
@@ -40,9 +42,15 @@
                                     <span class="dropdown-icon">▼</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                                    <li><a class="dropdown-item" href="#">Job applications</a></li>
-                                    <li><a class="dropdown-item" href="settings.html">Settings</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Profile</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('applied-saved.index') }}">Job applications</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Settings</a>
+                                </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -52,7 +60,6 @@
                                             @csrf
                                         </form>
                                     </li> 
-
                                 </ul>
                             </li>
                         @else
@@ -79,6 +86,7 @@
         @yield('profile-content')
         @yield('about-us-content')
         @yield('job-info-content')
+        @yield('applied-saved-content')
     </main>
 
     <!-- Footer -->
@@ -105,6 +113,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <script src="{{ asset('asset/js/home.js') }}"></script>
-    @yield('scripts')
+    @yield('jobapplication-scripts')
+    @stack('save-script')
 </body>
-</html>
+</html> 

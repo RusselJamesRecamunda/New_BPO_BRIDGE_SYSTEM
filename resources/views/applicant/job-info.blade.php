@@ -7,12 +7,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 @endsection
 
 @section('job-info-content')
- <!-- Job Posting Section -->
- <div class="job-posting">
+    <!-- Job Posting Section -->
+    <div class="job-posting">
         <div class="header">
+            <!-- Dynamically display job title -->
             <h2>{{ $job->job_title ?? $job->fl_job_title }}</h2>
         </div>
 
@@ -25,34 +27,35 @@
 
         @if($job->requirements || $job->fl_requirements)
             <div class="requirements-section">
-                <h3>Requirements:</h3>
+                <!-- Display job requirements -->
                 {!! $job->requirements ?? $job->fl_requirements !!}
             </div>
         @endif
 
         @if($job->company_benefits || $job->fl_company_benefits)
             <div class="benefits-section">
-                <h3>What should you expect from us?</h3>
+                <!-- Display company benefits -->
                 <p>{!! $job->company_benefits ?? $job->fl_company_benefits !!}</p>
             </div>
         @endif
 
         <div class="footer">
+            <!-- Job type, category, location, salary, etc. -->
             <div class="icon">
                 <img src="{{ asset('asset/img/applicant/typework.png') }}" alt="Full Time">
-                <span>{{ $job->jobType->job_type_name ?? 'Unknown Job Type' }}</span> <!-- Check for jobType -->
+                <span>{{ $job->jobType->job_type_name ?? 'Unknown Job Type' }}</span> <!-- Display job type -->
             </div>
             <div class="icon">
                 <img src="{{ asset('asset/img/applicant/work.png') }}" alt="Customer Service - Call Centre">
-                <span>{{ $job->category->category_name ?? 'Unknown Category' }}</span> <!-- Check for category -->
+                <span>{{ $job->category->category_name ?? 'Unknown Category' }}</span> <!-- Display job category -->
             </div>
             <div class="icon">
                 <img src="{{ asset('asset/img/applicant/building.png') }}" alt="On-site">
-                <span>{{ $job->job_location ?? $job->fl_job_location }}</span>
+                <span>{{ $job->job_location ?? $job->fl_job_location }}</span> <!-- Display job location -->
             </div>
             <div class="icon">
                 <img src="{{ asset('asset/img/applicant/salary.png') }}" alt="18k - 20k">
-                <span><i class="fa-solid fa-peso-sign"></i> {{ $job->basic_pay ?? $job->fl_basic_pay }}</span>
+                <span><i class="fa-solid fa-peso-sign"></i> {{ $job->basic_pay ?? $job->fl_basic_pay }}</span> <!-- Display salary -->
             </div>
         </div>
 
@@ -72,10 +75,24 @@
                     Apply Now<i class="fa-solid fa-arrow-up-right-from-square ms-2"></i>
                 </button>
             @endauth
-
             <p class="application-deadline">Application ends in: <span id="countdown">3 days</span></p>
-            <p>Unsure yet? Click Save to get back to it later.</p>
-            <button class="save-btn">Save<i class="fa-regular fa-bookmark ms-2"></i></button>
+            
+            <p style="margin-bottom: 20px">Unsure yet? Click Save to get back to it later.</p>
+            @if (Auth::check())
+                <a href="javascript:void(0);" 
+                    class="save-btn text-decoration-none" 
+                    data-job-id="{{ $jobType === 'full-time' ? $job->full_job_ID : $job->fl_jobID }}" 
+                    data-job-type="{{ $jobType }}" 
+                    onclick="saveJob(this);">
+                    Save <i class="fa-regular fa-bookmark ms-2"></i>
+                </a>
+            @else
+                <a href="javascript:void(0);" 
+                    class="save-btn text-decoration-none" 
+                    onclick="alert('Please login first to save this job.');">
+                    Login to Save <i class="fa-regular fa-bookmark ms-2"></i>
+                </a>
+            @endif
         </div>
     </div>    
 
@@ -99,21 +116,13 @@
         </div>
     </div>
 @endsection
-
-@section('scripts')
+@section('applicant-scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@push('save-script')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const loginModal = document.getElementById('loginModal');
-        
-        loginModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const jobType = button.getAttribute('data-job-type');
-            const jobTitle = button.getAttribute('data-job-title');
-            const modalTitle = loginModal.querySelector('.modal-title');
-            
-            modalTitle.innerHTML = `Applying for: ${jobTitle} (${jobType.charAt(0).toUpperCase() + jobType.slice(1)})`;
-        });
-    });
+    window.csrfToken = '{{ csrf_token() }}';
+    window.saveJobRoute = '{{ route("job-info.store") }}';
 </script>
+<script src="{{ asset('asset/js/save-job.js') }}"></script>
+@endpush
 @endsection

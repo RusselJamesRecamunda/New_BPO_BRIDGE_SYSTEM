@@ -31,7 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name',    
+        'first_name',     
         'last_name',       
         'email',
         'email_verified_at',
@@ -99,6 +99,18 @@ class User extends Authenticatable implements MustVerifyEmail
     public function contract()
     { 
         return $this->hasOne(Contract::class, 'user_id'); 
+    }
+
+    // Relationship with Applications
+    public function applications()
+    {
+        return $this->hasMany(Applications::class, 'user_id');
+    }
+
+    // Relationship with SavedJobs
+    public function savedJobs()
+    {
+        return $this->hasMany(SavedJobs::class, 'user_id', 'user_id');
     }
 
 }

@@ -1,0 +1,94 @@
+/* Navbar */
+.navbar {
+    background-color: white;
+    padding: 1px;
+}
+
+.navbar .nav-link {
+    color: black;
+    position: relative; /* Necessary for the underline to be positioned */
+    transition: color 0.3s;
+}
+
+.navbar .nav-link:hover {
+    color: #0F5078;
+}
+
+/* Underline for the active link */
+.navbar .nav-link.active::before {
+    content: "";
+    display: block;
+    width: 100%; /* Matches the width of the text */
+    height: 2px;
+    background-color: #0F5078; /* Underline active tab */
+    position: absolute;
+    bottom: 0; /* Align with the bottom of the link */
+    left: 0;
+    transition: width 0.3s;
+}
+
+.navbar .nav-link {
+    position: relative; /* Ensures the ::after is positioned relative to the link */
+    text-decoration: none; /* Remove default underline */
+}
+
+.navbar .nav-link:hover::before {
+    width: 100%; /* Makes underline full-width on hover */
+}
+
+.navbar .nav-link.active {
+    color: #0F5078; /* Optional: Change the color of the active link */
+}
+
+
+/* Profile Picture */
+.navbar-nav img {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+/* Profile Dropdown */
+.navbar-nav .dropdown-toggle {
+    border: none;
+    background: none;
+    color: black;
+    padding-left: 5px;
+}
+
+.navbar-nav .dropdown-toggle:hover {
+    color: #0F5078;
+}
+
+/* Hide Bootstrap's default dropdown arrow */
+.navbar .dropdown-toggle::after {
+    display: none;
+}
+
+/* Profile Dropdown Icon (Custom Arrow) */
+.navbar .dropdown-toggle .dropdown-icon {
+    position: relative;
+    top: 10px;
+    margin-left: 25px; 
+    transition: transform 0.3s;
+    font-size: 0.8em;
+}
+
+/* Rotate icon when dropdown is open */
+.navbar .dropdown-toggle[aria-expanded="true"] .dropdown-icon {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* Style the dropdown icon */
+.dropdown-toggle .dropdown-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s; 
+}
+
+/* Rotate the arrow up when the dropdown is open */
+.dropdown-toggle[aria-expanded="true"] .dropdown-icon {
+    transform: translateY(-50%) rotate(180deg);
+}

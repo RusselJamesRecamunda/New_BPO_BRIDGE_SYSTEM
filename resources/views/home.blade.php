@@ -158,10 +158,10 @@
                     </div>
                 </div>
             @endforeach
-        </div>
+        </div> 
     </div>
 @endsection
 
-@section('scripts')
+@section('applicant-scripts')
 <script src="{{ asset('asset/js/home.js') }}"></script>
 @endsection
