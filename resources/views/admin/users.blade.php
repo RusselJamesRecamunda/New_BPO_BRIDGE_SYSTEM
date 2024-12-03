@@ -24,7 +24,7 @@
     <h2 class="mb-4 fw-bold text-primary" style="margin-top: -20px;"><i class="fa-solid fa-users-gear me-3"></i>User Management</h2>
     <div class="users-container mb-4">
         <!-- Search bar and Add New Candidate button -->
-        <div class="mb-4">
+        <div class="mb-1">
             <div class="d-flex justify-content-between align-items-center" style="margin-top: -15px">
                 <h2 class="mb-4 fw-bold text-dark">Listed Users</h2>
                 <div class="d-flex align-items-center">
@@ -75,6 +75,61 @@
                 </div>
             </div>
         </div>
+
+        <div class="row mb-5">
+            <!-- Total Session Card -->
+            <div class="col-md-3">
+                <div class="card p-3 shadow-sm">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h6 class="mb-0">Sessions</h6>
+                            <h3 class="mb-0">100</h3>
+                        </div>
+                        <canvas id="totalEmployeeChart" width="100" height="40"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Total Users Card -->
+            <div class="col-md-3">
+                <div class="card p-3 shadow-sm">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h6 class="mb-0">Overall Users</h6>
+                            <h3 class="mb-0">124</h3>
+                        </div>
+                        <canvas id="newEmployeeChart" width="100" height="40"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Active Users Card -->
+            <div class="col-md-3">
+                <div class="card p-3 shadow-sm">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h6 class="mb-0">Active Users</h6>
+                            <h3 class="mb-0">504</h3>
+                        </div>
+                        <canvas id="maleEmployeeChart" width="100" height="40"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Suspended Users Card -->
+            <div class="col-md-3">
+                <div class="card p-3 shadow-sm">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h6 class="mb-0">Suspended</h6>
+                            <h3 class="mb-0">110</h3>
+                        </div>
+                        <canvas id="femaleEmployeeChart" width="100" height="40"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
 
         <!-- User Management Table -->
         <div id="user-management-section" class="table-responsive" style="margin-top: -30px;">
@@ -169,6 +224,62 @@
 @endsection
 
 @section('scripts')
+<!-- Include Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  // Generate ordered data for compact charts
+function generateCompactData() {
+    // Array of ascending values from small to high
+    return [10, 20, 30, 40, 50];
+}
+
+// Initialize a compact chart
+function initializeCompactChart(ctx, color) {
+    return new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Array.from({ length: 4 }, (_, i) => i + 1),
+            datasets: [{
+                label: 'Data',
+                backgroundColor: color,
+                borderColor: color,
+                data: generateCompactData(),
+            }]
+        },
+        options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 1000 // Animation duration only on load
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    display: false
+                },
+                x: {
+                    display: false
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            layout: {
+                padding: 0
+            }
+        }
+    });
+}
+
+// Initialize charts for each card only once on page load
+const totalEmployeeChart = initializeCompactChart(document.getElementById('totalEmployeeChart'), 'rgba(54, 162, 235, 1)');
+const newEmployeeChart = initializeCompactChart(document.getElementById('newEmployeeChart'), 'rgba(75, 192, 192, 1)');
+const maleEmployeeChart = initializeCompactChart(document.getElementById('maleEmployeeChart'), 'rgba(153, 102, 255, 1)');
+const femaleEmployeeChart = initializeCompactChart(document.getElementById('femaleEmployeeChart'), 'rgba(255, 159, 64, 1)');
+</script>
 <script>
     // Pass Laravel variables to JavaScript
     const csrfToken = '{{ csrf_token() }}';

@@ -22,8 +22,8 @@ class JobsController extends Controller
 
         if ($forHome) {
             // Data specific to the home view
-            $freelanceJobs = FreelanceJobPosting::orderBy('creation_date', 'desc')->take(2)->get();
-            $fullTimeJobs = FullTimeJobPosting::orderBy('creation_date', 'desc')->take(2)->get(); // Order by creation_date
+            $freelanceJobs = FreelanceJobPosting::orderBy('creation_date', 'desc')->take(5)->get();
+            $fullTimeJobs = FullTimeJobPosting::orderBy('creation_date', 'desc')->take(5)->get(); // Order by creation_date
 
             return view('home', compact('freelanceJobs', 'fullTimeJobs', 'categories', 'jobTypes'));
         } else {
@@ -47,7 +47,7 @@ class JobsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage. 
      */
     public function store(Request $request)
     {

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\FullTimeJobPosting;
+use App\Models\FreelanceJobPosting;
 
 class OverviewJobController extends Controller
 {
@@ -35,9 +37,22 @@ class OverviewJobController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id, Request $request)
     {
-        //
+        // Get job type from the query string
+        $jobType = $request->query('type');
+
+        // Fetch job based on the type and ID
+        if ($jobType === 'full-time') {
+            $job = FullTimeJobPosting::with('category', 'jobType')->where('full_job_ID', $id)->firstOrFail();
+        } elseif ($jobType === 'freelance') {
+            $job = FreelanceJobPosting::with('category', 'jobType')->where('fl_jobID', $id)->firstOrFail();
+        } else {
+            abort(404);
+        }
+
+        // Pass both job and jobType to the view
+        return view('admin.overview-job', compact('job', 'jobType'));
     }
 
     /**

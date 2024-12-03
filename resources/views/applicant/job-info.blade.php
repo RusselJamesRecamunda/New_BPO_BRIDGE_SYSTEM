@@ -13,14 +13,9 @@
 @section('job-info-content')
     <!-- Job Posting Section -->
     <div class="job-posting">
-        <div class="header">
-            <!-- Dynamically display job title -->
-            <h2>{{ $job->job_title ?? $job->fl_job_title }}</h2>
-        </div>
-
         @if($job->job_title || $job->fl_job_title)
-            <div class="role-section">
-                <h3>Your Role as a {{ $job->job_title ?? $job->fl_job_title }}</h3>
+            <div class="header">
+                <h2>Your Role as a {{ $job->job_title ?? $job->fl_job_title }}</h2>
                 <p>{!! $job->job_description ?? $job->fl_job_description !!}</p>
             </div>
         @endif
@@ -62,7 +57,14 @@
         <div class="call-to-action">
             <p>Ready to Start Your Journey?</p>
             <p style="margin-bottom: 20px">Apply now and take the first step towards a fulfilling career at <strong>BPO-BRIDGE™</strong>.</p>
-            
+            @if (session('error'))
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        alert("{{ session('error') }}");
+                    });
+                </script>
+            @endif
+
             @auth
                 <a href="{{ route('application-form.show', ['application_form' => $job->full_job_ID ?? $job->fl_jobID, 'type' => $job->full_job_ID ? 'full-time' : 'freelance']) }}" class="apply-btn text-decoration-none">Apply Now<i class="fa-solid fa-arrow-up-right-from-square ms-2"></i></a>
             @else

@@ -49,6 +49,20 @@ class ApplicationFormController extends Controller
         if (!$jobType || !$jobId) {
             return redirect()->back()->with('error', 'Job Type and Job ID are required.');
         }
+
+         // Check if the user has already applied for this job
+    $existingApplication = Applications::where('user_id', $user->user_id)
+    ->where(function ($query) use ($jobType, $jobId) {
+        if ($jobType === 'full-time') {
+            $query->where('full_job_ID', $jobId);
+        } elseif ($jobType === 'freelance') {
+            $query->where('fl_jobID', $jobId);
+        }
+    })->first();
+
+if ($existingApplication) {
+    return redirect()->back()->with('error', 'You have already applied for this job.');
+}
     
         // Variables for job type and category names
         $jobTypeName = '';
@@ -118,9 +132,12 @@ class ApplicationFormController extends Controller
      */
     public function show($application_form, Request $request)
     {
-        $jobType = $request->query('type'); // Get the job type from the query string
-    
+        // Get the job type from the query string
+        $jobType = $request->query('type');
+        $user = Auth::user(); // Get the logged-in user
+
         // Fetch the job based on the application_form (job_id)
+        $job = null;
         if ($jobType === 'full-time') {
             $job = FullTimeJobPosting::where('full_job_ID', $application_form)->firstOrFail();
         } elseif ($jobType === 'freelance') {
@@ -128,9 +145,28 @@ class ApplicationFormController extends Controller
         } else {
             return abort(404); // If type is invalid
         }
-    
+
+        // Check if the user has already applied for this job
+        if ($user) {
+            $existingApplication = Applications::where('user_id', $user->user_id)
+                ->where(function ($query) use ($jobType, $application_form) {
+                    if ($jobType === 'full-time') {
+                        $query->where('full_job_ID', $application_form);
+                    } elseif ($jobType === 'freelance') {
+                        $query->where('fl_jobID', $application_form);
+                    }
+                })->first();
+
+            if ($existingApplication) {
+                // Redirect back with an error message
+                return redirect()->back()->with('error', 'You have already applied for this job.');
+            }
+        }
+
+        // Return the application form view if no application exists
         return view('applicant.application-form', compact('job', 'jobType'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

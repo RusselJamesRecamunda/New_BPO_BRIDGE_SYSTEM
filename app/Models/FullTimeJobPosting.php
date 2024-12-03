@@ -30,6 +30,7 @@ class FullTimeJobPosting extends Model
         'company_benefits',
         'max_hires',
         'job_photo',
+        'job_status',
         'keywords',
         'creation_date',
     ];
@@ -51,7 +52,7 @@ class FullTimeJobPosting extends Model
     // Relationship with Applications
     public function applications()
     {
-        return $this->hasMany(Applications::class, 'full_jobID');
+        return $this->hasMany(Applications::class,'full_job_ID'. 'full_jobID');
     }
 
     // Relationship with SavedJobs

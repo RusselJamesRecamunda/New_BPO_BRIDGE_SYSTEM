@@ -31,6 +31,7 @@ class FreelanceJobPosting extends Model
         'max_hires',
         'job_duration',
         'job_photo',
+        'job_status',
         'keywords',
         'creation_date',
     ];
@@ -52,7 +53,7 @@ class FreelanceJobPosting extends Model
     // Relationship with Applications
     public function applications()
     {
-        return $this->hasMany(Applications::class, 'fl_jobID');
+        return $this->hasMany(Applications::class, 'fl_jobID', 'fl_jobID');
     }
 
     // Relationship with SavedJobs

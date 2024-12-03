@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('asset/img/browser-icons/bpo_icon.png') }}">
     <title>@yield('title', 'BPO Job Listings')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -24,9 +25,9 @@
                     <li class="nav-item">
                         <a class="nav-link {{ Route::is('profile') ? 'active' : '' }}" href="#">Profile</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link {{ Route::is('about-us.index') ? 'active' : '' }}" href="{{ route('about-us.index') }}">About BPO Bridge</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link {{ Route::is('contact') ? 'active' : '' }}" href="#">Contact</a>
                     </li>
@@ -42,7 +43,7 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                                     <li><a class="dropdown-item" href="#">Profile</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('applied-saved.index') }}">Job applications</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('applied-saved.index', ['tab' => 'applied']) }}">Job applications</a></li>
                                     <li><a class="dropdown-item" href="#">Settings</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>

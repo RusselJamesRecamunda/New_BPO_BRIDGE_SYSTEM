@@ -29,6 +29,20 @@
 .status-select option {
     font-weight: bold;
 }
+.status-select option[value="Scheduled"] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.status-select option[value="In Process"] {
+    background-color: #FFC107;
+    color: white;
+}
+
+.status-select option[value="Rejected"] {
+    background-color: #F44336;
+    color: white;
+}
 
 /* Button styles */
 .btn-primary {
@@ -44,21 +58,25 @@
 }
 
 .export-buttons {
-    display: flex;
-    gap: 10px;
+    margin-left: 10px;
+    display: inline-flex;
+    align-items: center;
+    order: 1; /* Ensures the button stays on the right side */
 }
 
 .export-button {
-    background-color: #0F5078;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 12px;
+    background-color: #0f5078;
     color: white;
     border: none;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .export-button:hover {
-    background-color: #0C3E5A;
+    background-color: #075c84;
 }
 
 /* Table styles */
@@ -71,7 +89,6 @@ table th, table td {
  .custom-tabs {
     display: flex;
     gap: 20px;
-    margin-top: 20px;
     padding-bottom: 5px;
     border-bottom: 1px solid #ccc;
 }
@@ -101,4 +118,10 @@ table th, table td {
 
 .custom-tab:hover::after, .custom-tab.active::after {
     width: 100%;
+}
+ 
+/* Add this CSS to style the placeholder text */
+.dataTables_filter input::placeholder {
+    color: #0c436d; /* Set the placeholder color */
+    font-weight: 600; /* Set the font weight of the placeholder */
 }

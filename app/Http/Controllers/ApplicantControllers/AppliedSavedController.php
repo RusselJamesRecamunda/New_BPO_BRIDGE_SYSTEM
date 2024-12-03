@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ApplicantControllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SavedJobs;
+use App\Models\Applications;
 use Illuminate\Support\Facades\Auth;
 
 class AppliedSavedController extends Controller
@@ -14,14 +15,17 @@ class AppliedSavedController extends Controller
      */
     public function index()
     {
-        // Get the saved jobs for the logged-in user
-        $savedJobs = SavedJobs::where('user_id',  Auth::id())
-            ->with(['fullTimeJob', 'freelanceJob']) // Eager load relationships
+        $savedJobs = SavedJobs::where('user_id', Auth::id())
+            ->with(['fullTimeJob', 'freelanceJob'])
             ->get();
 
-        // Pass saved jobs to the view
-        return view('applicant.applied-saved', compact('savedJobs'));
+        $appliedJobs = Applications::where('user_id', Auth::id())
+            ->with(['fullTimeJobPosting', 'freelanceJobPosting'])
+            ->get();
+
+        return view('applicant.applied-saved', compact('savedJobs', 'appliedJobs'));
     }
+
     
 
     /**
@@ -67,15 +71,18 @@ class AppliedSavedController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, $id = null)
     {
-        // Validate the request to ensure the save_ID is provided
-        $request->validate([
-            'save_ID' => 'required|exists:saved_jobs,save_ID',
-        ]);
+        // If $id is provided via the URL, use it, otherwise fallback to request input
+        $save_ID = $id ?? $request->input('save_ID');
     
-        // Find and delete the saved job
-        $savedJob = SavedJobs::find($request->save_ID);
+        // Validate save_ID
+        if (!$save_ID) {
+            return response()->json(['success' => false, 'message' => 'Missing save_ID!'], 400);
+        }
+    
+        // Check if the job exists and delete it
+        $savedJob = SavedJobs::find($save_ID);
     
         if ($savedJob) {
             $savedJob->delete();
@@ -84,5 +91,4 @@ class AppliedSavedController extends Controller
     
         return response()->json(['success' => false, 'message' => 'Job not found!'], 404);
     }
-    
 }

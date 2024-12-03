@@ -24,6 +24,7 @@ class Applications extends Model
         'max_hires',
         'applicant_emp_status',
         'application_status',
+        'list_status',
         'user_id',
         'full_job_ID',
         'fl_jobID'
@@ -44,12 +45,12 @@ class Applications extends Model
     // Relationship with Full-time Job Postings
     public function fullTimeJobPosting()
     {
-        return $this->belongsTo(FullTimeJobPosting::class, 'full_jobID');
+        return $this->belongsTo(FullTimeJobPosting::class, 'full_job_ID', 'full_job_ID');
     }
 
     // Relationship with Freelance Job Postings
-    public function freelanceJobPosting() 
+    public function freelanceJobPosting()
     {
-        return $this->belongsTo(FreelanceJobPosting::class, 'fl_jobID');
+        return $this->belongsTo(FreelanceJobPosting::class, 'fl_jobID', 'fl_jobID');
     }
 }

@@ -10,13 +10,13 @@
     <!-- Notification Bell and Profile Dropdown -->
     <div class="d-flex align-items-center">
         <!-- Notification Bell -->
-        <button class="btn btn-outline-primary me-3" type="button">
+        <!-- <button class="btn btn-outline-primary me-3" type="button">
             <i class="fas fa-bell"></i>
-        </button>
+        </button> -->
         <!-- Profile Dropdown -->
         <div class="dropdown">
             <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle fw-bold" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{{ asset('asset/img/logo.png') }}" alt="Profile Picture" width="40" height="40" class="rounded-circle me-2">
+                <img src="{{ asset('asset/img/browser-icons/bpo_icon.png') }}" alt="Profile Picture" width="40" height="40" class="rounded-circle me-2">
                 <span>{{ Auth::user()->first_name }}</span> <!-- Display first_name here -->
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown" style="font-family: 'Poppins', sans-serif;">

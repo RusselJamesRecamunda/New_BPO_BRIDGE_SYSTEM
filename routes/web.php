@@ -107,6 +107,10 @@ Route::prefix('admin')->group(function () {
     Route::resource('overview-job', OverviewJobController::class);
     Route::resource('job-posting', JobPostingController::class);
     Route::resource('applications', ApplicationsController::class);
+    // Custom updateStatus route
+    Route::patch('applications/{application}/updateStatus', [ApplicationsController::class, 'updateStatus'])->name('applications.updateStatus');
+    // Define the route for exporting applications
+    Route::get('/admin/applications/export', [ApplicationsController::class, 'exportApplications'])->name('applications.exportApplications');
 
     // Users View and Controller
     Route::resource('users', ManageUsersController::class);

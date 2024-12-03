@@ -32,6 +32,23 @@
         .card {
             height: 100%;
         }
+
+          /* Container with background color */
+  .all-jobs-container {
+    background-color: #D9D9D9;
+    padding: 20px;
+    border-radius: 8px;
+    height: 193vh; /* Ensure this height is dynamic based on viewport or desired fixed size */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar for IE/Edge */
+}
+
+/* Hide scrollbar for WebKit-based browsers (Chrome, Safari, etc.) */
+.all-jobs-container::-webkit-scrollbar {
+    display: none;
+}
     </style>
 @endsection
 
@@ -39,15 +56,8 @@
     <!-- Top Bar -->
     @include('components.topbar')
 
-     <!-- Post Job Button Row -->
-    <div class="mb-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <button class="btn btn-primary" type="button" data-url="{{ route('job-posting.index') }}" id="jobPostingButton"><i class="fa-solid fa-circle-plus me-2"></i>Post New Job</button>
-        </div>
-    </div> 
-
+<div class="all-jobs-container mb-4">
    <!-- Job Cards Display -->
-
     <div class="row">
         <!-- Loop through Full-Time Job Postings -->
         @foreach($fullTimeJobs as $job)
@@ -70,15 +80,15 @@
                             </div>
                         </div>
                         <p class="card-text">PHP {{ $job->basic_pay }}</p>
-                        <p class="card-text">{{ Str::limit($job->job_description, 100, '...') }}</p>
+                        <p class="card-text">{!! Str::limit($job->job_description, 100, '...') !!}</p>
                         <p class="job-posted">{{ $job->creation_date->diffForHumans() }}</p>
                         <p class="card-text fw-bold">Opening Jobs (0/{{ $job->max_hires }})</p>
                         <div class="progress mb-3">
                             <div class="progress-bar bg-primary" style="width: 0%;"></div>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-auto">
-                            <button class="btn btn-primary" type="button" data-url="{{ route('overview-job.index') }}" id="overviewButton">
-                                <i class="fa-solid fa-eye me-3"></i>View List
+                            <button class="btn btn-primary" type="button" data-url="{{ route('overview-job.show', ['overview_job' => $job->full_job_ID, 'type' => 'full-time']) }}" id="overviewButton">
+                            <i class="fa-solid fa-eye me-2"></i>View Job
                             </button>
                             <p class="text-muted mb-0">
                                 <small><i class="fas fa-map-marker-alt"></i> {{ $job->job_location }}</small>
@@ -118,8 +128,8 @@
                             <div class="progress-bar bg-primary" style="width: 0%;"></div>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-auto">
-                            <button class="btn btn-primary" type="button" data-url="{{ route('overview-job.index') }}" id="overviewButton">
-                                <i class="fa-solid fa-eye me-3"></i>View List
+                            <button class="btn btn-primary" type="button" data-url="{{ route('overview-job.show', ['overview_job' => $job->fl_jobID, 'type' => 'freelance']) }}" id="overviewButton">
+                            <i class="fa-solid fa-eye me-2"></i>View Job
                             </button>
                             <p class="text-muted mt-2">
                                 <small><i class="fas fa-map-marker-alt"></i> {{ $job->fl_job_location }}</small>
@@ -130,8 +140,7 @@
             </div>
         @endforeach
     </div>
-
-
+</div>
 @endsection
 
 @section('scripts')
