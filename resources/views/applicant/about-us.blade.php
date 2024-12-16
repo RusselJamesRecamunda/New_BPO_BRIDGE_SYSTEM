@@ -9,6 +9,15 @@
 @endsection 
 
 @section('about-us-content')
+    <!-- Catalog Banner -->
+    <div class="catalog-banner d-flex flex-column justify-content-center align-items-center">
+            <h1 class="mt-1">About Us</h1>
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+    </div>
+
     <!-- About Us Section -->
     <div class="about-content container my-5">
         <h2 class="text-center">About BPO Bridge</h2>

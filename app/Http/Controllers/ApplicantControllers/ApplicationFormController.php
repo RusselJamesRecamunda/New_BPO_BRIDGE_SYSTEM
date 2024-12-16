@@ -103,7 +103,7 @@ if ($existingApplication) {
     
         // Store the application data in the applications table
         Applications::create([
-            'app_date' => now(),
+            'app_date' => Carbon::now(),
             'applicant_name' => $request->input('firstName') . ' ' . $request->input('lastName'),
             'applicant_email' => $request->input('email'),
             'applicant_phone' => $request->input('phone'),
@@ -113,7 +113,7 @@ if ($existingApplication) {
             'job_category' => $categoryName,
             'resume_cv' => $resumePath,
             'cover_letter' => $coverLetterPath,
-            'application_status' => 'In Process',
+            'application_status' => 'Pending',
             'user_id' => $user->user_id,
             'full_job_ID' => $jobType === 'full-time' ? $jobId : null, // Assign based on jobType
             'fl_jobID' => $jobType === 'freelance' ? $jobId : null,   // Assign based on jobType

@@ -13,6 +13,7 @@ class Interviews extends Model
 
     protected $fillable = [
         'admin_id',
+        'candidate_id',
         'candidate_name',
         'applied_job',
         'interview_mode',
@@ -20,7 +21,8 @@ class Interviews extends Model
         'phone',
         'interview_date',
         'interview_time',
-        'zoom_link'
+        'virtual_meet_link',
+        'onsite_phone',
     ];
 
     // Relationship with Admin Information (admin)
@@ -33,5 +35,11 @@ class Interviews extends Model
     public function interviewResults()
     {
         return $this->hasMany(InterviewResults::class, 'interview_id');
+    }
+
+    // Relationship with Job Candidates
+    public function jobCandidate()
+    {
+        return $this->belongsTo(JobCandidates::class, 'candidate_id', 'candidate_id');
     }
 }

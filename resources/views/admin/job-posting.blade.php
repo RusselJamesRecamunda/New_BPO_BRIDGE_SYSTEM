@@ -10,74 +10,15 @@
 @section('styles')
     <!-- Add additional styles specific to this view here -->
     <link rel="stylesheet" href="{{ asset('asset/css/job_posting.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <style>
-        /* Custom Flatpickr Styles */
-.flatpickr-calendar {
-    border: 1px solid #ddd;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.flatpickr-day.today {
-    color: #007bff;
-    font-weight: bold;
-}
-
-.flatpickr-day.selected {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.flatpickr-day:hover, .flatpickr-day:focus {
-    background-color: #007bff20;
-    color: #007bff;
-}
-
-.flatpickr-month {
-    font-weight: bold;
-}
-
-.flatpickr-weekday {
-    color: #333;
-}
-
-.flatpickr-monthDropdown-months, .flatpickr-next-month, .flatpickr-prev-month {
-    color: #007bff;
-}
-
-.flatpickr-day.disabled, .flatpickr-day.nextMonthDay, .flatpickr-day.prevMonthDay {
-    color: #ccc;
-}
-
-button.flatpickr-clear, button.flatpickr-close {
-    color: #dc3545;
-}
-
-/* Ensure the input fields have a visible border and no white hover effect */
-.input-group .form-control {
-    border: 1px solid #ced4da; /* Border color */
-    box-shadow: none; /* Remove any unwanted shadow effect */
-}
-
-.input-group .form-control:focus {
-    border-color: #80bdff; /* Border color on focus */
-    box-shadow: 0 0 0 0.25rem rgba(38, 143, 255, 0.5); /* Add focus shadow */
-}
-
-.input-group .input-group-text {
-    background-color: #fff; /* Ensure the background of the calendar icon is not white */
-    border: 1px solid #ced4da; /* Match the border color of the input field */
-}
-
-.input-group .form-control:focus + .input-group-text {
-    border-color: #80bdff; /* Make sure the calendar icon's border color changes on focus */
-}
-    </style>
 @endsection
  
 @section('job-posting-content')
         <!-- Top Bar -->
         @include('components.topbar')
+
+        <a href="{{ route('jobs.index') }}" class="text-decoration-none text-primary d-inline-flex align-items-center mb-2 fs-5">
+            <i class="fa-solid fa-arrow-left-long me-2"></i>Back To Manage Jobs
+        </a>
 
         <h2 class="mb-3 text-primary"><i class="fa-solid fa-pen-to-square me-3" ></i>Job Posting Section</h2>
             <!-- Job Posting Form -->

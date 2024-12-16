@@ -70,13 +70,13 @@
                             $fullTimePhotoPath = $job->job_photo ? asset($job->job_photo) : null; 
                         @endphp
                         @if($fullTimePhotoPath)
-                            <img src="{{ $fullTimePhotoPath }}" alt="Company Logo" style="width: 100px;">
+                            <img src="{{ $fullTimePhotoPath }}" alt="Company Logo" style="width: 80px;">
                         @else
                             <span>No image available</span>
                         @endif 
                             <div>
-                                <h5 class="card-title">{{ $job->job_title }}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">{{ $categories[$job->category_id]->category_name ?? 'Uncategorized' }}</h6>
+                                <h5 class="card-title text-center">{{ $job->job_title }}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted text-center">{{ $categories[$job->category_id]->category_name ?? 'Uncategorized' }}</h6>
                             </div>
                         </div>
                         <p class="card-text">PHP {{ $job->basic_pay }}</p>
@@ -112,13 +112,13 @@
                             $freelancePhotoPath = $job->job_photo ? asset($job->job_photo) : null; 
                         @endphp
                         @if($freelancePhotoPath)
-                            <img src="{{ $freelancePhotoPath }}" alt="Company Logo" style="width: 50px;">
+                            <img src="{{ $freelancePhotoPath }}" alt="Company Logo" style="width: 80px;">
                         @else 
                             <span>No image available</span>
                         @endif
                             <div>
-                                <h5 class="card-title">{{ $job->fl_job_title }}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">{{ $categories[$job->fl_category_id]->category_name ?? 'Uncategorized' }}</h6>
+                                <h5 class="card-title text-center">{{ $job->fl_job_title }}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted text-center">{{ $categories[$job->fl_category_id]->category_name ?? 'Uncategorized' }}</h6>
                             </div>
                         </div>
                         <p class="card-text">PHP {{ $job->fl_basic_pay }}</p>

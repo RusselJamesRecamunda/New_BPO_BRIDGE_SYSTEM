@@ -53,7 +53,7 @@
                             <th>Applicant Name</th>
                             <th>Applied For</th>
                             <th>Applied On</th>
-                            <th>Salary</th>
+                            <th>Starting Salary</th>
                             <th>Address</th>
                             <th>Job Type</th>
                             <th>Application Status</th>
@@ -75,7 +75,7 @@
                                     @method('PATCH')
                                     <select class="status-select badge-{{ strtolower(str_replace(' ', '-', $application->application_status)) }}" name="status" onchange="this.form.submit()">
                                         <option value="Scheduled" @if($application->application_status == 'Scheduled') selected @endif class="badge-scheduled">Scheduled</option>
-                                        <option value="In Process" @if($application->application_status == 'In Process') selected @endif class="badge-in-process">In Process</option>
+                                        <option value="Pending" @if($application->application_status == 'Pending') selected @endif class="badge-pending">Pending</option>
                                         <option value="Rejected" @if($application->application_status == 'Rejected') selected @endif class="badge-rejected">Rejected</option>
                                     </select>
                                 </form>

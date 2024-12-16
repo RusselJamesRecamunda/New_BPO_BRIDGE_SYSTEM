@@ -40,7 +40,9 @@ document.addEventListener("DOMContentLoaded", function () {
             let candidateName = arg.event.title;
             let appliedJob = arg.event.extendedProps.applied_job || "";
             let interviewMode = arg.event.extendedProps.interview_mode || "";
-            let zoomLink = arg.event.extendedProps.zoom_link || "";
+            let virtualmeetLink =
+                arg.event.extendedProps.virtual_meet_link || "";
+            let onsitePhone = arg.event.extendedProps.onsite_phone || "";
 
             let html = `
                 <div>
@@ -49,10 +51,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     <span>${appliedJob}</span><br>
                     <em>${interviewMode}</em><br>
                     ${
-                        zoomLink
-                            ? `<a class="text-success text-decoration-none fw-bold" href="${zoomLink}" target="_blank">Zoom Meeting Link</a>`
+                        virtualmeetLink
+                            ? `<a class="text-success text-decoration-none fw-bold" href="${virtualmeetLink}" target="_blank"><i class="fi fi-rs-arrow-up-right-from-square ms-1"></i> Meeting Link</a>`
                             : ""
-                    }                    
+                    }
+                    ${
+                        onsitePhone
+                            ? `<strong><i class="fi fi-rs-location-pin-call ms-1"></i> ${onsitePhone}</strong><br> `
+                            : ""
+                    }               
                 </div>
             `;
 
@@ -76,7 +83,10 @@ document.addEventListener("DOMContentLoaded", function () {
             );
             $("#email").val(info.event.extendedProps.email || "");
             $("#phone").val(info.event.extendedProps.phone || "");
-            $("#zoom_link").val(info.event.extendedProps.zoom_link || "");
+            $("#virtual_meet_link").val(
+                info.event.extendedProps.virtual_meet_link || ""
+            );
+            $("#onsite_phone").val(info.event.extendedProps.onsite_phone || "");
             $("#interview_date").val(
                 info.event.start.toISOString().split("T")[0]
             );
@@ -215,7 +225,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                   interview_mode: interview.interview_mode,
                                   email: interview.email,
                                   phone: interview.phone,
-                                  zoom_link: interview.zoom_link,
+                                  virtual_meet_link:
+                                      interview.virtual_meet_link,
+                                  onsite_phone: interview.onsite_phone,
                               },
                           };
                       })
@@ -232,7 +244,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                   interview_mode: interview.interview_mode,
                                   email: interview.email,
                                   phone: interview.phone,
-                                  zoom_link: interview.zoom_link,
+                                  virtual_meet_link:
+                                      interview.virtual_meet_link,
+                                  onsite_phone: interview.onsite_phone,
                               },
                           };
                       })
@@ -252,7 +266,8 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#interviewForm")[0].reset();
         $("#interview_date").val(startDate.split("T")[0]);
         $("#interview_time").val("09:00");
-        $("#zoom_link").show();
+        $("#virtual_meet_link").show();
+        $("#onsite_phone").show();
 
         $("#interviewForm")
             .off("submit")
@@ -310,7 +325,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 interview_mode: newEventData.interview_mode,
                 email: newEventData.email,
                 phone: newEventData.phone,
-                zoom_link: newEventData.zoom_link,
+                virtual_meet_link: newEventData.virtual_meet_link,
+                onsite_phone: newEventData.onsite_phone,
             },
         };
         calendar.addEvent(newEvent); // Add new event directly to the calendar

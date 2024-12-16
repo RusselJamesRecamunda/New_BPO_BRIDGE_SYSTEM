@@ -8,6 +8,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('asset/css/shares.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/@flaticon/flaticon-uicons/css/all/all.css" rel="stylesheet">
     <link rel="stylesheet" href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.css" />
@@ -111,58 +112,73 @@
                         <!-- First Row: Candidate Name & Applied Job -->
                         <div class="row">
                             <div class="col-md-6">
+                                <!-- Dropdown for Candidate Name -->
                                 <div class="form-group">
                                     <label for="candidate_name">Candidate Name *</label>
-                                    <input type="text" id="candidate_name" name="candidate_name" class="form-control" required>
+                                    <select id="candidate_name" name="candidate_name" class="form-control" required>
+                                        <option value="">Select Candidate</option>
+                                        @foreach($qualifiedCandidates as $candidate)
+                                            <option value="{{ $candidate->candidate_id }}">{{ $candidate->candidate_name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="applied_job">Applied Job *</label>
-                                    <input type="text" id="applied_job" name="applied_job" class="form-control" required>
+                                    <input type="text" id="applied_job" name="applied_job" class="form-control" readonly>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Second Row: Interview Mode  -->
+                        <!-- Second Row: Email & Phone -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">Candidate Email *</label>
+                                    <input type="email" id="email" name="email" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">Candidate Phone *</label>
+                                    <input type="text" id="phone" name="phone" class="form-control" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Third Row: Interview Mode  -->
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="interview_mode">Interview Mode *</label>
                                     <select id="interview_mode" name="interview_mode" class="form-control" required>
                                         <option value="" disabled selected>Select Interview Mode</option>
-                                        <option value="Zoom">Zoom</option>
-                                        <option value="In-Person">In-Person</option>
-                                        <option value="Phone">Phone</option>
+                                        <option value="Virtual Meeting">Virtual Meeting</option>
+                                        <option value="Onsite">Onsite</option>
+                                        <option value="Phone Screening">Phone Screening</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="zoom_link">Upload Meeting Link</label>
-                                    <input type="zoom_link" id="zoom_link" name="zoom_link" class="form-control">
+                                    <label for="virtual_meet_link">Upload Meeting Link</label>
+                                    <input type="virtual_meet_link" id="virtual_meet_link" name="virtual_meet_link" class="form-control">
                                 </div>
                             </div>
                         </div>
-        
-                        <!-- Third Row: Email & Phone -->
+
+                        <!-- Fourth Row: Interview Phone or Onsite Location -->
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="email">Email *</label>
-                                    <input type="email" id="email" name="email" class="form-control" required>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="phone">Phone *</label>
-                                    <input type="text" id="phone" name="phone" class="form-control" required>
+                                    <label for="onsite_phone">Onsite or Phone Interview Details </label>
+                                    <input type="text" id="onsite_phone" name="onsite_phone" class="form-control">
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Fourth Row: Interview Time & Date -->
+                        <!-- Fifth Row: Interview Time & Date -->
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -200,4 +216,45 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('asset/js/interviews.js') }}"></script>
+<script>
+document.getElementById('candidate_name').addEventListener('change', function () {
+    const candidateId = this.value;
+
+    if (candidateId) {
+        // Use the correct route to call the show method via interviews.show
+        const url = `{{ route('interviews.show', ':candidateId') }}`.replace(':candidateId', candidateId);
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Check for errors in the response
+            if (data.error) {
+                alert(data.error);
+                document.getElementById('applied_job').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('phone').value = '';
+                return;
+            }
+
+            // Populate the fields with candidate details
+            document.getElementById('applied_job').value = data.applied_job;
+            document.getElementById('email').value = data.candidate_email;
+            document.getElementById('phone').value = data.candidate_phone;
+        })
+        .catch(error => {
+            console.error('Error fetching candidate details:', error);
+        });
+    } else {
+        // Clear fields if no candidate is selected
+        document.getElementById('applied_job').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('phone').value = '';
+    }
+});
+</script>
 @endsection

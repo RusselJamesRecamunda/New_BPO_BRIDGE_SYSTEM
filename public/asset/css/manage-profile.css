@@ -1,7 +1,7 @@
 
 .catalog-banner {
     position: relative;
-    padding: 50px 5px;
+    padding: 30px 5px;
     background: linear-gradient(90deg, #0F5078, #084a67);
     color: white;
     text-align: center;
@@ -82,39 +82,85 @@
     right: 10%;
 }
 
-
-.about-content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 15px; /* Add padding for small screens */
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
+.profile img {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
 }
 
-.about-content h2, .about-content h3 {
-    font-weight: bold;
-    color: #06446B;
+.custom-btn {
+    background-color: #0F5078;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.about-content h2 {
-    font-size: 2rem; /* Adjust for responsive font size */
-    margin-bottom: 20px;
+.custom-btn:hover {
+    background-color: #084a67;
 }
 
-.about-content h3 {
-    font-size: 1.5rem; /* Adjust for responsive font size */
-    margin-top: 30px;
+
+
+
+/* Profile Form Section */
+.form-section {
+    overflow-x: hidden;  /* Prevent horizontal scrolling */
+    padding-right: 15px;  /* Add padding to the right to prevent cutoff */
 }
 
-.about-content p, .about-content ul li {
-    color: #333333;
+/* Ensure content doesn't overflow and adjust margins */
+.profile .row {
+    margin-right: 0;
+    margin-left: 0;
 }
 
-.about-content ul {
-    padding-left: 200px;
+/* Make the form elements responsive */
+.form-row {
+    margin-bottom: 1rem;
 }
 
-.about-content ul li {
-    margin-bottom: 10px;
-    list-style-type: disc;
+.form-group {
+    margin-bottom: 1rem;
 }
+
+
+/* Small text and labels */
+.small.text-uppercase {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Authentication Section */
+h5.mt-4 {
+    font-size: 1.25rem;
+    margin-top: 1rem;
+}
+
+.text-primary {
+    color: #0F5078 !important;
+}
+
+/* Ensure the page doesn't overflow */
+html, body {
+    overflow-x: hidden;
+}
+
+/* Responsive Layout for small screens */
+@media (max-width: 768px) {
+    .col-md-8 {
+        width: 100%;
+    }
+
+    .col-md-4 {
+        width: 100%;
+        text-align: center;
+    }
+
+    .form-section {
+        padding-right: 10px;
+    }
+}
+

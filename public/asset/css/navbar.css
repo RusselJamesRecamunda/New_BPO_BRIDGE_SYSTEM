@@ -1,94 +1,94 @@
 /* Navbar */
 .navbar {
-    background-color: white;
-    padding: 1px;
+    background-color: white !important;
+    padding: 1px !important;
 }
 
 .navbar .nav-link {
-    color: black;
+    color: black !important;
     position: relative; /* Necessary for the underline to be positioned */
-    transition: color 0.3s;
+    transition: color 0.3s !important;
 }
 
 .navbar .nav-link:hover {
-    color: #0F5078;
+    color: #0F5078 !important;
 }
 
 /* Underline for the active link */
 .navbar .nav-link.active::before {
-    content: "";
-    display: block;
+    content: "" !important; 
+    display: block !important;
     width: 100%; /* Matches the width of the text */
-    height: 2px;
+    height: 2px !important;
     background-color: #0F5078; /* Underline active tab */
-    position: absolute;
-    bottom: 0; /* Align with the bottom of the link */
-    left: 0;
-    transition: width 0.3s;
+    position: absolute !important;
+    bottom: 0 !important; /* Align with the bottom of the link */
+    left: 0 !important;
+    transition: width 0.3s !important;
 }
 
 .navbar .nav-link {
-    position: relative; /* Ensures the ::after is positioned relative to the link */
-    text-decoration: none; /* Remove default underline */
+    position: relative !important; /* Ensures the ::after is positioned relative to the link */
+    text-decoration: none !important; /* Remove default underline */
 }
 
 .navbar .nav-link:hover::before {
-    width: 100%; /* Makes underline full-width on hover */
+    width: 100% !important; /* Makes underline full-width on hover */
 }
 
 .navbar .nav-link.active {
-    color: #0F5078; /* Optional: Change the color of the active link */
+    color: #0F5078 !important; /* Optional: Change the color of the active link */
 }
 
 
 /* Profile Picture */
 .navbar-nav img {
-    border: none;
-    outline: none;
-    box-shadow: none;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 /* Profile Dropdown */
 .navbar-nav .dropdown-toggle {
-    border: none;
-    background: none;
-    color: black;
-    padding-left: 5px;
+    border: none !important;
+    background: none !important;
+    color: black !important;
+    padding-left: 5px !important;
 }
 
 .navbar-nav .dropdown-toggle:hover {
-    color: #0F5078;
+    color: #0F5078 !important;
 }
 
 /* Hide Bootstrap's default dropdown arrow */
 .navbar .dropdown-toggle::after {
-    display: none;
+    display: none !important;
 }
 
 /* Profile Dropdown Icon (Custom Arrow) */
 .navbar .dropdown-toggle .dropdown-icon {
-    position: relative;
-    top: 10px;
-    margin-left: 25px; 
-    transition: transform 0.3s;
-    font-size: 0.8em;
+    position: relative !important;
+    top: 10px !important;
+    margin-left: 25px !important; 
+    transition: transform 0.3s !important;
+    font-size: 0.8em !important;
 }
 
 /* Rotate icon when dropdown is open */
 .navbar .dropdown-toggle[aria-expanded="true"] .dropdown-icon {
-    transform: translateY(-50%) rotate(180deg);
+    transform: translateY(-50%) rotate(180deg) !important;
 }
 
 /* Style the dropdown icon */
 .dropdown-toggle .dropdown-icon {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: transform 0.3s; 
+    position: absolute !important;
+    right: 15px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    transition: transform 0.3s !important; 
 }
 
 /* Rotate the arrow up when the dropdown is open */
 .dropdown-toggle[aria-expanded="true"] .dropdown-icon {
-    transform: translateY(-50%) rotate(180deg);
+    transform: translateY(-50%) rotate(180deg) !important;
 }

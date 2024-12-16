@@ -1,0 +1,156 @@
+/* Footer Styles */
+.footer {
+    background-color: #143f4e;
+    color: #ffffff;
+}
+
+.footer h5 {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.footer p, .footer a {
+    font-size: 12px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.footer .fa {
+    margin-right: 8px;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+    /* Adjust the About section */
+    .footer .col-md-3 {
+        text-align: left; /* Align content to the left */
+        margin-bottom: 20px; /* Add space between sections */
+        display: flex;
+        flex-direction: column; /* Stack items vertically */
+        align-items: flex-start; /* Align items to the left */
+        justify-content: flex-start; /* Ensure content starts at the top */
+    }
+
+    /* Ensure logo is properly aligned and placed below the About section */
+    .footer .col-md-3 img.logo-footer {
+        width: 120px; 
+        margin-top: 10px;
+        margin-left: 0;
+    }
+
+    /* Adjust the "About" section */
+     #footer-about {
+        order: 0; /* Ensure the About heading appears above the logo */
+        font-size: 16px; /* Increase font size for readability */
+        margin-top: -30px;
+        margin-bottom: 50px !important;
+    }
+
+    /* Fix margin and spacing for the paragraph */
+    .footer .col-md-3 p.small {
+        margin-top: 10px; /* Space between the About section and paragraph */
+        font-size: 14px; /* Increase font size for better readability */
+        margin-bottom: 10px; /* Optional: Adjust margin for neat spacing */
+    }
+
+    /* Stack the text and image */
+    .footer .col-md-3 .d-flex {
+        flex-direction: column; /* Stack the logo and text vertically */
+        align-items: flex-start; /* Align all items to the left */
+        justify-content: flex-start;
+    }
+
+    /* Adjusting the quick links section */
+    .footer nav ul {
+        padding-left: 0;
+    }
+
+    .footer nav ul li {
+        font-size: 14px; /* Increase font size for easier reading */
+        margin-bottom: 8px;
+    }
+
+    /* Adjust Contact Info Section */
+    .footer .col-md-3.address p {
+        font-size: 14px;
+    }
+
+    /* Ensuring social media icons are aligned horizontally */
+    .footer .d-flex {
+        display: flex; /* Ensure flexbox layout */
+        justify-content: center; /* Align social media icons to the center */
+        gap: 15px; /* Add spacing between icons */
+    }
+
+    /* Ensure the social media icons are inline */
+    .footer .d-flex a {
+        display: inline-block; /* Ensures the icons are aligned horizontally */
+    }
+
+    /* Adjust Subscribe Section */
+    .footer .col-md-3 form input,
+    .footer .col-md-3 form button {
+        font-size: 14px; /* Increase font size for better readability */
+    }
+
+    /* Bottom Section Adjustments */
+    .footer .bg-dark {
+        padding-top: 15px;
+        padding-bottom: 10px;
+    }
+
+    .footer .text-left, .footer .text-right {
+        text-align: center; /* Center the bottom section for mobile */
+    }
+
+    .footer .mx-2 {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    /* Adjusting the Bottom Section Links */
+    .footer .list-unstyled {
+        padding-left: 0;
+        text-align: center !important; /* Override any previous text alignment */
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .footer .list-unstyled li {
+        margin-bottom: 5px; /* Reduce space between footer policy links */
+        text-align: center !important; /* Override any previous text alignment */
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .footer .btn {
+        width: 100%; /* Make the Subscribe button full-width on mobile */
+        margin-top: 10px;
+    }
+
+    /* Center Bottom Section on Mobile */
+    .footer .bg-dark .container-fluid .row {
+        justify-content: center !important; /* Center the content horizontally */
+    }
+
+    .footer .bg-dark .col-md-6 {
+        text-align: center !important; /* Align the text to the center */
+    }
+
+    .footer .bg-dark .text-right {
+        text-align: center !important; /* Override any previous text alignment */
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .footer .bg-dark .text-left {
+        text-align: center !important; /* Override any previous text alignment */
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+}

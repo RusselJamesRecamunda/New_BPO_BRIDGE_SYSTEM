@@ -53,4 +53,10 @@ class Applications extends Model
     {
         return $this->belongsTo(FreelanceJobPosting::class, 'fl_jobID', 'fl_jobID');
     }
+
+    // Relationship with Job Candidates
+    public function jobCandidate()
+    {
+        return $this->belongsTo(JobCandidates::class, 'application_id', 'application_id');
+    }
 }

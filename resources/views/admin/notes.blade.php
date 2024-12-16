@@ -4,6 +4,7 @@
 
 @section('browser-icon')
     <link rel="icon" href="{{ asset('asset/img/browser-icons/bpo_icon.png') }}" type="image/x-icon">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
 @endsection
  
 @section('styles')
@@ -65,7 +66,6 @@
                         <th>Interviewer</th>
                         <th>Interview Mode</th>
                         <th>Resume/CV</th>
-                        <th>Cover Letter</th>
                         <th>Applied Job</th>
                         <th>Total Applicants</th>
                         <th>Interview Notes</th>
@@ -75,10 +75,9 @@
                     <tr>
                         <td>Carlo Dela Peña</td>
                         <td>Software Engineer</td>
+                        <td></td>
+                        <td></td>
                         <td><i class="bi bi-file-earmark"></i></td>
-                        <td>2024-08-22</td>
-                        <td>7</td>
-                        <td>0921-123-4567</td>
                         <td></td>
                         <td></td>
                         <td></td>

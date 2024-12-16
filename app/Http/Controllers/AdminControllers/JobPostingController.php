@@ -104,6 +104,7 @@ class JobPostingController extends Controller
                 'creation_date' => $data['creation_date'],
                 'max_hires' => $data['max_hires'],
                 'job_photo' => $data['job_photo'] ?? null,
+                'job_status' => 'Open',
             ]);
         } elseif ($jobType->job_type_name === 'Freelance') {
             // Add specific fields for Freelance job and assign fl_user_id
@@ -122,6 +123,7 @@ class JobPostingController extends Controller
                 'max_hires' => $data['max_hires'],
                 'job_duration' => $request->job_duration,
                 'job_photo' => $data['job_photo'] ?? null,
+                'job_status' => 'Open',
             ]);
         }
     }

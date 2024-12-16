@@ -8,8 +8,10 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('asset/css/shares.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css">
     <style>
-          /* Container with background color */
+        /* Container with background color */
         .applicant-container {
             background-color: #D9D9D9;
             padding: 20px;
@@ -70,19 +72,19 @@
         <!-- Search bar and Add New Candidate button -->
         <div class="mb-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div class="custom-search-bar">
-                        <input type="text" placeholder="Search">
-                        <button type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+                <div class="custom-search-bar">
+                    <input type="text" placeholder="Search">
+                    <button type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
                 <button class="btn btn-primary"><i class="fa-solid fa-circle-plus me-2"></i>Add New Candidate</button>
             </div>
         </div>
 
         <!-- Applicant Result Table -->
         <div id="applicant-result-section" class="table-responsive">
-            <table class="table table-bordered table-hover align-middle">
+            <table id="applicantTable" class="table table-bordered table-hover align-middle">
                 <thead class="table-light">
                     <tr>
                         <th>Candidate Name</th>
@@ -112,7 +114,6 @@
                             </select>
                         </td>
                     </tr>
-                    <!-- More rows -->
                 </tbody>
             </table>
         </div>
@@ -121,48 +122,65 @@
 @endsection
 
 @section('scripts')
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>
     <script>
-        // Ensure that the script only runs inside the specific 'result-content' area
-        $(document).ready(function() {
-            // Scope the script to the #applicant-result-section
-            $('#applicant-result-section .status-select').each(function() {
-                updateStatusColor(this);
-
-                $(this).on('change', function () {
-                    updateStatusColor(this);
-
-                    // Send AJAX request to update status in the backend
-                    const status = $(this).val();
-                    const candidateId = $(this).data('id');
-
-                    fetch(`/update-status/${candidateId}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({ status: status })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('Status updated successfully');
-                        } else {
-                            alert('Failed to update status');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-                });
+        $(document).ready(function () {
+            // Initialize DataTables with inline editing
+            const table = $('#applicantTable').DataTable({
+                select: true
             });
 
-            // Function to change the background color of the select based on the selected option
-            function updateStatusColor(selectElement) {
-                const selectedOption = selectElement.options[selectElement.selectedIndex];
-                const classList = selectedOption.className;
-                selectElement.className = 'status-select ' + classList;
-            }
+            // Make columns editable on click
+            $('#applicantTable tbody').on('click', 'td', function () {
+                const cell = table.cell(this);
+                const columnIndex = cell.index().column;
+
+                // Restrict editable columns
+                const editableColumns = [0, 1, 3, 4, 5]; // Candidate Name, Applying For, Interview Date, Interview Score, Phone
+                if (!editableColumns.includes(columnIndex)) return;
+
+                const originalContent = cell.data();
+                const input = $('<input>', {
+                    type: 'text',
+                    value: originalContent,
+                    class: 'form-control',
+                }).on('blur', function () {
+                    const newValue = $(this).val();
+                    cell.data(newValue).draw();
+
+                    // Send updated data to the backend
+                    const rowData = table.row(cell.index().row).data();
+                    const candidateId = rowData[0]; // Assume Candidate Name is unique
+
+                    $.ajax({
+                        url: `/update-candidate/${candidateId}`,
+                        type: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        },
+                        data: {
+                            column: columnIndex,
+                            value: newValue,
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                alert('Data updated successfully');
+                            } else {
+                                alert('Failed to update data');
+                                cell.data(originalContent).draw(); // Revert if failed
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred while updating the data.');
+                            cell.data(originalContent).draw(); // Revert if error
+                        },
+                    });
+                });
+
+                $(this).html(input);
+                input.focus();
+            });
         });
     </script>
 @endsection

@@ -4,21 +4,22 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller; // Ensure base Controller is imported
 use App\Models\Interviews; // Ensure the model is imported
+use App\Models\JobCandidates;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 use Carbon\Carbon; // Include this line
+use Illuminate\Support\Facades\Log;
 
 class InterviewsController extends Controller
 {
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            // Fetch and return data for FullCalendar when called via AJAX
-            $interviews = Interviews::all(['interview_id', 'candidate_name', 'applied_job', 'interview_mode', 'email', 'phone', 'interview_date', 'interview_time','zoom_link']);
-            
+            // Handle AJAX for FullCalendar (existing logic)
+            $interviews = Interviews::all(['interview_id', 'candidate_name', 'applied_job', 'interview_mode', 'email', 'phone', 'interview_date', 'interview_time','virtual_meet_link', 'onsite_phone']);
             $events = $interviews->map(function ($interview) {
                 return [
                     'id' => $interview->interview_id,
@@ -28,16 +29,20 @@ class InterviewsController extends Controller
                     'interview_mode' => $interview->interview_mode,
                     'email' => $interview->email,
                     'phone' => $interview->phone,
-                    'zoom_link' => $interview->zoom_link,
+                    'virtual_meet_link' => $interview->virtual_meet_link,
+                    'onsite_phone' => $interview->onsite_phone
                 ];
             });
 
-            return response()->json($events); // Return JSON response for FullCalendar
+            return response()->json($events);
         }
 
-        // Render the interviews view when not an AJAX request
-        return view('admin.interviews');
+        // Pass qualified candidates to the view
+        $qualifiedCandidates = JobCandidates::where('candidate_status', 'Qualified')->get();
+
+        return view('admin.interviews', compact('qualifiedCandidates'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -51,22 +56,40 @@ class InterviewsController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'candidate_name' => 'required|string|max:255',
+            'candidate_name' => 'required|exists:job_candidates,candidate_id',  // Validate candidate_id exists in job_candidates table
             'applied_job' => 'required|string|max:255',
             'interview_mode' => 'required|string|max:50',
             'email' => 'required|email',
             'phone' => 'required|string|max:15',
             'interview_date' => 'required|date',
             'interview_time' => 'required|string|max:5',
-            'zoom_link' => 'nullable|string|max:255', 
+            'virtual_meet_link' => 'nullable|string|max:255',
+            'onsite_phone' => 'nullable|string|max:100'
         ]);
 
-        // Save the interview
+        // Fetch candidate details by candidate_id
+        $candidate = JobCandidates::find($request->input('candidate_name'));
+
+        // Save the interview, ensuring both candidate_name and candidate_id are correctly stored
         $interview = new Interviews($validatedData);
+        $interview->candidate_id = $candidate->candidate_id;  // Store candidate_id
+        $interview->candidate_name = $candidate->candidate_name;  // Store candidate_name
         $interview->save();
 
+        // Prepare details array with candidate_name instead of candidate_id
+        $details = [
+            'email' => $validatedData['email'],
+            'candidate_name' => $candidate->candidate_name, // Use candidate_name from the database
+            'applied_job' => $validatedData['applied_job'],
+            'interview_date' => $validatedData['interview_date'],
+            'interview_time' => $validatedData['interview_time'],
+            'virtual_meet_link' => $validatedData['virtual_meet_link'],
+            'onsite_phone' => $validatedData['onsite_phone'],
+            'interview_mode' => $validatedData['interview_mode'],
+        ];
+
         // Send interview notification email
-        $this->sendInterviewNotification($validatedData);
+        $this->sendInterviewNotification($details);
 
         return response()->json(['message' => 'Interview scheduled successfully!']);
     }
@@ -98,7 +121,6 @@ class InterviewsController extends Controller
 
             // Attach images as embedded content
             $mail->addEmbeddedImage(public_path('asset/img/bpo_logo.png'), 'bpo_logo');
-            $mail->addEmbeddedImage(public_path('asset/img/congrats.gif'), 'congrats');
 
             // Fetch Blade template and CSS
             $htmlContent = view('admin.schedule-notification', $details)->render();
@@ -123,10 +145,38 @@ class InterviewsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        // Check if the request is an AJAX request
+        if (!request()->ajax()) {
+            abort(404);
+        }
+    
+        // Validate the candidate_id format
+        if (!is_numeric($id) || $id <= 0) {
+            Log::error("Invalid candidate ID: {$id}");
+            return response()->json(['error' => 'Invalid candidate ID'], 400);
+        }
+    
+        // Fetch candidate details
+        $candidate = JobCandidates::find($id);
+    
+        // Check if candidate exists
+        if ($candidate) {
+            // Return candidate details as JSON response
+            return response()->json([
+                'candidate_name' => $candidate->candidate_name,
+                'applied_job' => $candidate->applied_job,
+                'candidate_email' => $candidate->candidate_email,
+                'candidate_phone' => $candidate->candidate_phone,
+            ]);
+        }
+    
+        // Log error if candidate not found
+        Log::error("Candidate with ID {$id} not found");
+        return response()->json(['error' => 'Candidate not found'], 404);
     }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -147,7 +197,8 @@ class InterviewsController extends Controller
             'phone' => 'required|string|max:15',
             'interview_date' => 'required|date',
             'interview_time' => 'required|date_format:H:i',
-            'zoom_link' => 'nullable|string|max:255', // Modified to make zoom_link optional
+            'virtual_meet_link' => 'nullable|string|max:255', 
+            'onsite_phone' => 'nullable|string|max:100'
         ]);
 
         $interview = Interviews::findOrFail($id);
@@ -158,7 +209,8 @@ class InterviewsController extends Controller
         $interview->phone = $request->phone;
         $interview->interview_date = $request->interview_date;
         $interview->interview_time = $request->interview_time;
-        $interview->zoom_link = $request->zoom_link;
+        $interview->virtual_meet_link = $request->virtual_meet_link;
+        $interview->onsite_phone = $request->onsite_phone;
         $interview->save();
 
         // Return updated event data to the frontend
@@ -173,7 +225,8 @@ class InterviewsController extends Controller
                 'interview_mode' => $interview->interview_mode,
                 'email' => $interview->email,
                 'phone' => $interview->phone,
-                'zoom_link' => $interview->zoom_link,
+                'virtual_meet_link' => $interview->virtual_meet_link,
+                'onsite_phone' => $interview->onsite_phone,
             ]
         ]);
     }

@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-between align-items-center mb-5" style="margin-top: 0;">
+<div class="d-flex justify-content-between align-items-center mb-4" style="margin-top: 0;">
     <!-- Search Bar -->
     <div class="input-group" style="max-width: 450px;">
         <input type="text" class="form-control" placeholder="Search Here" aria-label="Search" aria-describedby="button-search" style="border-radius: 20px 0 0 20px; background-color: #d7d7d7; border: 1px solid #d7d7d7;">

@@ -18,10 +18,7 @@
         <td align="center">
           <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
             <tr>
-              <td class="email-masthead">
-                <a href="https://example.com" class="f-fallback email-masthead_name">
-                <center><img src="cid:bpo_logo" alt="BPO Logo" style="width: 200px; height: 200px; margin: -40px 0 -40px;"></center>
-                </a>                                
+              <td class="email-masthead">                               
               </td>
             </tr>
             <!-- Email Body -->
@@ -31,9 +28,11 @@
                   <!-- Body content -->
                   <tr>
                     <td class="content-cell">
-                    <center><img src="cid:congrats" alt="Celebration Image" style="width: 300px; height: 300px; margin: 5px 0 5px;"></center>
+                      <a href="https://example.com" class="f-fallback email-masthead_name">
+                      <center><img src="cid:bpo_logo" alt="BPO Logo" style="width: 300px; height: 300px; margin: 10px 0 10px;"></center>
+                      </a> 
                       <div class="f-fallback">
-                        <h1>Dear candidate!</h1>
+                        <h1>Hello {{ $candidate_name }}!</h1>
                         <p>We are pleased to inform you that your application for the {{ $applied_job }} has been successfully reviewed,
                             and we would like to invite you for a job interview.
                         </p>
@@ -43,14 +42,14 @@
                             <br>
                             Time: <strong>{{ $interview_time }}</strong>
                             <br>
-                            Mode of Interview: <strong>{{ $interview_mode }} </strong> <br> {{ $zoom_link }}
+                            Mode of Interview: <strong>{{ $interview_mode }} </strong> 
+                            <br> 
+                            {{ $onsite_phone ?? $virtual_meet_link ?? 'No details are available at the moment.' }}
                             <br>
                         </p>
                         <p>Please confirm your availability <strong>by filling out the form below</strong>, within 48 hours of receiving this email. </p>
                         <p>
                             Best regards,
-                            <br>
-                            Applicant Name: <strong>{{ $candidate_name }} </strong>
                             <br>
                             Applied Job: <strong>{{ $applied_job }} </strong>
                             <br>

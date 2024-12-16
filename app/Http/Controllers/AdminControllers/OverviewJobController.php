@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\FullTimeJobPosting;
 use App\Models\FreelanceJobPosting;
+use App\Models\Applications;
+use App\Models\JobCandidates;
+use Illuminate\Support\Facades\Log;
 
 class OverviewJobController extends Controller
 {
@@ -31,8 +34,58 @@ class OverviewJobController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            // Validate the incoming data
+            $validated = $request->validate([
+                'application_id' => 'required|exists:applications,application_id', // Ensure the application exists
+                'status' => 'required|in:Qualified,Not Qualified', // Validate the status
+            ]);
+
+            // Retrieve the application details based on application_id
+            $application = Applications::where('application_id', $validated['application_id'])->firstOrFail();
+
+            // Initialize the applied job title
+            $appliedJobTitle = null;
+
+            // Determine if the application is for a full-time or freelance job
+            if ($application->full_job_ID) {
+                // Retrieve the full-time job title
+                $fullTimeJob = FullTimeJobPosting::where('full_job_ID', $application->full_job_ID)->first();
+                $appliedJobTitle = $fullTimeJob->job_title ?? 'Unknown Full-Time Job';
+            } elseif ($application->fl_jobID) {
+                // Retrieve the freelance job title
+                $freelanceJob = FreelanceJobPosting::where('fl_jobID', $application->fl_jobID)->first();
+                $appliedJobTitle = $freelanceJob->fl_job_title ?? 'Unknown Freelance Job';
+            }
+
+            // Update or create the JobCandidates record
+            JobCandidates::updateOrCreate(
+                ['application_id' => $application->application_id], // Matching condition
+                [
+                    'candidate_name' => $application->applicant_name,
+                    'candidate_email' => $application->applicant_email,
+                    'candidate_phone' => $application->applicant_phone,
+                    'applied_job' => $appliedJobTitle, // Use the determined job title
+                    'date_applied' => $application->app_date,
+                    'application_id' => $application->application_id,
+                    'application_status' => $application->application_status,
+                    'candidate_status' => $validated['status'], // The status from the request
+                ]
+            );
+
+            // Return a success response
+            return response()->json(['message' => 'Candidate status updated successfully.'], 200);
+
+        } catch (\Exception $e) {
+            // Log the error and return an error response
+            Log::error('Error updating candidate status: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to update candidate status. Please try again.'], 500);
+        }
     }
+
+    
+
+
 
     /**
      * Display the specified resource.
@@ -41,20 +94,58 @@ class OverviewJobController extends Controller
     {
         // Get job type from the query string
         $jobType = $request->query('type');
-
-        // Fetch job based on the type and ID
+    
+        // Fetch job and related applications based on the type and ID
         if ($jobType === 'full-time') {
             $job = FullTimeJobPosting::with('category', 'jobType')->where('full_job_ID', $id)->firstOrFail();
+    
+            // Fetch applications for this specific full-time job and group by the day of the week
+            $applications = Applications::where('full_job_ID', $id)
+                ->selectRaw('DAYOFWEEK(app_date) as day, COUNT(*) as count')
+                ->groupBy('day')
+                ->orderBy('day')
+                ->get(); // Get the count of applications by day of the week
+    
+            // Fetch detailed application information separately
+            $detailedApplications = Applications::where('full_job_ID', $id)
+                ->select('application_id', 'applicant_name', 'application_status', 'resume_cv', 'cover_letter', 'app_date')
+                ->get(); // Get the actual application details (non-grouped)
         } elseif ($jobType === 'freelance') {
             $job = FreelanceJobPosting::with('category', 'jobType')->where('fl_jobID', $id)->firstOrFail();
+    
+            // Fetch applications for this specific freelance job and group by the day of the week
+            $applications = Applications::where('fl_jobID', $id)
+                ->selectRaw('DAYOFWEEK(app_date) as day, COUNT(*) as count')
+                ->groupBy('day')
+                ->orderBy('day')
+                ->get(); // Get the count of applications by day of the week
+    
+            // Fetch detailed application information separately
+            $detailedApplications = Applications::where('fl_jobID', $id)
+                ->select('application_id', 'applicant_name', 'application_status', 'resume_cv', 'cover_letter', 'app_date')
+                ->get(); // Get the actual application details (non-grouped)
         } else {
             abort(404);
         }
-
-        // Pass both job and jobType to the view
-        return view('admin.overview-job', compact('job', 'jobType'));
+    
+        // Create a dataset for all days of the week
+        $daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        $applicantData = array_fill(0, 7, 0);
+    
+        // Count applications by day of the week
+        foreach ($applications as $application) {
+            if ($application->day >= 1 && $application->day <= 7) { // Ensure valid day (1-7)
+                $applicantData[$application->day - 1] = $application->count; // Populate counts for each day
+            }
+        }
+    
+        // Calculate total applicants this week
+        $totalApplicantsThisWeek = array_sum($applicantData);
+    
+        // Pass data to the view
+        return view('admin.overview-job', compact('job', 'jobType', 'applicantData', 'daysOfWeek', 'totalApplicantsThisWeek', 'detailedApplications'));
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      */
@@ -66,7 +157,7 @@ class OverviewJobController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         //
     }

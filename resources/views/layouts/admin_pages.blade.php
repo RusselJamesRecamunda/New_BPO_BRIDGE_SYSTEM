@@ -19,7 +19,6 @@
          <div style="height: 100vh;">
          @include('components.sidebar')
          </div>
-
          
         <!-- Main Content Area -->
         <div id="content" class="w-100 p-4 flex-grow-1">

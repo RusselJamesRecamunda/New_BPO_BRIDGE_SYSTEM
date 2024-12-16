@@ -69,7 +69,7 @@ class ApplicationsController extends Controller
     {
         // Validate the incoming request to ensure the status is valid
         $request->validate([
-            'status' => 'required|string|in:Scheduled,In Process,Rejected',
+            'status' => 'required|string|in:Scheduled,Pending,Rejected',
         ]);
 
         // Find the application by ID

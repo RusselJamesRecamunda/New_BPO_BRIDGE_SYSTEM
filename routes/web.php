@@ -29,6 +29,8 @@ use App\Http\Controllers\ApplicantControllers\ApplicantProfileController;
 use App\Http\Controllers\ApplicantControllers\AboutUsController;
 use App\Http\Controllers\ApplicantControllers\JobInfoController;
 use App\Http\Controllers\ApplicantControllers\ApplicationFormController;
+use App\Http\Controllers\ApplicantControllers\ManageProfileController;
+use App\Http\Controllers\ApplicantControllers\ContactUsController;
 use App\Http\Controllers\ApplicantControllers\ApplySuccessController;
 use App\Http\Controllers\ApplicantControllers\AppliedSavedController;
 
@@ -75,6 +77,12 @@ Route::prefix('applicant')->group(function () {
     // About Us View and Controller
     Route::resource('about-us', AboutUsController::class);
 
+    // Manage Profile View and Controller
+    Route::resource('manage-profile', ManageProfileController::class);
+
+    // Contact Us View and Controller
+    Route::resource('contact-us', ContactUsController::class);
+
     // About Us View and Controller
     Route::resource('job-info', JobInfoController::class);
 
@@ -101,7 +109,7 @@ Route::prefix('admin')->group(function () {
     Route::resource('add-employee', AddEmployeeController::class);
     Route::resource('departments', DepartmentsController::class);
     Route::resource('department-info', DepartmentInfoController::class);
-     
+
     // Jobs View and Controller
     Route::resource('jobs', JobsController::class);
     Route::resource('overview-job', OverviewJobController::class);
@@ -117,7 +125,7 @@ Route::prefix('admin')->group(function () {
 
     //Interviews View and Controller
     Route::resource('interviews', InterviewsController::class);
-    
+
     // This creates routes for all standard resource actions
     Route::resource('schedule-notification', ScheduleNotificationController::class);
     //General Reports View and Controller

@@ -1,24 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ApplicantControllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Interviews;
-use App\Models\Applications;
-use App\Models\User;
 
-class AdminController extends Controller
-{ 
+class ContactUsController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $scheduledInterviewsCount = Interviews::count(); // Count all scheduled interviews
-        $ApplicationsCount = Applications::count(); 
-        $UsersCount = User::count(); 
-
-        return view('admin.dashboard', compact('scheduledInterviewsCount', 'UsersCount', 'ApplicationsCount'));
+        //
+        return view(view: 'applicant.contact-us');
     }
 
-     /**
+    /**
      * Show the form for creating a new resource.
      */
     public function create()

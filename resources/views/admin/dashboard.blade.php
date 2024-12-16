@@ -46,7 +46,7 @@
                         <p class="mb-3 fw-bold">Applications Sent</p>
                         <div class="d-flex justify-content-center align-items-center">
                             <i class="fa-solid fa-check-to-slot fa-3x me-4"></i>
-                            <h2 class="mb-0">753</h2>
+                            <h2 class="mb-0">{{$ApplicationsCount}}</h2>
                         </div>
                     </div>
                 </div>
