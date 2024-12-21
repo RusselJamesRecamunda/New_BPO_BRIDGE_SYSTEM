@@ -79,11 +79,12 @@ Route::prefix('applicant')->group(function () {
     Route::resource('about-us', AboutUsController::class);
 
     // Manage Profile View and Controller
-    Route::resource('manage-profile', ManageProfileController::class);
+    // Route::resource('manage-profile', ManageProfileController::class);
     // Route for both guests and authenticated users
     Route::get('manage-profile', [ManageProfileController::class, 'index'])->name('manage-profile.index');
     // Route for authenticated users only (middleware applied here)
-    Route::post('manage-profile/update', [ManageProfileController::class, 'update'])->name('manage-profile.update')->middleware('auth');
+    Route::post('manage-profile', [ManageProfileController::class, 'update'])->name('manage-profile.update')->middleware('auth');
+    Route::post('manage-profile', [ManageProfileController::class, 'updateContents'])->name('profileContents.update')->middleware('auth');
 
     // To Edit Profile View
     Route::post('manage-profile/updateOrCreate', [ManageProfileController::class, 'updateOrCreate'])->name('manage-profile.updateOrCreate');

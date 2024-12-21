@@ -33,45 +33,36 @@ function handleFileSelect(event) {
         });
     }
 }
+console.log("Profile Update Route:", profileUpdateRoute); // Debugging
 
-// Function to submit the image via AJAX
-if (profileUpdateRoute === null) {
-    console.log("Guest users cannot update the profile.");
-} else {
-    function submitImage(file) {
-        var formData = new FormData();
-        formData.append("user_photo", file);
-        formData.append("_method", "PUT"); // To simulate PUT request
-        formData.append("_token", csrfToken);
+function submitImage(file) {
+    var formData = new FormData();
+    formData.append("user_photo", file);
+    formData.append("_method", "PUT"); // To simulate PUT request
+    formData.append("_token", csrfToken);
 
-        fetch(profileUpdateRoute, {
-            method: "POST", // Using POST method since we added _method as PUT in formData
-            body: formData,
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    Swal.fire(
-                        "Profile photo updated successfully!",
-                        "",
-                        "success"
-                    );
-                    // You can update the profile photo preview here as needed
-                } else {
-                    Swal.fire(
-                        data.error || "An unknown error occurred",
-                        "",
-                        "error"
-                    );
-                }
-            })
-            .catch((error) => {
-                console.error("Error:", error);
+    fetch(profileUpdateRoute, {
+        method: "POST", // POST with _method = PUT
+        body: formData,
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                Swal.fire("Profile photo updated successfully!", "", "success");
+            } else {
                 Swal.fire(
-                    "An error occurred. Please try again later.",
+                    data.error || "An unknown error occurred",
                     "",
                     "error"
                 );
-            });
-    }
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+            Swal.fire(
+                "An error occurred. Please try again later.",
+                "",
+                "error"
+            );
+        });
 }

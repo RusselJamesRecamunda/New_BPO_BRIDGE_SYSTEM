@@ -31,7 +31,12 @@ class ManageProfileController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Log request for debugging
+        // Ensure the user is authenticated
+        if (!Auth::check()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Validate the request data
         Log::info("Updating profile photo for user ID: " . $id);
         Log::info("Request data: ", $request->all());
     
@@ -81,6 +86,77 @@ class ManageProfileController extends Controller
         return response()->json(['success' => false, 'error' => 'No file uploaded']);
     }
     
+    /**
+     * Update the profile contents of the authenticated user.
+     */
+
+    public function updateContents(Request $request)
+    {
+        // Get the authenticated user
+        $user = Auth::user();
+    
+        // Ensure user is logged in
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'You must be logged in to update your profile.');
+        }
+    
+        // Validate the incoming data
+        $request->validate([
+            'field' => 'required|string',
+            'value' => 'nullable|string', // Allow null for skills
+        ]);
+    
+        // Prepare the data for updating based on the field
+        $field = $request->input('field');
+        $value = $request->input('value');
+    
+        if ($field === 'skills') {
+            if (is_null($value) || trim($value) === '') {
+                // Set skills to null if value is empty or null
+                $user->$field = null;
+                $skillsHtml = '<span class="text-muted">No skills added.</span>';
+            } else {
+                // Process the skills (ensure no duplicate skills and properly formatted)
+                $skillsArray = array_map('trim', explode(',', $value)); // Trim spaces and split by commas
+                $skillsArray = array_filter($skillsArray, fn($skill) => !empty($skill)); // Remove empty entries
+                $skillsArray = array_unique($skillsArray); // Remove duplicate entries
+                $user->$field = implode(', ', $skillsArray);
+    
+                // Prepare updated HTML for skills
+                $skillsHtml = '';
+                foreach ($skillsArray as $skill) {
+                    $skillsHtml .= "<span class='badge bg-primary text-white me-2'>{$skill} 
+                        <button type='button' class='btn-close btn-close-white btn-sm ms-1 remove-skill' data-skill='{$skill}'></button>
+                    </span>";
+                }
+            }
+    
+            // Save the updated skills field
+            $user->update([$field => $user->$field]);
+    
+            // Return the updated skills in HTML for frontend update
+            return response()->json([
+                'success' => true,
+                'message' => "$field has been updated successfully.",
+                'skillsHtml' => $skillsHtml,
+            ]);
+        }
+    
+        // Handle other fields like 'date_of_birth' or 'profile_summary'
+        elseif (in_array($field, ['date_of_birth', 'profile_summary'])) {
+            // Update the field value directly
+            $user->$field = $value;
+            $user->update([$field => $value]);
+    
+            // Return success message
+            return response()->json(['success' => true, 'message' => "$field has been updated successfully."]);
+        }
+    
+        // If the field is unknown or not handled
+        return response()->json(['success' => false, 'message' => 'Invalid field update.']);
+    }
+    
+
     
 
     /**
