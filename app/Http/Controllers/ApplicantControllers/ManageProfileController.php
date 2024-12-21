@@ -22,16 +22,18 @@ class ManageProfileController extends Controller
             $user = Auth::user();
             return view('applicant.manage-profile', compact('user'));
         }
-    
-        // Render the guest view
+
+        // Render the guest view (no user data passed)
         return view('applicant.manage-profile');
-    }    
+    }
+  
 
 
     public function update(Request $request, $id)
     {
         // Log request for debugging
         Log::info("Updating profile photo for user ID: " . $id);
+        Log::info("Request data: ", $request->all());
     
         // Validate the uploaded file
         $request->validate([

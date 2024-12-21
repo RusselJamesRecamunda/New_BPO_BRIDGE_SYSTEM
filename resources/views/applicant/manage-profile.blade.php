@@ -211,15 +211,15 @@
                             <h5 class="mt-4">External Links</h5>
                             <div class="d-flex flex-column">
                                 <div class="d-flex align-items-center mb-2">
-                                    <p class="mb-0 me-2"><i class="fa-brands fa-facebook me-2"></i>Facebook URL</p>
+                                    <p class="mb-0 me-2"><i class="fa-brands fa-facebook me-2"></i></p>
                                     <a href="" class="mb-0" style="color: #0F5078">https://www.facebook.com/russeljames.recamunda/</a>
                                 </div>
                                 <div class="d-flex align-items-center mb-2">
-                                    <p class="mb-0 me-2"><i class="fa-brands fa-linkedin me-2"></i>LinkedIn URL</p>
+                                    <p class="mb-0 me-2"><i class="fa-brands fa-linkedin me-2"></i></p>
                                     <a href="" class="mb-0" style="color: #0F5078">LinkedIn</a>
                                 </div>
                                 <div class="d-flex align-items-center mb-2">
-                                    <p class="mb-0 me-2"><i class="fa-brands fa-github me-2"></i>Github URL</p>
+                                    <p class="mb-0 me-2"><i class="fa-brands fa-github me-2"></i></p>
                                     <a href="" class="mb-0" style="color: #0F5078">Github</a>
                                 </div>
                             </div>
@@ -239,10 +239,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <!-- Pass the CSRF token and route to JavaScript Manage Profile -->
-    <script>
+    <!-- <script>
         var profileUpdateRoute = "{{ route('manage-profile.update', Auth::id()) }}";
         var csrfToken = "{{ csrf_token() }}";
+    </script> -->
+    <script>
+        const profileUpdateRoute = "{{ route('manage-profile.update', ['manage_profile' => Auth::id()]) }}";
+        const csrfToken = "{{ csrf_token() }}";
     </script>
+
     <script src="{{ asset('asset/js/manage-profile.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -275,11 +280,11 @@
                 Swal.fire({
                     title: 'Edit Personal Summary',
                     html: `
-                        <div>
-                            <label for="summary-input" class="form-label">Your Summary:</label>
-                            <textarea id="summary-input" class="form-control" rows="4" 
-                                placeholder="Highlight your unique experiences, ambitions, and strengths."></textarea>
+                        <div class="text-center">
+                            <label for="summary-input" class="form-label text-left w-100">Your Summary</label>
+                            <textarea id="summary-input" class="form-control" rows="4" placeholder="Highlight your personal experiences, goals, and strengths."></textarea>
                         </div>
+
                     `,
                     confirmButtonText: 'Close',
                     customClass: {

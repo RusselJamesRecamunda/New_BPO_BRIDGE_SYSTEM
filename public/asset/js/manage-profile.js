@@ -35,42 +35,43 @@ function handleFileSelect(event) {
 }
 
 // Function to submit the image via AJAX
-function submitImage(file) {
-    var formData = new FormData();
-    formData.append("user_photo", file);
-    formData.append("_method", "PUT"); // Specify PUT method for resource route
-    formData.append("_token", csrfToken); // Add CSRF token passed from Blade
+if (profileUpdateRoute === null) {
+    console.log("Guest users cannot update the profile.");
+} else {
+    function submitImage(file) {
+        var formData = new FormData();
+        formData.append("user_photo", file);
+        formData.append("_method", "PUT"); // To simulate PUT request
+        formData.append("_token", csrfToken);
 
-    // Use the profileUpdateRoute variable that was passed from Blade
-    fetch(profileUpdateRoute, {
-        method: "POST", // Use POST to override with _method=PUT
-        body: formData,
-    })
-        .then((response) => response.json()) // Ensure response is parsed as JSON
-        .then((data) => {
-            if (data.success) {
-                // Success: Update the profile image immediately to the new saved URL
-                Swal.fire("Profile photo updated successfully!", "", "success");
-
-                // Dynamically set the new profile image URL after saving
-                var profileImage = document.getElementById("profileImage");
-                profileImage.src = data.imageUrl; // Set the new image URL returned from the server
-            } else {
-                // Error: Display the error message
+        fetch(profileUpdateRoute, {
+            method: "POST", // Using POST method since we added _method as PUT in formData
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    Swal.fire(
+                        "Profile photo updated successfully!",
+                        "",
+                        "success"
+                    );
+                    // You can update the profile photo preview here as needed
+                } else {
+                    Swal.fire(
+                        data.error || "An unknown error occurred",
+                        "",
+                        "error"
+                    );
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
                 Swal.fire(
-                    data.error || "An unknown error occurred",
+                    "An error occurred. Please try again later.",
                     "",
                     "error"
                 );
-            }
-        })
-        .catch((error) => {
-            // Handle unexpected errors
-            console.error("Error:", error);
-            Swal.fire(
-                "An error occurred. Please try again later.",
-                "",
-                "error"
-            );
-        });
+            });
+    }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AdminController;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 // use App\Http\Controllers\AdminControllers\DashboardController;
@@ -79,8 +80,11 @@ Route::prefix('applicant')->group(function () {
 
     // Manage Profile View and Controller
     Route::resource('manage-profile', ManageProfileController::class);
-    // Profile View Display
+    // Route for both guests and authenticated users
     Route::get('manage-profile', [ManageProfileController::class, 'index'])->name('manage-profile.index');
+    // Route for authenticated users only (middleware applied here)
+    Route::post('manage-profile/update', [ManageProfileController::class, 'update'])->name('manage-profile.update')->middleware('auth');
+
     // To Edit Profile View
     Route::post('manage-profile/updateOrCreate', [ManageProfileController::class, 'updateOrCreate'])->name('manage-profile.updateOrCreate');
     
