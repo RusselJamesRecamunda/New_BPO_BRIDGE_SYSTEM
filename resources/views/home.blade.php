@@ -2,7 +2,7 @@
 
 @section('title', 'BPO-Bridge Job Listings')
 
-@section('content')
+@section('home-content')
     <!-- Search Bar -->
     <div class="search-bar">
         <div class="container" id="search-container">

@@ -91,7 +91,7 @@
     line-height: 1.6;
 }
 
-.about-content h2, .about-content h3 {
+.about-content h2, .about-content h1 {
     font-weight: bold;
     color: #06446B;
 }
@@ -101,20 +101,38 @@
     margin-bottom: 20px;
 }
 
-.about-content h3 {
-    font-size: 1.5rem; /* Adjust for responsive font size */
+.about-content h1 {
+    font-size: 2.5rem; /* Adjust for responsive font size */
     margin-top: 30px;
 }
 
-.about-content p, .about-content ul li {
-    color: #333333;
+.about-content p{
+    font-size: 1.2rem;
 }
 
 .about-content ul {
+    color: #333333;
     padding-left: 200px;
 }
 
 .about-content ul li {
     margin-bottom: 10px;
     list-style-type: disc;
+}
+
+@media (max-width: 768px) {
+
+    .about-content ul {
+        padding-left: 15px;
+    }
+
+    .about-content h1,
+    .about-content h2 {
+        text-align: center; /* Center headings for better mobile layout */
+        margin-top: 30%;
+    }
+
+    .about-content p {
+        text-align: justify; /* Improve readability on small screens */
+    }
 }

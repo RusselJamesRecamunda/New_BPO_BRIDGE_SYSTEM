@@ -79,7 +79,11 @@ Route::prefix('applicant')->group(function () {
 
     // Manage Profile View and Controller
     Route::resource('manage-profile', ManageProfileController::class);
-
+    // Profile View Display
+    Route::get('manage-profile', [ManageProfileController::class, 'index'])->name('manage-profile.index');
+    // To Edit Profile View
+    Route::post('manage-profile/updateOrCreate', [ManageProfileController::class, 'updateOrCreate'])->name('manage-profile.updateOrCreate');
+    
     // Contact Us View and Controller
     Route::resource('contact-us', ContactUsController::class);
 

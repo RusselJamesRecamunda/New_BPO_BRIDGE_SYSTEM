@@ -163,4 +163,19 @@ html, body {
         padding-right: 10px;
     }
 }
+/* Ensure modal fits within viewport */
+.modal-dialog {
+    max-width: 95%; /* Adjusts modal width for smaller screens */
+    margin: auto; /* Centers the modal */
+}
+
+.modal-content {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a slight shadow for better look */
+}
+
+@media (min-width: 768px) {
+    .modal-dialog {
+        max-width: 600px; /* Normal modal width for larger screens */
+    }
+}
 
