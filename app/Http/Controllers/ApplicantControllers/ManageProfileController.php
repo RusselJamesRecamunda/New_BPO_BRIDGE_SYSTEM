@@ -102,8 +102,8 @@ class ManageProfileController extends Controller
     
         // Validate the incoming data
         $request->validate([
-            'field' => 'required|string',
-            'value' => 'nullable|string', // Allow null for skills
+            'field' => 'required|string|in:skills,date_of_birth,profile_summary',
+            'value' => 'nullable|string|max:700',
         ]);
     
         // Prepare the data for updating based on the field

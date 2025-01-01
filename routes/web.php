@@ -79,7 +79,7 @@ Route::prefix('applicant')->group(function () {
     Route::resource('about-us', AboutUsController::class);
 
     // Manage Profile View and Controller
-    // Route::resource('manage-profile', ManageProfileController::class);
+    Route::resource('manage-profile', ManageProfileController::class);
     // Route for both guests and authenticated users
     Route::get('manage-profile', [ManageProfileController::class, 'index'])->name('manage-profile.index');
     // Route for authenticated users only (middleware applied here)

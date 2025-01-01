@@ -175,14 +175,14 @@
                                 @if($user->date_of_birth)
                                     @php
                                         $birthdate = \Carbon\Carbon::parse($user->date_of_birth);
-                                        $formattedBirthdate = $birthdate->format('F j, Y');  // Month Day, Year format
+                                        $formattedBirthdate = $birthdate->format('F j, Y'); // Month Day, Year format
                                         $age = $birthdate->age;
                                     @endphp
-                                    <p>
+                                    <p class="birthdate" id="birthdate" style="font-size: 17px; font-weight: 500; color: #0F5078;">
                                         {{ $formattedBirthdate }} ({{ $age }} years old)
                                     </p>
                                 @else
-                                    <p>Add Birthdate</p>
+                                    <p style="font-size: 17px; font-weight: 500; color: #0F5078;">Add Birthdate</p>
                                 @endif
                                 <button type="button" class="btn date-of-birth-btn" 
                                     style="outline: 2px solid #0F5078; color: #0F5078; font-weight: 600;"
@@ -192,33 +192,33 @@
                                 </button>
                             </div>
 
+
                             <div class="profile-section col-12 mb-4">
                                 <h3>Brief Summary</h3>
-                                <p id="summary-text" class="summary-text">
+                                <p id="summary-text" class="summary-text" style="max-width: 85%; word-wrap: break-word; white-space: normal; font-size: 17px; font-weight: 500; color: #0F5078;">
                                     {{ $user->profile_summary ?? 'Write your brief summary to introduce yourself' }}
                                 </p>
                                 <button type="button" class="btn summary-btn" 
                                     style="outline: 2px solid #0F5078; color: #0F5078; font-weight: 600;"
                                     onmouseover="this.style.backgroundColor='#0F5078'; this.style.color='white';"
                                     onmouseout="this.style.backgroundColor='transparent'; this.style.color='#0F5078';">
-                                    {{ $user->profile_summary  ? 'Update Summary' : 'Add Brief Summary' }}
+                                    {{ $user->profile_summary ? 'Update Summary' : 'Add Brief Summary' }}
                                 </button>
                             </div>
+
 
                             <div class="profile-section col-12 mb-4">
                                 <h3>Skills</h3>
                                 <div>
-                                    <p>{{ $user->skills }}</p>
-                                    <div id="skills-list" class="skills-display">
+                                    <div id="skills-list" class="skills-display mt-2 mb-4">
                                         @if($user->skills)
                                             @foreach(explode(', ', $user->skills) as $skill)
-                                                <span class="badge bg-primary text-white me-2">
+                                                <span class="badge text-white me-2 mt-2 rounded-5" style="font-size: 17px; background-color: #1b6280; font-weight:500; padding: 10px;">
                                                     {{ $skill }}
                                                 </span>
                                             @endforeach
                                         @else
-                                            <!-- Display a placeholder message if no skills are added -->
-                                            <span class="text-muted">No skills have been added yet.</span>
+                                            <span class="text-muted" style="font-size: 17px;">Showcase your potential by highlighting your skills.</span>
                                         @endif
                                     </div>
                                 </div>
@@ -232,11 +232,16 @@
                                 </button>
                             </div>
 
+
                             <h5 class="mt-4">External Links</h5>
                             <div class="d-flex flex-column">
                                 <div class="d-flex align-items-center mb-2">
                                     <p class="mb-0 me-2"><i class="fa-brands fa-facebook me-2"></i></p>
                                     <a href="" class="mb-0" style="color: #0F5078">https://www.facebook.com/russeljames.recamunda/</a>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <p class="mb-0 me-2"><i class="fa-brands fa-instagram me-2"></i></p>
+                                    <a href="" class="mb-0" style="color: #0F5078">Instagram</a>
                                 </div>
                                 <div class="d-flex align-items-center mb-2">
                                     <p class="mb-0 me-2"><i class="fa-brands fa-linkedin me-2"></i></p>
@@ -267,244 +272,9 @@
     <script>
         const profileUpdateRoute = "{{ route('manage-profile.update', ['manage_profile' => Auth::id()]) }}";
         const csrfToken = "{{ csrf_token() }}";
+        const profileContentsUpdateRoute = "{{ route('profileContents.update') }}";
     </script>
     @endif
-    
-
     <script src="{{ asset('asset/js/manage-profile.js') }}"></script>
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const preventReload = (event) => {
-            event.preventDefault();
-        };
-
-        // Function to handle the AJAX request
-        const updateProfileContent = (field, value) => {
-            fetch("{{ route('profileContents.update') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-                },
-                body: JSON.stringify({
-                    field: field,
-                    value: value
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Profile Updated',
-                        text: `${field} has been successfully updated.`,
-                    });
-                    // Optionally, update the displayed content on the page if needed
-                    if (field === 'skills') {
-                        // Update the skills list with the returned HTML
-                        document.querySelector('#skills-list').innerHTML = data.skillsHtml;
-                    }
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Update Failed',
-                        text: data.message || 'Something went wrong.',
-                    });
-                }
-            })
-            .catch(error => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred. Please try again.',
-                });
-            });
-        };
-
-        // Handle the date-of-birth button click
-        document.querySelector('.date-of-birth-btn').addEventListener('click', (e) => {
-            preventReload(e);
-            Swal.fire({
-                title: 'Add or Update Birthdate',
-                html: `
-                    <div>
-                        <label for="birthdate-input" class="form-label">Enter your birthdate:</label>
-                        <input type="date" id="birthdate-input" class="form-control">
-                    </div>
-                `,
-                confirmButtonText: 'Save',
-                customClass: {
-                    confirmButton: 'btn btn-primary',
-                },
-                buttonsStyling: false,
-                preConfirm: () => {
-                    const birthdate = document.getElementById('birthdate-input').value;
-                    if (birthdate) {
-                        updateProfileContent('date_of_birth', birthdate);
-                    }
-                }
-            });
-        });
-
-        // Handle the summary button click
-        document.querySelector('.summary-btn').addEventListener('click', (e) => {
-            preventReload(e);
-            Swal.fire({
-                title: 'Edit Personal Summary',
-                html: `
-                    <div class="text-center">
-                        <label for="summary-input" class="form-label text-left w-100">Your Summary</label>
-                        <textarea id="summary-input" class="form-control" rows="4" placeholder="Highlight your personal experiences, goals, and strengths."></textarea>
-                    </div>
-                `,
-                confirmButtonText: 'Save',
-                customClass: {
-                    confirmButton: 'btn btn-primary',
-                },
-                buttonsStyling: false,
-                preConfirm: () => {
-                    const summary = document.getElementById('summary-input').value;
-                    if (summary) {
-                        updateProfileContent('profile_summary', summary);
-                    }
-                }
-            });
-        });
-
-        // Handle the skills button click
-        document.querySelector('.skills-btn').addEventListener('click', (e) => {
-            preventReload(e);
-            Swal.fire({
-                title: 'Edit Skills',
-                html: `
-                    <div>
-                        <label for="skill-input" class="form-label">Add new skill:</label>
-                        <input type="text" id="skill-input" class="form-control mb-2" placeholder="Type a skill...">
-                    </div>
-                    <h5 class="mt-4">Your Skills</h5>
-                    <div id="added-skills" class="mt-2 text-center text-muted">
-                        No skills have been added.
-                    </div>
-                `,
-                confirmButtonText: 'Save',
-                customClass: {
-                    confirmButton: 'btn btn-primary',
-                },
-                buttonsStyling: false,
-                didOpen: () => {
-                    const skillInput = document.getElementById('skill-input');
-                    const addedSkills = document.getElementById('added-skills');
-
-                    // Define addedSkillList outside of didOpen to make it accessible in preConfirm
-                    window.addedSkillList = [];  
-
-                    const updateAddedSkills = () => {
-                        if (window.addedSkillList.length === 0) {
-                            addedSkills.textContent = 'No skills have been added.';
-                            addedSkills.classList.add('text-muted');
-                        } else {
-                            addedSkills.innerHTML = window.addedSkillList
-                                .map(
-                                    (skill, index) =>
-                                        `<span class="badge bg-primary text-white me-2">
-                                            ${skill} <button type="button" class="btn-close btn-close-white btn-sm ms-1 remove-skill" data-skill="${skill}"></button>
-                                        </span>`
-                                )
-                                .join(''); 
-                            addedSkills.classList.remove('text-muted');
-                        }
-                    };
-
-                    skillInput.addEventListener('keydown', (e) => {
-                        if (e.key === 'Enter') {
-                            const skill = skillInput.value.trim();
-                            if (skill.length > 0 && !window.addedSkillList.includes(skill)) {
-                                window.addedSkillList.push(skill);
-                                updateAddedSkills();
-                            }
-                            skillInput.value = '';
-                            e.preventDefault();
-                        }
-                    });
-
-                    addedSkills.addEventListener('click', (e) => {
-                        if (e.target.classList.contains('remove-skill')) {
-                            const skill = e.target.getAttribute('data-skill');
-                            window.addedSkillList = window.addedSkillList.filter(s => s !== skill);  // Remove skill
-                            updateAddedSkills();
-                        }
-                    });
-                },
-                preConfirm: () => {
-                    const skills = window.addedSkillList.length > 0 
-                        ? window.addedSkillList.join(', ')  // Join the skills if present
-                        : null; // Send null if no skills
-                    updateProfileContent('skills', skills);
-                }
-            });
-        });
-
-        // Listen for clicks on remove skill buttons
-        const removeSkillButtons = document.querySelectorAll('.remove-skill');
-        removeSkillButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                const skill = e.target.getAttribute('data-skill'); // Get the skill to be removed
-                const skillSpan = e.target.closest('span'); // Find the parent span (badge)
-
-                // Remove the skill from the list visually
-                skillSpan.remove();
-
-                // Update the skills list in the backend via AJAX
-                updateSkillsList();
-            });
-        });
-
-        // Function to handle updating the backend skills list after removing a skill
-        const updateSkillsList = () => {
-            // Get all the badges (skills) in the skills list
-            const skillsList = [...document.querySelectorAll('.skills-display .badge')];
-            // Map through the badges to create a skills array
-            const skillsArray = skillsList.map(skill => skill.textContent.trim());
-
-            // Send the updated skills list to the backend
-            fetch("{{ route('profileContents.update') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-                },
-                body: JSON.stringify({
-                    field: 'skills',
-                    value: skillsArray.join(', ')
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Skills Updated',
-                        text: 'Your skills have been successfully updated.',
-                    });
-                    // Update the skills list on the page with the returned HTML
-                    document.querySelector('#skills-list').innerHTML = data.skillsHtml;
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Update Failed',
-                        text: data.message || 'Something went wrong.',
-                    });
-                }
-            })
-            .catch(error => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred. Please try again.',
-                });
-            });
-        };
-    });
-</script>
-
+    <script src="{{ asset('asset/js/update-profile-contents.js') }}"></script>
 @endsection

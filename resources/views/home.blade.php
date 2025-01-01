@@ -57,12 +57,11 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="typeOfWorkDropdown">
                             <li><a class="dropdown-item" href="#">Full-time</a></li>
-                            <li><a class="dropdown-item" href="#">Part-time</a></li>
-                            <li><a class="dropdown-item" href="#">Contract</a></li>
+                            <li><a class="dropdown-item" href="#">Freelance</a></li>
                         </ul>
                     </div>
 
-                    <div class="dropdown d-inline">
+                    <!-- <div class="dropdown d-inline">
                         <button class="btn btn-outline-light dropdown-toggle position-relative rounded-pill" type="button" id="remoteOptionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             Remote options
                             <span class="dropdown-icon">▼</span>
@@ -72,7 +71,7 @@
                             <li><a class="dropdown-item" href="#">On-site</a></li>
                             <li><a class="dropdown-item" href="#">Hybrid</a></li>
                         </ul>
-                    </div>
+                    </div> -->
 
                     <div class="dropdown d-inline">
                         <button class="btn btn-outline-light dropdown-toggle position-relative rounded-pill" type="button" id="salaryOptionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use Illuminate\Support\Facades\Log;
+use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class RegisterController extends Controller
 {
@@ -21,68 +22,79 @@ class RegisterController extends Controller
 
     // Registration method to handle form submission
     public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'agree' => 'accepted',
-        ]);
+{
+    $validator = Validator::make($request->all(), [
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:8|confirmed',
+        'agree' => 'accepted',
+    ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        // Generate OTP
-        $otpCode = rand(100000, 999999);
-
-        // Store registration data in session
-        $request->session()->put('registration_data', [
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'otp_code' => $otpCode,
-        ]);
-        
-
-        // Send OTP to email
-        if (!$this->sendOtpEmail($request->email, $otpCode)) {
-            return redirect()->back()->withErrors(['email' => 'Failed to send OTP. Please try again.']);
-        }
-
-        return redirect()->route('verify-otp')->with('info', 'Please check your email for the OTP.'); // Change success message to info
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
     }
 
-    // Method to send OTP email
-    private function sendOtpEmail($email, $otpCode)
-    {
-        $mail = new PHPMailer(true);
+    // Generate OTP
+    $otpCode = rand(100000, 999999);
 
-        try {
-            $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com';
-            $mail->SMTPAuth   = true;
-            $mail->Username   = 'bpobridge2024@gmail.com';
-            $mail->Password   = 'rzwljflcpbjpsewr'; // Replace with a valid SMTP password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port       = 587;
+    // Store registration data in session
+    $request->session()->put('registration_data', [
+        'first_name' => $request->first_name,
+        'last_name' => $request->last_name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'otp_code' => $otpCode,
+    ]);
 
-            $mail->setFrom('bpobridge2024@gmail.com', 'BPO Bridge OTP Code');
-            $mail->addAddress($email);
-
-            $mail->isHTML(true);
-            $mail->Subject = 'Your OTP Code';
-            $mail->Body    = "Your OTP code is: <b>$otpCode</b>";
-
-            $mail->send();
-            return true;
-        } catch (Exception $e) {
-            Log::error("Mailer Error: {$mail->ErrorInfo}");
-            return false;
-        }
+    // Send OTP to email
+    if (!$this->sendOtpEmail($request->email, $otpCode, $request->first_name)) {
+        return redirect()->back()->withErrors(['email' => 'Failed to send OTP. Please try again.']);
     }
+
+    return redirect()->route('verify-otp')->with('info', 'Please check your email for the OTP.');
+}
+
+// Method to send OTP email
+private function sendOtpEmail($email, $otpCode, $first_name)
+{
+    $mail = new PHPMailer(true);
+
+    try {
+        // Load the Blade view from the 'auth' folder and pass the OTP code and first name
+        $htmlContent = view('auth.email-otp', ['otpCode' => $otpCode, 'first_name' => $first_name])->render();
+
+        // Load the CSS file from the public directory
+        $cssContent = file_get_contents(public_path('asset/css/email-otp.css'));
+
+        // Inline the CSS into the HTML using CssToInlineStyles
+        $cssInliner = new CssToInlineStyles();
+        $emailBody = $cssInliner->convert($htmlContent, $cssContent);
+
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'bpobridge2024@gmail.com';
+        $mail->Password   = 'rzwljflcpbjpsewr'; // Replace with a valid SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        $mail->setFrom('bpobridge2024@gmail.com', 'BPO Bridge OTP Code');
+        $mail->addAddress($email);
+
+        $mail->isHTML(true);
+        $mail->Subject = 'Your OTP Code';
+        $mail->Body    = $emailBody;
+
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        Log::error("Mailer Error: {$mail->ErrorInfo}");
+        return false;
+    }
+}
+
+   
 
     // Method to show OTP verification form
     public function showOtpForm()

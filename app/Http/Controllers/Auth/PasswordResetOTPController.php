@@ -1,14 +1,14 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use Illuminate\Support\Facades\Validator;
+use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class PasswordResetOTPController extends Controller
 {
@@ -23,14 +23,14 @@ class PasswordResetOTPController extends Controller
     /**
      * Handle an incoming password reset link request.
      */
-        public function store(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'email' => ['required', 'email'],
         ]);
 
         // Generate OTP
-        $otpCode = rand(100000, 999999); // Replace with your OTP generation logic
+        $otpCode = rand(100000, 999999);
 
         // Store OTP in session
         $request->session()->put('otp_data', [
@@ -46,7 +46,6 @@ class PasswordResetOTPController extends Controller
         // Redirect to the OTP verification page with a success message
         return redirect()->route('password.otp')->with('info', 'Please check your email for the OTP.');
     }
-
 
     // Method to send OTP email
     private function sendOtpEmail($email, $otpCode)
@@ -65,9 +64,22 @@ class PasswordResetOTPController extends Controller
             $mail->setFrom('bpobridge2024@gmail.com', 'BPO Bridge OTP Code');
             $mail->addAddress($email);
 
+            // Render the Blade template
+            $htmlContent = View::make('auth.email-otp-reset', [
+                'otpCode' => $otpCode,
+            ])->render();
+
+            // Load CSS content from the external file (email-otp.css)
+            $cssContent = file_get_contents(public_path('asset/css/email-otp.css'));
+
+            // Inline the CSS into the HTML using CssToInlineStyles
+            $cssInliner = new CssToInlineStyles();
+            $emailBody = $cssInliner->convert($htmlContent, $cssContent);
+
+            // Send the email with the inlined CSS
             $mail->isHTML(true);
             $mail->Subject = 'Your OTP Code';
-            $mail->Body    = "Your OTP code is: <b>$otpCode</b>";
+            $mail->Body    = $emailBody;
 
             $mail->send();
             return true;
@@ -86,7 +98,6 @@ class PasswordResetOTPController extends Controller
     // OTP verification method
     public function verifyOtp(Request $request)
     {
-        // Validate the OTP
         $validator = Validator::make($request->all(), [
             'otp_code' => 'required|string|size:6',
         ]);
@@ -99,9 +110,7 @@ class PasswordResetOTPController extends Controller
         $sessionOtp = $request->session()->get('otp_data.otp_code');
         $email = $request->session()->get('otp_data.email');
 
-        // Check if OTP is correct
         if ($otpCode == $sessionOtp) {
-            // Store the email in session under 'reset_email' for retrieval in blade
             $request->session()->put('reset_email', $email);
 
             return response()->json(['success' => true, 'email' => $email]);

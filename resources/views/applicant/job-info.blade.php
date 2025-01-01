@@ -34,7 +34,7 @@
             </div>
         @endif
 
-        <div class="footer">
+        <div class="custom-footer">
             <!-- Job type, category, location, salary, etc. -->
             <div class="icon">
                 <img src="{{ asset('asset/img/applicant/typework.png') }}" alt="Full Time">
@@ -66,7 +66,10 @@
             @endif
 
             @auth
-                <a href="{{ route('application-form.show', ['application_form' => $job->full_job_ID ?? $job->fl_jobID, 'type' => $job->full_job_ID ? 'full-time' : 'freelance']) }}" class="apply-btn text-decoration-none">Apply Now<i class="fa-solid fa-arrow-up-right-from-square ms-2"></i></a>
+                <a href="{{ route('application-form.show', ['application_form' => $job->full_job_ID ?? $job->fl_jobID, 'type' => $job->full_job_ID ? 'full-time' : 'freelance']) }}" class="apply-btn text-decoration-none">
+                    Apply Now
+                    <i class="icon fa-solid fa-arrow-up-right-from-square ms-2 fs-5"></i>
+                </a>
             @else
                 <button 
                     class="apply-btn" 
@@ -74,25 +77,29 @@
                     data-bs-target="#loginModal"
                     data-job-type="{{ $job->full_job_ID ? 'full-time' : 'freelance' }}"
                     data-job-title="{{ $job->job_title ?? $job->fl_job_title }}">
-                    Apply Now<i class="fa-solid fa-arrow-up-right-from-square ms-2"></i>
+                    Apply Now
+                    <i class="icon fa-solid fa-arrow-up-right-from-square ms-2 fs-5"></i>
                 </button>
+
             @endauth
             <p class="application-deadline">Application ends in: <span id="countdown">3 days</span></p>
             
-            <p style="margin-bottom: 20px">Unsure yet? Click Save to get back to it later.</p>
+            <p style="margin-bottom: 20px">Not sure yet? Click here to save to get back to it later.</p>
             @if (Auth::check())
                 <a href="javascript:void(0);" 
                     class="save-btn text-decoration-none" 
                     data-job-id="{{ $jobType === 'full-time' ? $job->full_job_ID : $job->fl_jobID }}" 
                     data-job-type="{{ $jobType }}" 
                     onclick="saveJob(this);">
-                    Save <i class="fa-regular fa-bookmark ms-2"></i>
+                    Save Job
+                    <i class="icon fa-regular fa-bookmark ms-1 fs-5"></i>
                 </a>
             @else
                 <a href="javascript:void(0);" 
                     class="save-btn text-decoration-none" 
                     onclick="alert('Please login first to save this job.');">
-                    Login to Save <i class="fa-regular fa-bookmark ms-2"></i>
+                    Login to Save 
+                    <i class="icon fa-regular fa-bookmark ms-1 fs-5"></i>
                 </a>
             @endif
         </div>
