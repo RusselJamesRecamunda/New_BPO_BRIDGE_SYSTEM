@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable; 
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -31,11 +31,12 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name',     
-        'last_name',       
+        'first_name',
+        'last_name',
         'email',
         'email_verified_at',
-        'password', 
+        'password',
+        'google_id',
         'phone_number',
         'address',
         'date_of_birth',
@@ -44,7 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'role',
         'otp_code',
         'remember_token',
-        'activity_status', 
+        'activity_status',
         'user_status',
         'user_photo',
     ];
@@ -77,14 +78,14 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function adminInfo()
     {
-        return $this->hasOne(AdminInfo::class, 'user_id', 'user_id'); 
-    } 
+        return $this->hasOne(AdminInfo::class, 'user_id', 'user_id');
+    }
 
-   // A user must have at least one document submission
-   public function documentSubmissions()
-   {
-       return $this->hasMany(DocumentSubmission::class, 'user_id');
-   }
+    // A user must have at least one document submission
+    public function documentSubmissions()
+    {
+        return $this->hasMany(DocumentSubmission::class, 'user_id');
+    }
     /**
      * Defines the relationship between User and Notifications.
      * 
@@ -99,8 +100,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     // Relationship with Contracts Table
     public function contract()
-    { 
-        return $this->hasOne(Contract::class, 'user_id'); 
+    {
+        return $this->hasOne(Contract::class, 'user_id');
     }
 
     // Relationship with Applications
@@ -114,5 +115,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(SavedJobs::class, 'user_id', 'user_id');
     }
-
 }

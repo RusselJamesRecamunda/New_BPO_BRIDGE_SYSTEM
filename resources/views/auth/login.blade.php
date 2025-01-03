@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="icon" href="{{ asset('asset/img/browser-icons/bpo_icon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('asset/css/login.css') }}">
 </head>
+
 <body>
     <header class="bg-light border-bottom">
         <div class="container-fluid d-flex align-items-center py-1">
@@ -33,9 +35,9 @@
                             <label for="email">Email Address</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address" required autofocus autocomplete="username" value="{{ old('email') }}">
                             <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
-                            <div id="email-warning" class="warning">Required Field</div>
+                            <div id="email-warning" class="warnin   g">Required Field</div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="password">Password</label>
                             <div class="password-container">
@@ -53,9 +55,12 @@
                         <div class="forgot-password-container text-right mb-3">
                             <a href="{{ route('password.request') }}" class="forgot-password">Forgot Password?</a>
                         </div>
-                        
+
                         <button type="submit" class="btn btn-primary btn-block">Login</button>
                     </form>
+                    <a href="{{ route('google.login') }}" class="btn btn-outline-primary w-100 mt-2">
+                        <i class="fa-brands fa-google"></i> Login with Google
+                    </a>
                     <p class="mt-3 text-left">Don’t have an account? <a href="{{ route('register') }}">Register</a></p>
                 </div>
             </div>
@@ -70,6 +75,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{{ asset('asset/js/script.js') }}"></script>
-   
+
 </body>
+
 </html>
