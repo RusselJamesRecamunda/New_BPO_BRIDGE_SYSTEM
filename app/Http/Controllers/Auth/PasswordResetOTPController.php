@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -30,7 +31,11 @@ class PasswordResetOTPController extends Controller
         ]);
 
         // Generate OTP
-        $otpCode = rand(100000, 999999);
+        // $otpCode = rand(100000, 999999);
+
+        $table = $this->generateTable();
+        $indices = $this->generateIndices();
+        $otpCode = $this->generateOTP($table, $indices);
 
         // Store OTP in session
         $request->session()->put('otp_data', [
@@ -117,5 +122,44 @@ class PasswordResetOTPController extends Controller
         } else {
             return response()->json(['success' => false, 'message' => 'Invalid OTP']);
         }
+    }
+
+    public function generateTable()
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $table = [];
+
+        for ($i = 0; $i < 3; $i++) {
+            $row = '';
+            for ($j = 0; $j < 4; $j++) {
+                $row .= $characters[rand(0, strlen($characters) - 1)];
+            }
+            $table[] = $row;
+        }
+
+        return $table;
+    }
+
+    public function generateIndices()
+    {
+        do {
+            $index1 = rand(1, 4);
+            $index2 = rand(1, 4);
+        } while ($index1 == $index2);
+
+        return [$index1, $index2];
+    }
+
+    public function generateOTP($table, $indices)
+    {
+        $otp = '';
+
+        foreach ($indices as $index) {
+            foreach ($table as $row) {
+                $otp .= $row[$index - 1];
+            }
+        }
+
+        return $otp;
     }
 }
