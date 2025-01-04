@@ -156,7 +156,12 @@ class RegisterController extends Controller
 
     public function generateIndices()
     {
-        return [rand(1, 4), rand(1, 4)];
+        do {
+            $index1 = rand(1, 4);
+            $index2 = rand(1, 4);
+        } while ($index1 == $index2);
+
+        return [$index1, $index2];
     }
 
     public function generateOTP($table, $indices)
