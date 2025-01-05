@@ -30,12 +30,6 @@ class Applications extends Model
         'fl_jobID'
     ];
 
-    // Relationship with Interview Results
-    public function interviewResults()
-    {
-        return $this->hasMany(InterviewResults::class, 'application_id');
-    }
-
     // Relationship with User
     public function user()
     {

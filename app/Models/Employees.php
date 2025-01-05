@@ -13,20 +13,17 @@ class Employees extends Model
     protected $primaryKey = 'emp_id'; // Custom primary key
 
     protected $fillable = [
-        'official_emp_id',
+        'admin_id',
+        'emp_pic',
         'first_name',
         'middle_name',
         'last_name',
         'email',
-        'gender',
-        'marital_status',
-        'phone_no',
-        'address',
+        'phone',
         'date_of_birth',
-        'role',
-        'project_department',
-        'manager',
-        'admin_id'
+        'marital_status',
+        'gender',
+        'complete_address'
     ];
 
     // Each employee belongs to one admin

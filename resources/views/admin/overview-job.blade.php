@@ -77,7 +77,7 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <h6 class="card-title text-center"><i class="fa-solid fa-clock-rotate-left me-3 text-warning"></i>Pending Review</h6>
-                                                <p class="card-text text-center">Total: <span class="text-warning">0</span></p>
+                                                <p class="card-text text-center">Total: <span class="text-warning">{{ $pendingCount }}</span></p>
                                             </div>
                                         </div>
                                     </div>
@@ -86,7 +86,7 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <h6 class="card-title text-center"><i class="fa-regular fa-square-check me-3 text-success"></i>Qualified for Interview</h6>
-                                                <p class="card-text text-center">Total: <span class="text-success">0</span></p>
+                                                <p class="card-text text-center">Total: <span class="text-success">{{ $qualifiedCount }}</span></p>
                                             </div>
                                         </div>
                                     </div>
@@ -99,14 +99,16 @@
                 <!-- Right Section -->
                 <div class="col-lg-4">
                     <div class="card p-4">
-                        <button class="btn btn-primary btn-block mb-3 fw-bold"><i class="fa-solid fa-pen-to-square me-3"></i>Edit Job</button>
+                    <a href="{{ route('job-posting.edit', ['id' => $job->full_job_ID ?? $job->fl_jobID]) }}" class="btn btn-primary btn-block mb-3 fw-bold">
+                        <i class="fa-solid fa-pen-to-square me-3"></i>Edit Job
+                    </a>
+
                         <ul class="list-group list-group-flush">
                             <button class="btn btn-danger btn-block mt-3 fw-bold"><i class="fa-solid fa-lock me-3"></i>Close Job</button>
                         </ul>
                         <hr>
                         <button class="btn btn-warning btn-block fw-bold text-light mb-4"  type="button" data-url="{{ route('home') }}" id="viewHomeButton"><i class="fa-regular fa-eye me-3"></i>View Public Job Page</button>
-                        <p>Total Applied: <strong>0</strong></p>
-                        <!-- <p>Ready for Interview: <strong>0</strong></p> -->
+                        <p>Total Applied: <strong>{{ $appliedCount }}</strong></p>
                         <p>Job Status: <strong>{{ $job->job_status ?? $job->job_status }}</strong></p>
                         <p>Posted: <strong>{{ $job->creation_date->diffForHumans() }}</strong></p>
                     </div>

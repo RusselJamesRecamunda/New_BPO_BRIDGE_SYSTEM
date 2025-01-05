@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('interview_results', function (Blueprint $table) {
             $table->id('result_id');
             $table->unsignedBigInteger('interview_id');
-            $table->unsignedBigInteger('application_id');
+            // $table->unsignedBigInteger('application_id');
             $table->string('applied_job');
             $table->string('candidate_name');
             $table->string('interviewer');
@@ -31,7 +31,7 @@ return new class extends Migration
 
             // Foreign key constraints
             $table->foreign('interview_id')->references('interview_id')->on('interviews')->onDelete('cascade');
-            $table->foreign('application_id')->references('application_id')->on('applications')->onDelete('cascade');
+            // $table->foreign('application_id')->references('application_id')->on('applications')->onDelete('cascade');
         });
     }
 

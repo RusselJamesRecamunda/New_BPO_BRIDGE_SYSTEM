@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- browser-icon section -->
     @yield('browser-icon')
-    <title>@yield('title', 'Dashboard')</title>
+    <title>@yield('title')</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome (for icons) -->
@@ -34,6 +34,7 @@
             @yield('jobs-content')
             @yield('overview-content')
             @yield('job-posting-content')
+            @yield('edit-job-posting-content')
             @yield('applications-content')    
             @yield('users-content')
             @yield('interviews-content') 

@@ -123,6 +123,12 @@ Route::prefix('admin')->group(function () {
     Route::resource('jobs', JobsController::class);
     Route::resource('overview-job', OverviewJobController::class);
     Route::resource('job-posting', JobPostingController::class);
+    
+    // Route for editing a job posting
+    Route::get('/admin/job-posting/{id}/edit', [JobPostingController::class, 'edit'])->name('job-posting.edit');
+    Route::put('/admin/job-posting/{job_posting}', [JobPostingController::class, 'update'])->name('job-posting.update');
+
+
     Route::resource('applications', ApplicationsController::class);
     // Custom updateStatus route
     Route::patch('applications/{application}/updateStatus', [ApplicationsController::class, 'updateStatus'])->name('applications.updateStatus');

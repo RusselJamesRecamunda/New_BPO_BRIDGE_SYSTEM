@@ -1,0 +1,140 @@
+    /* Container with background color */
+    .applicant-container {
+        background-color: #D9D9D9;
+        padding: 20px;
+        border-radius: 8px;
+        height: 193vh;
+    }
+    .status-badge {
+        padding: 5px 10px;
+        border-radius: 15px;
+        color: white;
+        font-weight: bold;
+    }
+    
+    .badge-1st-round { background-color: #4CAF50; color: white; }
+    .badge-2nd-round { background-color: #FFC107; color: white; }
+    .badge-on-hold { background-color: #FF9800; color: white; }
+    .badge-hired { background-color: #2196F3; color: white; }
+    .badge-rejected { background-color: #F44336; color: white; }
+    
+    .status-select {
+        padding: 5px;
+        font-weight: bold;
+        color: white;
+        border-radius: 5px;
+        border: none;
+    }
+    
+    /* Status select styles */
+    .status-select option {
+        font-weight: bold;
+    }
+    
+    .status-select option[value="1st Round Passed"] {
+        background-color: #4CAF50;
+        color: white;
+    }
+    
+    .status-select option[value="2nd Round Passed"] {
+        background-color: #FFC107;
+        color: white;
+    }
+    
+    .status-select option[value="On-Hold"] {
+        background-color: #FF9800;
+        color: white;
+    }
+    
+    .status-select option[value="Hired"] {
+        background-color: #2196F3;
+        color: white;
+    }
+    
+    .status-select option[value="Rejected"] {
+        background-color: #F44336;
+        color: white;
+    }
+
+    .badge-interview-score {
+        background-color: #0F5078; /* Set the background color */
+        color: white; /* Text color */
+        padding: 5px 10px; /* Padding for better appearance */
+        border-radius: 15px; /* Rounded badge */
+        font-weight: bold; /* Bold text */
+        font-size: 14px; /* Adjust font size */
+        display: inline-block; /* Ensure proper alignment */
+        text-align: center;
+        min-width: 50px; /* Ensures consistency in badge size */
+    }
+    
+    
+
+    /* Table styles */
+    table th, table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+    #applicantTable th, #applicantTable td {
+        vertical-align: middle;
+        text-align: center;
+    }
+    
+    #applicantTable td:nth-child(7) { /* Target the "Status" column */
+        max-width: 200px; /* Adjust as needed */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; /* Optional: Adds "..." if the text overflows */
+    }
+    
+
+   /* Button styles */
+.btn-primary {
+    background-color: #0F5078;
+    border: none;
+    padding: 5px 10px;
+    font-weight: bold;
+    color: white;
+    margin-left: auto; /* Pushes the button to the right */
+}
+
+.btn-primary:hover {
+    background-color: #0C3E5A;
+}
+
+/* Tab styles */
+.custom-tabs {
+    display: flex;
+    align-items: center; /* Align tabs and button vertically */
+    gap: 20px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ccc;
+    justify-content: space-between; /* Ensures proper spacing between tabs and button */
+}
+
+.custom-tab {
+    position: relative;
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+    padding-bottom: 5px;
+}
+
+.custom-tab:hover, .custom-tab.active {
+    color: #0F5078;
+}
+
+.custom-tab::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #0F5078;
+    transition: width 0.3s ease-in-out;
+}
+
+.custom-tab:hover::after, .custom-tab.active::after {
+    width: 100%;
+}

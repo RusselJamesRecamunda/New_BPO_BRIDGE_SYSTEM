@@ -70,6 +70,8 @@ class OverviewJobController extends Controller
                     'application_id' => $application->application_id,
                     'application_status' => $application->application_status,
                     'candidate_status' => $validated['status'], // The status from the request
+                    'candidate_resume' => $application->resume_cv,
+                    'candidate_cover_letter' => $application->cover_letter,
                 ]
             );
 
@@ -141,9 +143,18 @@ class OverviewJobController extends Controller
     
         // Calculate total applicants this week
         $totalApplicantsThisWeek = array_sum($applicantData);
+
+        // Count qualified candidates
+        $qualifiedCount = JobCandidates::where('candidate_status', 'Qualified')->count();
+
+        // Count pending candidates
+        $pendingCount = Applications::where('application_status', 'Pending')->count();
     
+        // Count all applications submitted 
+        $appliedCount = Applications::count();
+
         // Pass data to the view
-        return view('admin.overview-job', compact('job', 'jobType', 'applicantData', 'daysOfWeek', 'totalApplicantsThisWeek', 'detailedApplications'));
+        return view('admin.overview-job', compact('job', 'jobType', 'applicantData', 'daysOfWeek', 'totalApplicantsThisWeek', 'detailedApplications', 'qualifiedCount', 'pendingCount', 'appliedCount'));
     }
     
     /**

@@ -28,7 +28,7 @@
     font-size:4em;
     letter-spacing:3px;
     color:#5892FF ;
-      color: #44ca91;
+      color: #0F5078;
     margin:0;
     margin-bottom:20px;
   }
@@ -50,7 +50,7 @@
   .go-home{
     color:#fff;
     background:#5892FF;
-    background: #44ca90;
+    background: #0F5078;
     border:none;
     padding:10px 50px;
     margin:30px 0;
@@ -60,6 +60,7 @@
   }
   a.go-home:hover {
     text-decoration: none;
+    color:#427f91;
   }
   .footer-like{
     margin-top: auto; 
