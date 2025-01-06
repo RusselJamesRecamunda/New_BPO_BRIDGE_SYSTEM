@@ -25,7 +25,7 @@
       </p>
     </div>
     <div class="button-container" style="text-align: center;">
-      <a href="#" class="button" style="display: inline-block;background-color: #0F5078;color: #ffffff;text-decoration: none;padding: 10px 20px;border-radius: 5px;">Submit Requirements</a>
+      <a href="recruitment-submission.index" class="button" style="display: inline-block;background-color: #0F5078;color: #ffffff;text-decoration: none;padding: 10px 20px;border-radius: 5px;">Submit Requirements</a>
     </div>
   </div>
   <div class="email-footer" style="text-align: center;font-size: 12px;color: #9F9E9E;margin-top: 20px;">

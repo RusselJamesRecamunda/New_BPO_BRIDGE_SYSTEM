@@ -25,7 +25,6 @@ use App\Http\Controllers\AdminControllers\InterviewsController;
 use App\Http\Controllers\AdminControllers\ScheduleNotificationController;
 use App\Http\Controllers\AdminControllers\ResultNotificationController;
 use App\Http\Controllers\AdminControllers\ReportsController;
-use App\Http\Controllers\ZoomMeetingController;
 
 use App\Http\Controllers\ApplicantControllers\ApplicantProfileController;
 use App\Http\Controllers\ApplicantControllers\AboutUsController;
@@ -35,6 +34,7 @@ use App\Http\Controllers\ApplicantControllers\ManageProfileController;
 use App\Http\Controllers\ApplicantControllers\ContactUsController;
 use App\Http\Controllers\ApplicantControllers\ApplySuccessController;
 use App\Http\Controllers\ApplicantControllers\AppliedSavedController;
+use App\Http\Controllers\ApplicantControllers\RecruitmentSubmissionController;
 
 // Public routes
 Route::get('/', function () {
@@ -89,6 +89,8 @@ Route::prefix('applicant')->group(function () {
 
     // To Edit Profile View
     Route::post('manage-profile/updateOrCreate', [ManageProfileController::class, 'updateOrCreate'])->name('manage-profile.updateOrCreate');
+
+     Route::resource('recruitment-submission', RecruitmentSubmissionController::class);
 
     // Contact Us View and Controller
     Route::resource('contact-us', ContactUsController::class);
