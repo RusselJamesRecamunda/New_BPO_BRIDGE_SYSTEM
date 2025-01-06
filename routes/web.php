@@ -14,7 +14,7 @@ use App\Http\Controllers\AdminControllers\ApplicantResultsController;
 use App\Http\Controllers\AdminControllers\InterviewNotesController;
 use App\Http\Controllers\AdminControllers\EmployeeController;
 use App\Http\Controllers\AdminControllers\AddEmployeeController;
-use App\Http\Controllers\AdminControllers\DepartmentsController; 
+use App\Http\Controllers\AdminControllers\DepartmentsController;
 use App\Http\Controllers\AdminControllers\DepartmentInfoController;
 use App\Http\Controllers\AdminControllers\JobsController;
 use App\Http\Controllers\AdminControllers\OverviewJobController;
@@ -38,12 +38,12 @@ use App\Http\Controllers\ApplicantControllers\AppliedSavedController;
 // Public routes
 Route::get('/', function () {
     return view('home');
-})->name('home'); 
+})->name('home');
 
 Route::get('/', [JobsController::class, 'index'])->name('home')->defaults('forHome', true);
 
-require __DIR__.'/auth.php';
- 
+require __DIR__ . '/auth.php';
+
 // Zoom Meeting Creation
 // Route::post('generate-meet-link', [ZoomMeetingController::class, 'generateMeetingLink'])->name('generate.meet.link');
 
@@ -51,7 +51,7 @@ Route::get('register', [RegisterController::class, 'showRegistrationForm'])->nam
 Route::post('register', [RegisterController::class, 'register']);
 Route::get('verify-otp', [RegisterController::class, 'showOtpForm'])->name('verify-otp');
 Route::post('verify-otp', [RegisterController::class, 'verifyOtp']);
- 
+
 // Login Session
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -71,10 +71,10 @@ Route::get('/sidebar', function () {
 });
 
 Route::prefix('applicant')->group(function () {
-    
+
     // Profile View and Controller
     Route::resource('profile-page', ApplicantProfileController::class);
-    
+
     // About Us View and Controller
     Route::resource('about-us', AboutUsController::class);
 
@@ -88,7 +88,7 @@ Route::prefix('applicant')->group(function () {
 
     // To Edit Profile View
     Route::post('manage-profile/updateOrCreate', [ManageProfileController::class, 'updateOrCreate'])->name('manage-profile.updateOrCreate');
-    
+
     // Contact Us View and Controller
     Route::resource('contact-us', ContactUsController::class);
 
@@ -146,5 +146,3 @@ Route::prefix('admin')->group(function () {
     //General Reports View and Controller
     Route::resource('reports', ReportsController::class);
 });
-
-
