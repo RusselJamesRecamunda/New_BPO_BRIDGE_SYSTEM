@@ -68,7 +68,7 @@ Route::group(
     ['middleware' => 'auth:sanctum'],
     function () {
         // This should match the logout action defined in your controller
-        Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+        // Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
         Route::group(
             ['middleware' => 'role:applicant'],
