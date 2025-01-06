@@ -12,7 +12,7 @@ class InterviewResults extends Model
 
     protected $fillable = [
         'interview_id',
-        'application_id',
+        'candidate_id',
         'applied_job',
         'candidate_name',
         'interviewer',
@@ -33,9 +33,10 @@ class InterviewResults extends Model
         return $this->belongsTo(Interviews::class, 'interview_id');
     }
 
-    // Relationship with Application
-    public function application()
+    // InterviewResults model
+    public function jobCandidates()
     {
-        return $this->belongsTo(Applications::class, 'application_id');
+        return $this->belongsTo(JobCandidates::class, 'candidate_id');
     }
+
 }

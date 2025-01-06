@@ -17,21 +17,17 @@ return new class extends Migration
                 ->constrained('admin_info', 'admin_id') // References admin_id in admin_info
                 ->onDelete('cascade'); // Delete employees if admin is deleted
             
-            $table->string('official_emp_id')->unique(); // Unique official employee ID
-            $table->string('first_name'); // First name
-            $table->string('middle_name')->nullable(); // Middle name
-            $table->string('last_name'); // Last name
-            $table->string('email')->unique(); // Unique email
-            $table->enum('gender', ['Male', 'Female', 'Other']); // Gender
-            $table->enum('marital_status', ['Single', 'Married', 'Divorced', 'Widowed'])->nullable(); // Marital status
-            $table->string('phone_no'); // Phone number
-            $table->text('address'); // Address
-            $table->date('date_of_birth'); // Date of birth
-            $table->string('role'); // Role of the employee
-            $table->string('project_department'); // Project department
-            $table->string('manager')->nullable(); // Manager's name
-            
-            $table->timestamps(); // Created at and updated at timestamps
+            $table->text('emp_pic')->nullable(); 
+            $table->string('first_name');
+            $table->string('middle_name')->nullable();
+            $table->string('last_name'); 
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('date_of_birth'); 
+            $table->string('marital_status')->nullable();
+            $table->string('gender')->nullable();
+            $table->text('complete_address'); 
+            $table->timestamps(); 
         });
     }
 

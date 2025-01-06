@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use App\Models\Interviews;
+use App\Observers\InterviewObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,8 +22,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-            $event->extendSocialite('google', \SocialiteProviders\Google\Provider::class);
-        });
+        Interviews::observe(InterviewObserver::class);
     }
 }

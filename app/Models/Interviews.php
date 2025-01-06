@@ -34,7 +34,7 @@ class Interviews extends Model
     // Relationship with Interview Results
     public function interviewResults()
     {
-        return $this->hasMany(InterviewResults::class, 'interview_id');
+        return $this->hasOne(InterviewResults::class, 'interview_id');
     }
 
     // Relationship with Job Candidates

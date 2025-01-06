@@ -29,12 +29,12 @@
                         <i class="fa-solid fa-check-to-slot me-3"></i>Applicant Results
                     </button>
                 </li>
-                <li>
-                    <!-- Clicking this will go to the 'interview.notes' route -->
+                <!-- <li>
+                    
                     <button class="dropdown-item fs-6" type="button" data-url="{{ route('notes.index') }}">
                         <i class="fa-solid fa-comment me-3"></i>Interview Notes
                     </button>
-                </li>
+                </li> -->
             </ul>
         </li>
   

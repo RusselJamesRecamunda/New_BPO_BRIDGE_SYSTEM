@@ -6,7 +6,7 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>Thank you page</title>
+  <title>Success</title>
   <link rel="icon" href="{{ asset('asset/img/browser-icons/bpo_icon.png') }}">
   <link rel="stylesheet" href="{{ asset('asset/css/thank-you.css') }}">
 </head>
@@ -17,7 +17,9 @@
     <div class="wrapper-2">
       <h1>Thank you !</h1>
       <h4>You've successfully sent your application</h4>
-      <p>Congratulations, you have sent your application for this job</p>
+      <p>Congratulations, you have sent your application for this job wait for us to contact you
+        as soon as we have reviewed your application.
+      </p>
        <br>
        <a class="go-home text-decoration-none" href="{{ route('home') }}">
         Go Home

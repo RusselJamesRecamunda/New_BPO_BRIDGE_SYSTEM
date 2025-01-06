@@ -86,17 +86,15 @@
                             <th>2x2 Photo</th>
                             <th>Birth Certificate</th>
                             <th>Tin Number</th>
-                            <th>PhilHealth ID</th>
-                            <th>Pag-Ibig No.</th>
+                            <th>PhilHealth</th>
+                            <th>Pag-Ibig</th>
+                            <th>SSS</th>
                             <th>BIR Form</th>
-                            <th>Resume/Curriculum Vitae (CV)</th>
-                            <th>Cover Letter</th>
                             <th>Health Certificate</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>

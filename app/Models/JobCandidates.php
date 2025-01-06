@@ -19,6 +19,8 @@ class JobCandidates extends Model
         'application_id',
         'application_status',
         'candidate_status',
+        'candidate_resume',
+        'candidate_cover_letter',
     ];
 
     // Relations
@@ -31,4 +33,11 @@ class JobCandidates extends Model
     {
         return $this->hasOne(Interviews::class, 'candidate_id', 'candidate_id');
     }
+
+    // Relationship with Interview Results
+    public function interviewResults()
+    {
+        return $this->hasMany(InterviewResults::class, 'candidate_id');
+    }
+
 }

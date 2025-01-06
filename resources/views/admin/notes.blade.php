@@ -1,10 +1,10 @@
 @extends('layouts.admin_pages')
 
-@section('title', 'Interview Notes')
+<!-- @section('title', 'Interview Notes') -->
 
 @section('browser-icon')
     <link rel="icon" href="{{ asset('asset/img/browser-icons/bpo_icon.png') }}" type="image/x-icon">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
 @endsection
  
 @section('styles')
@@ -37,7 +37,7 @@
     </style>
 @endsection
 
-@section('result-content')
+@section('notes-content')
 
     <!-- Top Bar -->
     @include('components.topbar')
@@ -61,7 +61,8 @@
             <table class="table table-bordered table-hover align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th>Interview ID</th>
+                        <!-- <th>Interview ID</th> -->
+                        <th>Interviewer</th>
                         <th>Candidate Name</th>
                         <th>Interviewer</th>
                         <th>Interview Mode</th>
@@ -73,8 +74,9 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Carlo Dela Peña</td>
-                        <td>Software Engineer</td>
+                        <!-- <td></td> -->
+                        <td></td>
+                        <td>Candidates</td>
                         <td></td>
                         <td></td>
                         <td><i class="bi bi-file-earmark"></i></td>

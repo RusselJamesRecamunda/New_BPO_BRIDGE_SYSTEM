@@ -13,21 +13,20 @@ return new class extends Migration
     {
         Schema::create('employee_assets', function (Blueprint $table) {
             $table->unsignedBigInteger('emp_id')->primary();
+            $table->string('dept_manager')->nullable();
+            $table->string('hire_date')->nullable();
             $table->string('official_emp_id')->nullable();
             $table->string('mst_account')->nullable();
             $table->string('emp_email')->nullable();
             $table->string('work_status')->nullable();
             $table->string('project_department')->nullable();
             $table->string('working_days')->nullable();
-            $table->string('office_location')->nullable();
             $table->string('designation')->nullable();
-            $table->date('hire_date')->nullable();
-            $table->string('manager')->nullable();
-            $table->string('appointment_letter')->nullable();
-            $table->string('cover_letter')->nullable();
-            $table->string('exp_letter')->nullable();
-            $table->string('valid_id')->nullable();
-            $table->string('tin_number')->nullable();
+            $table->text('birth_cert')->nullable();
+            $table->text('phil_health')->nullable();
+            $table->text('sss')->nullable();
+            $table->text('tin_number')->nullable();
+            $table->text('pagibig_membership')->nullable();
             
             // Foreign key constraint linking to the Employees table
             $table->foreign('emp_id')->references('emp_id')->on('employees')->onDelete('cascade');

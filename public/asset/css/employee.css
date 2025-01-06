@@ -14,18 +14,6 @@
 .badge-full-time { background-color: #A6AAFF; color: #0F5078; }
 .badge-freelance { background-color: #A6AAFF; color: #0F5078; }
 
-.status-select {
-    padding: 5px;
-    font-weight: bold;
-    background-color: #A6AAFF;
-    color: #0F5078;
-    border-radius: 5px;
-    border: none;
-}
-
-.status-select option {
-    font-weight: bold;
-}
 
 /* Table styles */
 table th, table td {

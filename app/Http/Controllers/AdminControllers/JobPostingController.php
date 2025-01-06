@@ -22,6 +22,8 @@ class JobPostingController extends Controller
         return view('admin.job-posting', compact('categories', 'jobTypes')); // Pass categories and job types to the view
     }
 
+    
+
  
     /**
      * Show the form for creating a new resource.
@@ -142,18 +144,93 @@ class JobPostingController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
-    }
+        // Check if the job posting is full-time or freelance by checking the existence of the job in the respective tables
+        $fullTimeJob = FullTimeJobPosting::with('category', 'jobType')->where('full_job_ID', $id)->first();
+        $freelanceJob = FreelanceJobPosting::with('category', 'jobType')->where('fl_jobID', $id)->first();
+    
+        // Determine the job type and data
+        if ($fullTimeJob) {
+            $job = $fullTimeJob;
+            $jobType = 'full-time';
+        } elseif ($freelanceJob) {
+            $job = $freelanceJob;
+            $jobType = 'freelance';
+        } else {
+            abort(404, 'Job not found');
+        }
+    
+        // Fetch categories and job types for the dropdowns
+        $categories = Category::all();
+        $jobTypes = JobType::all();
+    
+        return view('admin.edit-job-posting', compact('job', 'categories', 'jobTypes', 'jobType'));
+    }    
+    
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        // Validate input
+        $request->validate([
+            'job_title' => 'required|string|max:500',
+            'job_description' => 'required|string',
+            'jobCategory' => 'required|integer',
+            'jobType' => 'required|integer',
+            'job_location' => 'required|string|max:500',
+            'requirements' => 'required|string',
+            'company_benefits' => 'nullable|string',
+            'keywords' => 'nullable|string',
+            'max_hires' => 'required|integer',
+            'job_photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'job_duration' => 'nullable|string',
+            'basic_pay' => 'nullable|string|max:500',
+        ]);
+    
+        // Check if the job posting is full-time or freelance
+        $job = FullTimeJobPosting::where('full_job_ID', $id)->first() ??
+               FreelanceJobPosting::where('fl_jobID', $id)->first();
+    
+        if (!$job) {
+            abort(404, 'Job not found');
+        }
+    
+        // Update the common fields
+        $job->job_title = $request->job_title;
+        $job->job_description = $request->job_description;
+        $job->category_id = $request->jobCategory;
+        $job->job_type_id = $request->jobType;
+        $job->job_location = $request->job_location;
+        $job->requirements = $request->requirements;
+        $job->company_benefits = $request->company_benefits;
+        $job->keywords = $request->keywords;
+        $job->max_hires = $request->max_hires;
+        // $job->job_duration = $request->job_duration;
+    
+        // Handle file upload
+        if ($request->hasFile('job_photo')) {
+            $file = $request->file('job_photo');
+            $path = $file->store('public/uploads/job-postings');
+            $job->job_photo = basename($path);
+        }
+    
+        // Handle job-specific fields
+        if ($job instanceof FullTimeJobPosting) {
+            $job->basic_pay = $request->basic_pay;
+        }
+    
+        $job->save();
+    
+        return redirect()->route('job-posting.edit', ['id' => $job->full_job_ID ?? $job->fl_jobID])
+            ->with('success', 'Job updated successfully');
     }
+    
+
+
 
     /**
      * Remove the specified resource from storage.

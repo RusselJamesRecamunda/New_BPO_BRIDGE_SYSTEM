@@ -23,8 +23,8 @@ use App\Http\Controllers\AdminControllers\ApplicationsController;
 use App\Http\Controllers\AdminControllers\ManageUsersController;
 use App\Http\Controllers\AdminControllers\InterviewsController;
 use App\Http\Controllers\AdminControllers\ScheduleNotificationController;
+use App\Http\Controllers\AdminControllers\ResultNotificationController;
 use App\Http\Controllers\AdminControllers\ReportsController;
-use App\Http\Controllers\ZoomMeetingController;
 
 use App\Http\Controllers\ApplicantControllers\ApplicantProfileController;
 use App\Http\Controllers\ApplicantControllers\AboutUsController;
@@ -34,6 +34,7 @@ use App\Http\Controllers\ApplicantControllers\ManageProfileController;
 use App\Http\Controllers\ApplicantControllers\ContactUsController;
 use App\Http\Controllers\ApplicantControllers\ApplySuccessController;
 use App\Http\Controllers\ApplicantControllers\AppliedSavedController;
+use App\Http\Controllers\ApplicantControllers\RecruitmentSubmissionController;
 
 // Public routes
 Route::get('/', function () {
@@ -130,6 +131,12 @@ Route::group(
                 Route::resource('jobs', JobsController::class);
                 Route::resource('overview-job', OverviewJobController::class);
                 Route::resource('job-posting', JobPostingController::class);
+
+                // Route for editing a job posting
+                Route::get('/admin/job-posting/{id}/edit', [JobPostingController::class, 'edit'])->name('job-posting.edit');
+                Route::put('/admin/job-posting/{job_posting}', [JobPostingController::class, 'update'])->name('job-posting.update');
+
+
                 Route::resource('applications', ApplicationsController::class);
                 // Custom updateStatus route
                 Route::patch('applications/{application}/updateStatus', [ApplicationsController::class, 'updateStatus'])->name('applications.updateStatus');
@@ -144,6 +151,9 @@ Route::group(
 
                 // This creates routes for all standard resource actions
                 Route::resource('schedule-notification', ScheduleNotificationController::class);
+                Route::resource('result-notification', ResultNotificationController::class);
+                Route::post('/admin/send-result-notification', [ApplicantResultsController::class, 'sendResultNotification'])->name('admin.send-result-notification');
+
                 //General Reports View and Controller
                 Route::resource('reports', ReportsController::class);
             });
