@@ -37,7 +37,7 @@
                         <p class="mb-3 fw-bold">Total Employees</p>
                         <div class="d-flex justify-content-center align-items-center">
                             <i class="fa fa-users fa-3x me-4"></i>
-                            <h2 class="mb-0">470</h2>
+                            <h2 class="mb-0">{{$EmployeesCount}}</h2>
                         </div>
                     </div>
                 </div>

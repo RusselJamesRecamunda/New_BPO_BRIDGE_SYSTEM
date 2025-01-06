@@ -31,12 +31,9 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('official_emp_id')->nullable();
             $table->string('project_department')->nullable();
-            
             // Manager details
-            $table->string('manager_first_name')->nullable();
-            $table->string('manager_middle_name')->nullable();
-            $table->string('manager_last_name')->nullable();
-            
+            $table->string('dept_manager')->nullable();
+            $table->string('hire_date')->nullable();
             $table->timestamps();
         });
     }

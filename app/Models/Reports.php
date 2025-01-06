@@ -22,9 +22,8 @@ class Reports extends Model
         'email', 
         'official_emp_id',
         'project_department',
-        'manager_first_name',
-        'manager_middle_name',
-        'manager_last_name'
+        'dept_manager',
+        'hire_date',
     ];
 
     /**
