@@ -106,8 +106,8 @@ class ApplicantResultsController extends Controller
     // Send result notification email
     private function ResultNotification($details)
     {
-        $mail = new PHPMailer(true);
-    
+            $mail = new PHPMailer(true);
+
         try {
             $mail->isSMTP();
             $mail->Host       = env('MAIL_HOST');
@@ -116,31 +116,31 @@ class ApplicantResultsController extends Controller
             $mail->Password   = env('MAIL_PASSWORD');
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = env('MAIL_PORT');
-    
-            // Set the sender's name to "BPO BRIDGE"
+
             $mail->setFrom('bpobridge2024@gmail.com', 'BPO BRIDGE');
             $mail->addAddress($details['email'], $details['candidate_name']);
-    
+
             $mail->isHTML(true);
             $mail->Subject = 'Interview Result for ' . $details['applied_job'];
-    
+
             // Attach images as embedded content
             $mail->addEmbeddedImage(public_path('asset/img/bpo_logo.png'), 'bpo_logo');
-    
-            // Render the Blade template and inline the CSS
+
+            // Generate URL for "Submit Requirements"
+            $details['submit_requirements_url'] = route('recruitment-submission.index');
+
+            // Render the Blade template
             $htmlContent = view('admin.result-notification', $details)->render();
-    
-    
+
             // Inline the CSS using a library if necessary
             $cssInliner = new CssToInlineStyles();
             $inlinedHtml = $cssInliner->convert($htmlContent);
-    
+
             // Set the inlined email body
             $mail->Body = $inlinedHtml;
-    
+
             // Send the email
             $mail->send();
-    
         } catch (Exception $e) {
             throw new \Exception("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
         }
