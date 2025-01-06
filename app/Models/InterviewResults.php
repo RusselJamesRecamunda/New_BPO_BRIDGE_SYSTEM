@@ -39,4 +39,9 @@ class InterviewResults extends Model
         return $this->belongsTo(JobCandidates::class, 'candidate_id');
     }
 
+    public function documentSubmission()
+    {
+        return $this->hasOne(DocumentSubmission::class, 'result_id', 'result_id');
+    }
+
 }

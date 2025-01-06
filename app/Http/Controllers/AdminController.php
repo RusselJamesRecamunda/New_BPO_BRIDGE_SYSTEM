@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Interviews;
 use App\Models\Applications;
+use App\Models\Employees;
 use App\Models\User;
 
 class AdminController extends Controller
@@ -13,9 +14,10 @@ class AdminController extends Controller
     {
         $scheduledInterviewsCount = Interviews::count(); // Count all scheduled interviews
         $ApplicationsCount = Applications::count(); 
+        $EmployeesCount = Employees::count(); 
         $UsersCount = User::count(); 
 
-        return view('admin.dashboard', compact('scheduledInterviewsCount', 'UsersCount', 'ApplicationsCount'));
+        return view('admin.dashboard', compact('scheduledInterviewsCount', 'UsersCount', 'ApplicationsCount', 'EmployeesCount'));
     }
 
      /**
