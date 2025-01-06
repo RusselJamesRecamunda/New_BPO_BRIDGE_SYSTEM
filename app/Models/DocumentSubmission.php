@@ -13,16 +13,15 @@ class DocumentSubmission extends Model
 
     protected $fillable = [
         'user_id',
-        'nbi_clearance',
-        'medical_record',
-        'photo',
-        'resume',
+        'result_id',
+        '2x2_pic',
         'birth_certificate',
+        'tin_number',
+        'philhealth_id',
+        'pagibig_membership_id',
         'sss',
-        'tin',
-        'pagibig',
-        'philhealth',
-        'signed_contract',
+        'bir_form',
+        'health_cert',
     ];
 
     /**
@@ -35,5 +34,10 @@ class DocumentSubmission extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function interviewResults()
+    {
+        return $this->belongsTo(InterviewResults::class, 'result_id', 'result_id');
     }
 }

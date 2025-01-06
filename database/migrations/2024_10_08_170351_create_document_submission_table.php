@@ -13,24 +13,27 @@ return new class extends Migration
     {
         Schema::create('document_submissions', function (Blueprint $table) {
             $table->bigIncrements('doc_id');
-            $table->unsignedBigInteger('user_id');  // Foreign key (Mandatory)
-            $table->string('nbi_clearance')->nullable();
-            $table->string('medical_record')->nullable();
-            $table->string('photo')->nullable();
-            $table->string('resume')->nullable();
-            $table->string('birth_certificate')->nullable();
-            $table->string('sss')->nullable();
-            $table->string('tin')->nullable();
-            $table->string('pagibig')->nullable();
-            $table->string('philhealth')->nullable();
-            $table->boolean('signed_contract')->default(false);
+            $table->unsignedBigInteger('user_id'); // Foreign key (Mandatory)
+            $table->unsignedBigInteger('result_id'); // Foreign key for one-to-one relation
+            $table->text('2x2_pic')->nullable();
+            $table->text('birth_certificate')->nullable();
+            $table->text('tin_number')->nullable();
+            $table->text('philhealth_id')->nullable();
+            $table->text('pagibig_membership_id')->nullable();
+            $table->text('sss')->nullable();
+            $table->text('bir_form')->nullable();
+            $table->text('health_cert')->nullable();
             $table->timestamps();
 
-            // Mandatory foreign key
+            // Mandatory foreign keys
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreign('result_id')->references('result_id')->on('interview_results')->onDelete('cascade');
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down()
     {
         Schema::dropIfExists('document_submissions');
