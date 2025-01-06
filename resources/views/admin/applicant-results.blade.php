@@ -20,16 +20,24 @@
 
     <div class="applicant-container mb-4">
         <!-- Tabs -->
-        <div class="custom-tabs">
+        <div class="custom-tabs d-flex align-items-center">
             <div class="custom-tab active" onclick="showTab('applicant-result-section')">
                 <i class="fa-solid fa-square-poll-vertical me-2"></i>Applicant Results
             </div>
             <div class="custom-tab" onclick="showTab('interview-notes-section')">
                 <i class="fa-regular fa-comment-dots me-2"></i>Interview Notes
             </div>
-            <!-- Add Evaluate button -->
-            <button class="btn btn-primary" id="evaluate-candidate-btn"><i class="fa-solid fa-list-check me-2"></i>Evaluate Candidate</button>
+            <!-- Buttons aligned to the right -->
+            <div class="ms-auto">
+                <button class="btn btn-primary me-2" id="evaluate-candidate-btn">
+                    <i class="fa-solid fa-list-check me-2"></i>Evaluate Candidate
+                </button>
+                <button class="btn btn-primary" id="send-requirement-btn">
+                    <i class="fa-solid fa-share-from-square me-2"></i>Send Requirements
+                </button>
+            </div>
         </div>
+
 
         <!-- Applicant Result Table -->
 <div id="applicant-result-section" class="table-responsive" style="display: block;">
@@ -317,5 +325,109 @@ function updateStatusStyle(selectElement) {
 }
 
 </script>
+<script>
+    // Define the hiredCandidates data using PHP
+    const hiredCandidates = JSON.parse('{!! json_encode($hiredCandidates) !!}');
 
+    document.getElementById("send-requirement-btn").addEventListener("click", function () {
+        if (hiredCandidates.length === 0) {
+            Swal.fire({
+                icon: 'info',
+                title: 'No Hired Candidates',
+                text: 'There are no candidates with the status "Hired".',
+            });
+            return;
+        }
+
+        // Generate the dropdown for candidate names
+        const candidateOptions = hiredCandidates.map(candidate => 
+            `<option value="${candidate.candidate_name}" data-applied-job="${candidate.applied_job}" data-email="${candidate.email}">
+                ${candidate.candidate_name}
+            </option>`).join('');
+
+        Swal.fire({
+            title: 'Send Requirements',
+            html: `
+                <div class="mb-3 text-start">
+                    <label for="hired-employee-name" class="form-label">Hired Employee Name</label>
+                    <select id="hired-employee-name" class="form-select">
+                        <option value="">Select a Candidate</option>
+                        ${candidateOptions}
+                    </select>
+                </div>
+                <div class="mb-3 text-start">
+                    <label for="job-title" class="form-label">Job Title</label>
+                    <input type="text" id="job-title" class="form-control" placeholder="Select a candidate first" readonly>
+                </div>
+                <div class="mb-3 text-start">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="Select a candidate first" readonly>
+                </div>
+            `,
+            focusConfirm: false,
+            confirmButtonText: 'Send Requirements',
+            preConfirm: () => {
+                const candidateName = document.getElementById("hired-employee-name").value;
+                const jobTitle = document.getElementById("job-title").value;
+                const email = document.getElementById("email").value;
+
+                if (!candidateName || !jobTitle || !email) {
+                    Swal.showValidationMessage("All fields are required!");
+                }
+
+                return { candidateName, jobTitle, email };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const { candidateName, jobTitle, email } = result.value;
+
+                // Perform an AJAX request to send the email
+                fetch("{{ route('admin.send-result-notification') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({ candidate_name: candidateName, applied_job: jobTitle, email })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Email Sent!',
+                            text: `The requirements email has been sent to ${candidateName}.`,
+                            confirmButtonText: 'OK'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message || 'An error occurred while sending the email.',
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An unexpected error occurred.',
+                    });
+                });
+            }
+        });
+
+        // Update the "Applied Job" and "Email" fields when a candidate is selected
+        document.addEventListener("change", function (event) {
+            if (event.target.id === "hired-employee-name") {
+                const selectedOption = event.target.options[event.target.selectedIndex];
+                const jobTitle = selectedOption.getAttribute("data-applied-job");
+                const email = selectedOption.getAttribute("data-email");
+
+                document.getElementById("job-title").value = jobTitle || "";
+                document.getElementById("email").value = email || "";
+            }
+        });
+    });
+</script>
 @endsection

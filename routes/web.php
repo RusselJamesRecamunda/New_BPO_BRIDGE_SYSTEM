@@ -23,6 +23,7 @@ use App\Http\Controllers\AdminControllers\ApplicationsController;
 use App\Http\Controllers\AdminControllers\ManageUsersController;
 use App\Http\Controllers\AdminControllers\InterviewsController;
 use App\Http\Controllers\AdminControllers\ScheduleNotificationController;
+use App\Http\Controllers\AdminControllers\ResultNotificationController;
 use App\Http\Controllers\AdminControllers\ReportsController;
 use App\Http\Controllers\ZoomMeetingController;
 
@@ -143,6 +144,9 @@ Route::prefix('admin')->group(function () {
 
     // This creates routes for all standard resource actions
     Route::resource('schedule-notification', ScheduleNotificationController::class);
+    Route::resource('result-notification', ResultNotificationController::class);
+    Route::post('/admin/send-result-notification', [ApplicantResultsController::class, 'sendResultNotification'])->name('admin.send-result-notification');
+
     //General Reports View and Controller
     Route::resource('reports', ReportsController::class);
 });
