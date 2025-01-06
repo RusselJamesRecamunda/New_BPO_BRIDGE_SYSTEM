@@ -33,12 +33,18 @@ class GoogleController extends Controller
                     'email_verified_at' => now(),
                 ]);
 
+                $user->assignRole('applicant');
+
                 event(new Registered($user));
             }
 
             Auth::login($user);
 
-            return redirect('/');
+            if ($user->hasRole('admin')) {
+                return redirect()->route('admin.dashboard');
+            }
+
+            return redirect()->route('home');
         } catch (\Throwable $th) {
             return redirect('/login');
         }
