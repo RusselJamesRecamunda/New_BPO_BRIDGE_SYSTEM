@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('document_submissions', function (Blueprint $table) {
             $table->bigIncrements('doc_id');
-            $table->unsignedBigInteger('user_id'); // Foreign key (Mandatory)
+            // $table->unsignedBigInteger('user_id'); // Foreign key (Mandatory)
             $table->unsignedBigInteger('result_id'); // Foreign key for one-to-one relation
             $table->text('2x2_pic')->nullable();
             $table->text('birth_certificate')->nullable();
@@ -27,7 +27,7 @@ return new class extends Migration
 
             // Mandatory foreign keys
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
-            $table->foreign('result_id')->references('result_id')->on('interview_results')->onDelete('cascade');
+            // $table->foreign('result_id')->references('result_id')->on('interview_results')->onDelete('cascade');
         });
     }
 
