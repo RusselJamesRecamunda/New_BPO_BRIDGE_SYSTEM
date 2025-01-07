@@ -76,6 +76,7 @@ Route::group(
                 Route::prefix('applicant')->group(function () {
                     Route::get('dashboard', [ApplicantController::class, 'index'])->name('applicant.index');
 
+                    Route::resource('recruitment-submission', RecruitmentSubmissionController::class);
                     // Profile View and Controller
                     Route::resource('profile-page', ApplicantProfileController::class);
 
