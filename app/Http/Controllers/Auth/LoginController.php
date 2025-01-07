@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\AdminInfo; // Import the AdminInfo model
 use App\Models\User; // Import the User model
 
-class LoginController extends Controller 
+class LoginController extends Controller
 {
     // Show the login form
     public function showLoginForm()
@@ -50,12 +50,18 @@ class LoginController extends Controller
             }
 
             // Role-based redirection
-            if ($user->role === 'admin') {
-                return redirect()->route('admin.dashboard'); 
-            } elseif ($user->role === 'applicant') {
-                return redirect()->route('home'); 
+            // if ($user->role === 'admin') {
+            //     return redirect()->route('admin.dashboard'); 
+            // } elseif ($user->role === 'applicant') {
+            //     return redirect()->route('home'); 
+            // }
+
+            if ($user->hasRole('admin')) {
+                return redirect()->route('admin.dashboard');
             }
-        } 
+
+            return redirect()->route('home');
+        }
 
         // On failure, redirect back with an error message
         return redirect()->back()->withErrors(['email' => 'Invalid credentials.']);
