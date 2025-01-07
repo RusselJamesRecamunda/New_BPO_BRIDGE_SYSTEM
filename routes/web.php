@@ -74,7 +74,7 @@ Route::group(
             ['middleware' => 'role:applicant'],
             function () {
                 Route::prefix('applicant')->group(function () {
-                    Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+                    Route::get('dashboard', [ApplicantController::class, 'index'])->name('applicant.index');
 
                     // Profile View and Controller
                     Route::resource('profile-page', ApplicantProfileController::class);
@@ -111,7 +111,7 @@ Route::group(
 
         Route::group(['middleware' => 'role:admin'], function () {
             Route::prefix('admin')->group(function () {
-                Route::get('dashboard', [ApplicantController::class, 'index'])->name('applicant.index');
+                Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
                 // Dashboard View and Controller
                 // Route::resource('dashboard', DashboardController::class);
