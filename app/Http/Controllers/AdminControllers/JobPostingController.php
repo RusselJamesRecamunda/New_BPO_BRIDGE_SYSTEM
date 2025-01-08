@@ -209,14 +209,26 @@ class JobPostingController extends Controller
         $job->company_benefits = $request->company_benefits;
         $job->keywords = $request->keywords;
         $job->max_hires = $request->max_hires;
-        // $job->job_duration = $request->job_duration;
+        // $job->job_photo = $request->job_photo;
     
-        // Handle file upload
+        // Handle file upload for job_photo
         if ($request->hasFile('job_photo')) {
             $file = $request->file('job_photo');
-            $path = $file->store('public/uploads/job-postings');
-            $job->job_photo = basename($path);
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $uploadPath = public_path('uploads/job-postings');
+
+            // Move the uploaded file to the desired location
+            $file->move($uploadPath, $fileName);
+
+            // Delete the old photo if it exists
+            if (!empty($job->job_photo) && file_exists(public_path($job->job_photo))) {
+                unlink(public_path($job->job_photo));
+            }
+
+            // Save the new file path
+            $job->job_photo = 'uploads/job-postings/' . $fileName;
         }
+
     
         // Handle job-specific fields
         if ($job instanceof FullTimeJobPosting) {
