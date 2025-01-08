@@ -50,11 +50,11 @@ class LoginController extends Controller
             }
 
             // Role-based redirection
-            if ($user->role === 'admin') {
-                return redirect()->route('admin.dashboard'); 
-            } elseif ($user->role === 'applicant') {
-                return redirect()->route('home'); 
-            }
+            // if ($user->role === 'admin') {
+            //     return redirect()->route('admin.dashboard'); 
+            // } elseif ($user->role === 'applicant') {
+            //     return redirect()->route('home'); 
+            // }
 
             if ($user->hasRole('admin')) {
                 return redirect()->route('admin.dashboard');
