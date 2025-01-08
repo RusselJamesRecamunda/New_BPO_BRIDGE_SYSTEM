@@ -24,5 +24,8 @@ class DatabaseSeeder extends Seeder
 
         // Call the CategorySeeder to insert job categories
         $this->call(CategorySeeder::class);
+
+        // Call the RoleSeeder to insert admin and applicant roles
+        $this->call(RoleSeeder::class);
     }
 }
