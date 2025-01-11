@@ -29,7 +29,6 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
             $event->extendSocialite('google', \SocialiteProviders\Google\Provider::class);
         });
-        // Register the EmployeeObserver for the Employees model
         Employees::observe(EmployeeObserver::class);
     }
 }

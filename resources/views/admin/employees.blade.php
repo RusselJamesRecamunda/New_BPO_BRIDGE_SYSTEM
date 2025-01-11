@@ -27,7 +27,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <h6 class="mb-0">Employees</h6>
-                            <h3 class="mb-0">614</h3>
+                            <h3 class="mb-0">{{ $employeeCount }}</h3>
                         </div>
                         <canvas id="totalEmployeeChart" width="100" height="40"></canvas>
                     </div>
@@ -40,7 +40,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <h6 class="mb-0">New Hires</h6>
-                            <h3 class="mb-0">124</h3>
+                            <h3 class="mb-0">{{$newHiresCount}}</h3>
                         </div>
                         <canvas id="newEmployeeChart" width="100" height="40"></canvas>
                     </div>
@@ -53,7 +53,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <h6 class="mb-0">Freelance</h6>
-                            <h3 class="mb-0">504</h3>
+                            <h3 class="mb-0">{{$freelanceCount}}</h3>
                         </div>
                         <canvas id="maleEmployeeChart" width="100" height="40"></canvas>
                     </div>
@@ -66,7 +66,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <h6 class="mb-0">Full-Time</h6>
-                            <h3 class="mb-0">110</h3>
+                            <h3 class="mb-0">{{$fullTimeCount}}</h3>
                         </div>
                         <canvas id="femaleEmployeeChart" width="100" height="40"></canvas>
                     </div>
@@ -106,12 +106,13 @@
                             <!-- Employee Name with Profile Picture -->
                             <td>
                                 @if($employee->emp_pic)
-                                    <img src="{{ asset('storage/' . $employee->emp_pic) }}" alt="Profile Picture" class="img-fluid rounded-circle" style="width: 40px; height: auto; margin-right: 10px;">
+                                    <img src="{{ asset('storage/' . $employee->emp_pic) }}" alt="Profile Picture" class="img-fluid rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">
                                 @else
-                                    <img src="{{ asset('storage/default-avatar.png') }}" alt="Default Profile" class="img-fluid rounded-circle" style="width: 40px; height: auto; margin-right: 10px;">
+                                    <img src="{{ asset('storage/default-avatar.png') }}" alt="Default Profile" class="img-fluid rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">
                                 @endif
                                 {{ $employee->first_name }} {{ $employee->last_name }}
                             </td>
+
                             
                             <!-- Employee ID -->
                             <td>{{ $employee->official_emp_id }}</td>
@@ -123,7 +124,7 @@
                             <td>{{ $employee->project_department }}</td>
                             
                             <!-- Date Hired -->
-                            <td>{{ $employee->hire_date }}</td>
+                            <td>{{ \Carbon\Carbon::parse($employee->hire_date)->format('F d, Y') }}</td>
                             
                             <!-- Work Status with badge -->
                             <td>

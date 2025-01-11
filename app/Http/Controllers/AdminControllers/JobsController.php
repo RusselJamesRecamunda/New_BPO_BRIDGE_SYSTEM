@@ -207,7 +207,7 @@ class JobsController extends Controller
         // Remove everything after the first comma, if any
         $locationParts = explode(',', $location);
         
-        // Return the first part as the core location (before any extensions like "Albay" or "City")
+        // Return the first part as the core location
         return trim($locationParts[0]);
     }
 }

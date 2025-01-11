@@ -23,7 +23,8 @@ class Employees extends Model
         'date_of_birth',
         'marital_status',
         'gender',
-        'complete_address'
+        'complete_address',
+        'created_at',
     ];
 
     // Each employee belongs to one admin
@@ -44,7 +45,7 @@ class Employees extends Model
         return $this->hasOne(Contract::class, 'emp_id');
     }
 
-    // Define the one-to-one relationship with the Employee Assets
+    // Define the one-to-many relationship with the Employee Assets
     public function assets()
     {
         return $this->hasOne(EmployeeAssets::class, 'emp_id');

@@ -37,7 +37,8 @@ class AddEmployeeController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+{
+    try {
         // Validate the request data
         $validated = $request->validate([
             // Personal Information
@@ -71,22 +72,28 @@ class AddEmployeeController extends Controller
             'tin_number' => 'nullable|mimes:jpeg,png,jpg,pdf|max:5120',
             'pagibig_membership' => 'nullable|mimes:jpeg,png,jpg,pdf|max:5120',
         ]);
-    
+
         // Retrieve the authenticated user using the Auth facade
         $user = User::find(Auth::id());
-    
+
         // Check if the authenticated user is an admin
         if (!$user || $user->role !== 'admin') {
-            return redirect()->route('add-employee.index')->with('error', 'Unauthorized access.');
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized access.'
+            ], 403);
         }
-    
+
         // Retrieve the admin_info record for the logged-in admin
         $adminInfo = AdminInfo::where('user_id', $user->user_id)->first();
-    
+
         if (!$adminInfo) {
-            return redirect()->route('add-employee.index')->with('error', 'Admin information not found.');
+            return response()->json([
+                'success' => false,
+                'message' => 'Admin information not found.'
+            ], 404);
         }
-    
+
         // Handle profile picture upload
         $profilePicturePath = null;
         if ($request->hasFile('profile_img')) {
@@ -94,7 +101,7 @@ class AddEmployeeController extends Controller
             $fileName = uniqid() . '.' . $file->getClientOriginalExtension(); // Unique file name
             $profilePicturePath = $file->storeAs('employee-management/emp-2x2', $fileName, 'public');
         }
-    
+
         // Document Submission Uploads
         $documentPaths = [
             'birth_cert' => 'employee-management/emp-birth-certificate',
@@ -103,9 +110,9 @@ class AddEmployeeController extends Controller
             'tin_number' => 'employee-management/emp-tin-number',
             'pagibig_membership' => 'employee-management/emp-pag-ibig',
         ];
-    
+
         $documentFiles = [];
-    
+
         foreach ($documentPaths as $inputName => $path) {
             if ($request->hasFile($inputName)) {
                 $file = $request->file($inputName);
@@ -115,10 +122,10 @@ class AddEmployeeController extends Controller
                 $documentFiles[$inputName] = null; // In case no file was uploaded for this document
             }
         }
-    
+
         // Combine province, city, and zip code into one address
         $completeAddress = $request->province . ', ' . $request->city . ' ' . $request->zip_code;
-    
+
         // Create Employee Record
         $employee = Employees::create([
             'emp_pic' => $profilePicturePath,
@@ -133,7 +140,7 @@ class AddEmployeeController extends Controller
             'complete_address' => $completeAddress,
             'admin_id' => $adminInfo->admin_id, // Associate the employee with the admin
         ]);
-    
+
         // Create EmployeeAssets Record
         EmployeeAssets::create([
             'emp_id' => $employee->emp_id, // Manually set Foreign Key
@@ -152,14 +159,28 @@ class AddEmployeeController extends Controller
             'tin_number' => $documentFiles['tin_number'],
             'pagibig_membership' => $documentFiles['pagibig_membership'],
         ]);
-    
-        // Redirect back to the index route with a success message
-        return redirect()->route('add-employee.index')->with('success', 'Employee added successfully.');
-    }
-    
-    
-    
 
+        // Return a success response
+        return response()->json([
+            'success' => true,
+            'message' => 'Employee added successfully.',
+            'redirect_url' => route('add-employee.index'),
+        ]);
+
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        // Catch validation exceptions and return the error messages
+        return response()->json([
+            'success' => false,
+            'message' => $e->errors(),
+        ], 422); // 422 Unprocessable Entity
+    } catch (\Exception $e) {
+        // Handle any other exceptions
+        return response()->json([
+            'success' => false,
+            'message' => 'An error occurred. Please try again.',
+        ], 500); // 500 Internal Server Error
+    }
+}
 
     /**
      * Display the specified resource.

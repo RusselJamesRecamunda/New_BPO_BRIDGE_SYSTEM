@@ -8,6 +8,9 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" href="{{ asset('asset/img/browser-icons/bpo_icon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('asset/css/login.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/4hb7/6T3bt4WltO+T05aAopBaT2An5tL9HIzG6" crossorigin="anonymous">
+
 </head>
 
 <body>
@@ -58,9 +61,10 @@
 
                         <button type="submit" class="btn btn-primary btn-block">Login</button>
                     </form>
-                    <a href="{{ route('google.login') }}" class="btn btn-outline-primary w-100 mt-2">
-                        <i class="fa-brands fa-google"></i> Login with Google
-                    </a>
+                        <a href="{{ route('google.login') }}" class="btn btn-outline-primary w-100 mt-2 d-flex align-items-center justify-content-center">
+                            <img src="{{ asset('asset/img/browser-icons/glogo.png') }}" alt="Google Logo" style="width: 50px; height: auto; margin-right: 2px;">
+                            <span">Continue with Google</span>
+                        </a>
                     <p class="mt-3 text-left">Don’t have an account? <a href="{{ route('register') }}">Register</a></p>
                 </div>
             </div>

@@ -143,8 +143,6 @@
                         <th data-column="email_verified_at">Date Verified</th>
                         <th data-column="activity_status">Activity Status</th>
                         <th data-column="user_status">User Status</th>
-                        <th data-column="created_at">Created At</th>
-                        <th data-column="updated_at">Updated At</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -176,8 +174,6 @@
                                     <option value="Suspended" class="badge-suspended" {{ $user->user_status == 'Suspended' ? 'selected' : '' }}>Suspended</option>
                                 </select>
                             </td>
-                            <td data-column="created_at">{{ $user->created_at ? $user->created_at->format('F d, Y') : 'N/A' }}</td>
-                            <td data-column="updated_at">{{ $user->updated_at ? $user->updated_at->format('F d, Y') : 'N/A' }}</td>
                         </tr>
                     @endforeach 
                 </tbody>

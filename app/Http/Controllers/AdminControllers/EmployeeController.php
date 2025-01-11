@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminControllers;
 use App\Http\Controllers\Controller;
 use App\Models\Employees;
 use App\Models\EmployeeAssets;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -24,13 +25,30 @@ class EmployeeController extends Controller
                 'employee_assets.official_emp_id',
                 'employee_assets.project_department',
                 'employee_assets.hire_date',
-                'employee_assets.work_status'
+                'employee_assets.work_status',
+                'employees.created_at'
             )
             ->get();
+    
+        // Count all employees
+        $employeeCount = Employees::count();
 
+        // Calculate new hires within the past week
+        $newHiresCount = Employees::where('created_at', '>=', now()->subWeek())->count();
+
+         // Count Freelance and Full-Time employees using EmployeeAssets model
+        $workStatusCounts = EmployeeAssets::whereIn('work_status', ['Freelance', 'Full-time'])
+        ->select('work_status', DB::raw('COUNT(*) as count'))
+        ->groupBy('work_status')
+        ->pluck('count', 'work_status');
+
+        // Extract counts from the result
+        $freelanceCount = $workStatusCounts->get('Freelance', 0);
+        $fullTimeCount = $workStatusCounts->get('Full-time', 0);
         // Pass the data to the view
-        return view('admin.employees', compact('employees'));
+        return view('admin.employees', compact('employees', 'employeeCount', 'newHiresCount', 'freelanceCount', 'fullTimeCount'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
