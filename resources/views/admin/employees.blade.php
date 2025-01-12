@@ -20,6 +20,31 @@
     <h2 class="mt-4 mb-4 fw-bold text-primary"><i class="fa-solid fa-user-tie me-3"></i> All Employees</h2>
     <h6 class="mb-4 fw-bold text-primary" style="margin: -20px 0 0 54px;">All Employee Information</h6>
     <div class="employees-container mb-4">
+    @if(session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: "{{ session('success') }}",
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    @endif
+
+    @if(session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "{{ session('error') }}",
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    @endif
         <div class="row mb-4">
             <!-- Total Employee Card -->
             <div class="col-md-3">
@@ -158,7 +183,7 @@
 @section('scripts')
 <!-- Include Chart.js library -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Include DataTables JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>

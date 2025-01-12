@@ -30,7 +30,7 @@
             </div>
             <div class="ms-auto">
                 <div class="export-buttons">
-                    <button class="export-button"><i class="fa-solid fa-file-excel me-2"></i>Excel</button>
+                    <button class="export-button"><i class="fa-solid fa-file-excel me-2"></i>New Hire Report</button>
                 </div>
             </div>
         </div>
@@ -54,13 +54,13 @@
                     <tbody>
                         @foreach($newHire as $hire)
                         <tr>
-                            <td>{{$hire->first_name}} {{$hire->last_name}}</td>
+                            <td>{{$hire->emp_first_name}} {{$hire->emp_last_name}}</td>
                             <td>{{$hire->official_emp_id}}</td>
-                            <td>{{$hire->emp_email}}</td>
-                            <td>{{$hire->work_status}}</td>
+                            <td>{{$hire->email}}</td>
+                            <td>{{$hire->work_type}}</td>
                             <td>{{$hire->project_department}}</td>
                             <td>{{$hire->dept_manager}}</td>
-                            <td>{{$hire->hire_date}}</td>
+                            <td>{{ \Carbon\Carbon::parse($hire->hire_date)->format('F j, Y') }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -202,6 +202,61 @@
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  // Generate month names dynamically
+  const monthNames = Array.from({ length: 12 }, (_, i) => {
+    return new Date(0, i).toLocaleString('default', { month: 'long' });
+  });
+
+  // Convert month names into a format usable by SweetAlert2
+  const monthOptions = monthNames.reduce((options, month, index) => {
+    options[index + 1] = month;
+    return options;
+  }, {});
+
+  document.querySelector('.export-button').addEventListener('click', () => {
+    Swal.fire({
+      title: 'Select Report Type',
+      input: 'radio',
+      inputOptions: {
+        weekly: 'Weekly Report',
+        monthly: 'Monthly Report'
+      },
+      inputValidator: (value) => {
+        if (!value) {
+          return 'Please select a report type!';
+        }
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Next',
+      preConfirm: (reportType) => {
+        if (reportType === 'monthly') {
+          return Swal.fire({
+            title: 'Select a Month',
+            input: 'select',
+            inputOptions: monthOptions,
+            inputPlaceholder: 'Select a month',
+            showCancelButton: true,
+            confirmButtonText: 'Generate Report',
+            inputValidator: (value) => {
+              if (!value) {
+                return 'You need to select a month!';
+              }
+            }
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire(`Generating Monthly Report for ${monthOptions[result.value]}`);
+            }
+          });
+        } else if (reportType === 'weekly') {
+          Swal.fire('Generating Weekly Report');
+        }
+      }
+    });
+  });
+</script>
+
     <script>
     $(document).ready(function() {
         const newHireTable = $('#newHireTable').DataTable({

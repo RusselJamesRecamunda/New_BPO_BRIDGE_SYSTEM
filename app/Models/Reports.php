@@ -21,6 +21,7 @@ class Reports extends Model
         'emp_last_name', 
         'email', 
         'official_emp_id',
+        'work_type', 
         'project_department',
         'dept_manager',
         'hire_date',

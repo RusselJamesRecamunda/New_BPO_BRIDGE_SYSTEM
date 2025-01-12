@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Interviews;
 use App\Observers\InterviewObserver;
-use App\Models\Employees;
-use App\Models\EmployeeAssets;
-use App\Observers\EmployeeObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,6 +26,5 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
             $event->extendSocialite('google', \SocialiteProviders\Google\Provider::class);
         });
-        Employees::observe(EmployeeObserver::class);
     }
 }

@@ -48,6 +48,6 @@ class Employees extends Model
     // Define the one-to-many relationship with the Employee Assets
     public function assets()
     {
-        return $this->hasOne(EmployeeAssets::class, 'emp_id');
+        return $this->hasOne(EmployeeAssets::class, 'emp_id', 'emp_id');
     }
 }

@@ -132,7 +132,7 @@
                     <p class="job-category">
                         {{ $categories->firstWhere('category_id', $job->category_id)->category_name ?? 'Uncategorized' }}
                     </p>
-                    <p class="basic-pay"><i class="fa-solid fa-peso-sign me-1"></i>{{ $job->basic_pay }} per month</p>
+                    <p class="basic-pay">{{ $job->basic_pay }} per month</p>
                     <p class="job-description">{{ $job->job_description }}</p>
                     <a href="{{ route('job-info.show', ['job_info' => $job->full_job_ID, 'type' => 'full-time']) }}" class="job-link">Click for more information</a>
                 </div>
@@ -158,7 +158,7 @@
                     <p class="job-category">
                             {{ $categories->firstWhere('category_id', $job->fl_category_id)->category_name ?? 'Uncategorized' }}
                     </p>
-                    <p class="basic-pay"><i class="fa-solid fa-peso-sign me-1"></i>{{ $job->fl_basic_pay }} per month</p>
+                    <p class="basic-pay">{{ $job->fl_basic_pay }} per month</p>
                     <p class="job-description">{{ $job->fl_job_description }}</p>
                     <a href="{{ route('job-info.show', ['job_info' => $job->fl_jobID, 'type' => 'freelance']) }}" class="job-link">Click for more information</a>
                 </div>

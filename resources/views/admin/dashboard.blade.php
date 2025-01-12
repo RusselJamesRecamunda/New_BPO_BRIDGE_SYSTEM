@@ -72,7 +72,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="text-center donut-chart-container">
                             <canvas id="availableJobsChart" width="80" height="80"></canvas>
-                            <p class="mb-0 custom-chart">Available Jobs</p>
+                            <p class="mb-0 custom-chart">Jobs</p>
                         </div>
                         <div class="text-center donut-chart-container">
                             <canvas id="openJobsChart" width="80" height="80"></canvas>

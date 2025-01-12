@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\JobType;
+use App\Models\Reports;
 
 use Illuminate\Http\Request;
 
@@ -46,7 +47,7 @@ class AddEmployeeController extends Controller
             'middle_name' => 'nullable|string|max:255',
             'last_name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
-            'email' => 'required|email|unique:employees,email',
+            'email' => 'required|string|max:255',
             'date_of_birth' => 'nullable|date',
             'marital_status' => 'nullable|string|in:single,married,divorced',
             'gender' => 'nullable|string|in:male,female,other',
@@ -64,7 +65,7 @@ class AddEmployeeController extends Controller
             'project_department' => 'required|string|exists:categories,category_name',
             'working_days' => 'nullable|string|max:100',
             'designation' => 'required|string|max:100',
-            'emp_email' => 'required|email|unique:employee_assets,emp_email',
+            'emp_email' => 'required|string|max:255',
             // Professional Assets Information
             'birth_cert' => 'nullable|mimes:jpeg,png,jpg,pdf|max:5120',
             'phil_health' => 'nullable|mimes:jpeg,png,jpg,pdf|max:5120',
@@ -160,25 +161,30 @@ class AddEmployeeController extends Controller
             'pagibig_membership' => $documentFiles['pagibig_membership'],
         ]);
 
-        // Return a success response
-        return response()->json([
-            'success' => true,
-            'message' => 'Employee added successfully.',
-            'redirect_url' => route('add-employee.index'),
+        // Add data to the Reports table
+        Reports::create([
+            'admin_id' => $adminInfo->admin_id,
+            'emp_id' => $employee->emp_id,
+            'emp_first_name' => $employee->first_name,
+            'emp_middle_name' => $employee->middle_name,
+            'emp_last_name' => $employee->last_name,
+            'email' => $employee->email,
+            'official_emp_id' => $request->official_emp_id,
+            'work_type' => $request->work_status,
+            'project_department' => $request->project_department,
+            'dept_manager' => $request->dept_manager,
+            'hire_date' => $request->hire_date,
         ]);
 
+
+           // Flash success message
+    return redirect()->route('employees.index')->with('success', 'Employee added successfully.');
     } catch (\Illuminate\Validation\ValidationException $e) {
-        // Catch validation exceptions and return the error messages
-        return response()->json([
-            'success' => false,
-            'message' => $e->errors(),
-        ], 422); // 422 Unprocessable Entity
+        // Flash validation errors and redirect back
+        return redirect()->back()->withErrors($e->errors())->withInput();
     } catch (\Exception $e) {
-        // Handle any other exceptions
-        return response()->json([
-            'success' => false,
-            'message' => 'An error occurred. Please try again.',
-        ], 500); // 500 Internal Server Error
+        // Flash general error message and redirect back
+        return redirect()->back()->with('error', 'An error occurred. Please try again.')->withInput();
     }
 }
 

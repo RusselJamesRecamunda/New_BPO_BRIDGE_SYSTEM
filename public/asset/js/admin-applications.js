@@ -193,7 +193,7 @@ $(document).ready(function () {
                 $("#applicant-info .dataTables_filter").append(`
                     <div class="export-buttons ms-auto">
                         <button class="export-button">
-                            <i class="fa-solid fa-file-excel me-2"></i>Excel
+                            <i class="fa-solid fa-file-excel me-2"></i>Application Report
                         </button>
                     </div>
                 `);
@@ -206,7 +206,7 @@ $(document).ready(function () {
                 $("#documents .dataTables_filter").append(`
                     <div class="export-buttons ms-auto">
                         <button class="export-button">
-                            <i class="fa-solid fa-file-excel me-2"></i>Excel
+                            <i class="fa-solid fa-file-excel me-2"></i>Application Report
                         </button>
                     </div>
                 `);
@@ -221,7 +221,7 @@ $(document).ready(function () {
             $("#applicant-info .dataTables_filter").append(`
                 <div class="export-buttons ms-auto">
                     <button class="export-button">
-                        <i class="fa-solid fa-file-excel me-2"></i>Excel
+                        <i class="fa-solid fa-file-excel me-2"></i>Application Report
                     </button>
                 </div>
             `);

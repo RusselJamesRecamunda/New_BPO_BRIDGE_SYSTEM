@@ -33,6 +33,6 @@ class EmployeeAssets extends Model
 
     public function employee()
     {
-        return $this->belongsTo(Employees::class, 'emp_id');
+        return $this->belongsTo(Employees::class, 'emp_id', 'emp_id');
     }
 }

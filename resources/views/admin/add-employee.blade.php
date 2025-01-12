@@ -16,7 +16,7 @@
 
     <!-- Top Bar -->
     @include('components.topbar')
-    <h6 class="mt-3 mb-4  fw-bold text-primary" style="margin: -20px 0 0 5px;"><a data-url="{{ route('employees.index') }}" id="backButton">All Employees <i class="fa-solid fa-circle-chevron-left"></i> </a>New Employee Details</h6>
+    <h6 class="mt-3 mb-4  fw-bold text-primary" style="margin: -20px 0 0 5px;"><a href="{{ route('employees.index') }}" class="text-decoration-none" id="backButton">All Employees <i class="fa-solid fa-circle-chevron-left"></i> </a>New Employee Details</h6>
     <h2 class="mb-4 fw-bold text-primary" style="margin-top: -20px;"><i class="fa-solid fa-user-plus me-3"></i> Add New Employee</h2>
     <!-- Applicant Container -->
     <div class="emp-info-container mb-4">
@@ -200,7 +200,7 @@
                                     <input type="text" class="form-control" id="working_days" name="working_days" placeholder="Working Days" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="designation" class="form-label fw-bold">Designation</label>
+                                    <label for="designation" class="form-label fw-bold">Work Designation</label>
                                     <input type="text" class="form-control" id="designation" name="designation" placeholder="Designation" required>
                                 </div>
                             </div>
@@ -233,7 +233,7 @@
                                         <p class="mb-1 fw-bold">Upload Birth Certificate</p>
                                         <p class="mb-2 file-label">Drag & Drop or <a href="#" class="text-primary">choose file</a> to upload</p>
                                         <small class="text-muted">Supported formats: Jpeg, pdf</small>
-                                        <input type="file" id="birth_cert" name="birth_cert" class="form-control-file file-input position-absolute w-100 h-100 top-0 start-0 opacity-0" >
+                                        <input type="file" id="birth_cert" name="birth_cert" class="form-control-file file-input position-absolute w-100 h-100 top-0 start-0 opacity-0" accept=".pdf, .png, .jpeg, .jpg">
                                     </div>
                                 </div>
 
@@ -246,7 +246,7 @@
                                         <p class="mb-1 fw-bold">Upload Phil Health </p>
                                         <p class="mb-2  file-label">Drag & Drop or <a href="#" class="text-primary">choose file</a> to upload</p>
                                         <small class="text-muted">Supported formats: Jpeg, pdf</small>
-                                        <input type="file" id="phil_health" name="phil_health" class="form-control-file file-input position-absolute w-100 h-100 top-0 start-0 opacity-0" id="salary-upload" >
+                                        <input type="file" id="phil_health" name="phil_health" class="form-control-file file-input position-absolute w-100 h-100 top-0 start-0 opacity-0" id="salary-upload" accept=".pdf, .png, .jpeg, .jpg">
                                     </div>
                                 </div>
                             </div>
@@ -261,7 +261,7 @@
                                         <p class="mb-1 fw-bold">Upload SSS</p>
                                         <p class="mb-2 file-label">Drag & Drop or <a href="#" class="text-primary">choose file</a> to upload</p>
                                         <small class="text-muted">Supported formats: Jpeg, pdf</small>
-                                        <input type="file" id="sss" name="sss" class="form-control-file file-input position-absolute w-100 h-100 top-0 start-0 opacity-0" id="cover-upload" >
+                                        <input type="file" id="sss" name="sss" class="form-control-file file-input position-absolute w-100 h-100 top-0 start-0 opacity-0" id="cover-upload" accept=".pdf, .png, .jpeg, .jpg">
                                     </div>
                                 </div>
 
@@ -274,7 +274,7 @@
                                         <p class="mb-1 fw-bold">Upload TIN Number</p>
                                         <p class="mb-2 file-label">Drag & Drop or <a href="#" class="text-primary">choose file</a> to upload</p>
                                         <small class="text-muted">Supported formats: Jpeg, pdf</small>
-                                        <input type="file" id="tin_number" name="tin_number" class="form-control-file file-input position-absolute w-100 h-100 top-0 start-0 opacity-0" id="tin-upload" >
+                                        <input type="file" id="tin_number" name="tin_number" class="form-control-file file-input position-absolute w-100 h-100 top-0 start-0 opacity-0" id="tin-upload" accept=".pdf, .png, .jpeg, .jpg">
                                     </div>
                                 </div>
                             </div>
@@ -289,7 +289,7 @@
                                         <p class="mb-1 fw-bold">Upload Pag-Ibig Fund Membership</p>
                                         <p class="mb-2 file-label">Drag & Drop or <a href="#" class="text-primary">choose file</a> to upload</p>
                                         <small class="text-muted">Supported formats: Jpeg, pdf</small>
-                                        <input type="file" id="pagibig_membership" name="pagibig_membership" class="form-control-file file-input position-absolute w-100 h-100 top-0 start-0 opacity-0" id="id-upload" >
+                                        <input type="file" id="pagibig_membership" name="pagibig_membership" class="form-control-file file-input position-absolute w-100 h-100 top-0 start-0 opacity-0" id="id-upload" accept=".pdf, .png, .jpeg, .jpg">
                                     </div>
                                 </div>
                             </div>
@@ -312,33 +312,4 @@
 @section('scripts')
 <script src="{{ asset('asset/js/add-employee.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    // Redirect when the add employee button is clicked
-    document.getElementById('backButton').addEventListener('click', function() {
-        var url = this.getAttribute('data-url');
-        window.location.href = url;
-    });
-</script>
-<script>
-    // Get the submit button
-    const submitButton = document.getElementById('submit-btn');
-
-    // Add an event listener to the submit button
-    submitButton.addEventListener('click', function(e) {
-        // Show SweetAlert confirmation dialog
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You are about to submit the form.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, submit!',
-            cancelButtonText: 'No, cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Submit the form if confirmed
-                e.target.form.submit();  // Using e.target.form to submit the form
-            }
-        });
-    });
-</script>
 @endsection
