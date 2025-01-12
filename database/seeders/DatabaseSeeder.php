@@ -13,19 +13,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-         // Call the UsersTableSeeder first
-         $this->call(UsersTableSeeder::class);
+        // Call the RoleSeeder to insert admin and applicant roles
+        $this->call(RoleSeeder::class);
 
-         // Call the AdminInfoTableSeeder after UsersTableSeeder
-         $this->call(AdminInfoTableSeeder::class);
+        // Call the UsersTableSeeder first
+        $this->call(UsersTableSeeder::class);
 
-         // Call the JobTypeSeeder to insert Full-time and Freelance job types
+        // Call the AdminInfoTableSeeder after UsersTableSeeder
+        $this->call(AdminInfoTableSeeder::class);
+
+        // Call the JobTypeSeeder to insert Full-time and Freelance job types
         $this->call(JobTypeSeeder::class);
 
         // Call the CategorySeeder to insert job categories
         $this->call(CategorySeeder::class);
-
-        // Call the RoleSeeder to insert admin and applicant roles
-        $this->call(RoleSeeder::class);
     }
 }
