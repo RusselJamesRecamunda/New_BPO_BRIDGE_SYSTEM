@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "anhskohbo/no-captcha": "^3.6",
         "fedeisas/laravel-mail-css-inliner": "^5.3",
         "firebase/php-jwt": "^6.10",
         "google/apiclient": "^2.17",
