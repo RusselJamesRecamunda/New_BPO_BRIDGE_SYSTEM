@@ -10,9 +10,46 @@
     <link rel="stylesheet" href="{{ asset('asset/css/shares.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/css/job_application.css') }}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<style>
+ .custom-select-container {
+    position: relative;
+    width: 205px;
+}
+
+.custom-dropdown {
+    padding: 2px 12px 5px 50px; /* Adjusted padding to make more space for the icon */
+    background-color: #0f5078;
+    color: white;
+    width: 100%;
+    border: 1px solid #0f5078;
+    border-radius: 4px;
+}
+
+.calendar-icon {
+    position: absolute;
+    top: 50%;
+    left: 20px; /* Moved icon 20px to the left */
+    transform: translateY(-50%);
+    color: white;
+    pointer-events: none;
+}
+
+.custom-dropdown option {
+    padding-left: 50px; /* Increased padding to accommodate the icon */
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.custom-dropdown option:first-child {
+    padding-left: 20px; /* Adjust first option to align with the icon */
+}
+
+
+</style>
 @endsection
 
 @section('reports-content')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Top Bar -->
     @include('components.topbar')
@@ -20,20 +57,42 @@
     <!-- Search bar and Add New Candidate button -->
     <div class="applicant-container mb-4">
 
-        <!-- Tabs -->
-        <div class="custom-tabs">
-            <div class="custom-tab active" onclick="showTab('new-hire-info')">
-                <i class="fa-solid fa-circle-info me-2"></i>Official Reports
+    <div class="custom-tabs">
+        <div class="custom-tab active" onclick="showTab('new-hire-info')">
+            <i class="fa-solid fa-circle-info me-2"></i>Official Reports
+        </div>
+        <div class="custom-tab" onclick="showTab('submitted-documents')">
+            <i class="fas fa-file-alt me-2"></i>Submitted Documents
+        </div>
+        <div class="ms-auto d-flex align-items-center">
+            <div class="export-buttons d-flex align-items-center">
+                <button class="export-button" onclick="exportStyledTableToExcel('newHireTable')">
+                    <i class="fa-solid fa-file-excel me-2"></i>Export New Hire Report
+                </button>
             </div>
-            <div class="custom-tab" onclick="showTab('submitted-documents')">
-                <i class="fas fa-file-alt me-2"></i>Submitted Documents
-            </div>
-            <div class="ms-auto">
-                <div class="export-buttons">
-                    <button class="export-button"><i class="fa-solid fa-file-excel me-2"></i>New Hire Report</button>
+            <!-- Weekly Button -->
+            <button class="btn btn-primary ms-2" id="weeklyBtn" style="padding: 6px 12px; display: flex; align-items: center;">
+                <i class="fa-solid fa-calendar-week me-2"></i>Weekly
+            </button>
+
+            <!-- Monthly Dropdown -->
+            <div class="d-flex align-items-center">
+                <div class="custom-select-container">
+                    <select id="monthlyDropdown" class="form-select ms-2 custom-dropdown" style="width: 200px;">
+                        <option value="">Select Month</option>
+                        <!-- Dynamically populate months -->
+                        @foreach(range(1, 12) as $month)
+                            <option value="{{ $month }}">{{ \Carbon\Carbon::create()->month($month)->format('F') }}</option>
+                        @endforeach
+                    </select>
+                    <i class="fa-solid fa-calendar-days calendar-icon"></i>
                 </div>
             </div>
         </div>
+    </div>
+
+
+
 
         <!-- New Hire Info Content -->
         <div id="new-hire-info" style="display: block;">
@@ -85,6 +144,7 @@
                             <th>SSS</th>
                             <th>BIR Form</th>
                             <th>Health Certificate</th>
+                            <th>Download Files as ZIP</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -188,13 +248,17 @@
                                         <span>No Health Certificate</span>
                                     @endif
                                 </td>
+                                <td>
+                                    <button class="btn btn-primary download-zip-btn" data-doc-id="{{ $document->doc_id }}">
+                                        <i class="fa-solid fa-file-zipper"></i>
+                                    </button>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
-
     </div>
 
 @endsection
@@ -203,142 +267,105 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-  // Generate month names dynamically
-  const monthNames = Array.from({ length: 12 }, (_, i) => {
-    return new Date(0, i).toLocaleString('default', { month: 'long' });
-  });
-
-  // Convert month names into a format usable by SweetAlert2
-  const monthOptions = monthNames.reduce((options, month, index) => {
-    options[index + 1] = month;
-    return options;
-  }, {});
-
-  document.querySelector('.export-button').addEventListener('click', () => {
-    Swal.fire({
-      title: 'Select Report Type',
-      input: 'radio',
-      inputOptions: {
-        weekly: 'Weekly Report',
-        monthly: 'Monthly Report'
-      },
-      inputValidator: (value) => {
-        if (!value) {
-          return 'Please select a report type!';
-        }
-      },
-      showCancelButton: true,
-      confirmButtonText: 'Next',
-      preConfirm: (reportType) => {
-        if (reportType === 'monthly') {
-          return Swal.fire({
-            title: 'Select a Month',
-            input: 'select',
-            inputOptions: monthOptions,
-            inputPlaceholder: 'Select a month',
-            showCancelButton: true,
-            confirmButtonText: 'Generate Report',
-            inputValidator: (value) => {
-              if (!value) {
-                return 'You need to select a month!';
-              }
-            }
-          }).then((result) => {
-            if (result.isConfirmed) {
-              Swal.fire(`Generating Monthly Report for ${monthOptions[result.value]}`);
-            }
-          });
-        } else if (reportType === 'weekly') {
-          Swal.fire('Generating Weekly Report');
-        }
-      }
-    });
-  });
-</script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="{{ asset('asset/js/reports.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script>
-    $(document).ready(function() {
-        const newHireTable = $('#newHireTable').DataTable({
-            lengthMenu: [5, 10, 15], // Set options for "Show entries"
-            pageLength: 5, // Set the default number of entries
+    document.addEventListener('DOMContentLoaded', function() {
+        // Attach event listener to all "Download All Files" buttons
+        document.querySelectorAll('.download-zip-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Get the doc_id from the button's data-doc-id attribute
+                const docId = this.getAttribute('data-doc-id');
+                
+                // If docId is missing, show an error
+                if (!docId) {
+                    console.error('Document ID not found.');
+                    return;
+                }
+
+                // Prepare an array to hold all file URLs and names
+                const filesToDownload = [];
+
+                // Get the candidate name from the current row
+                const row = this.closest('tr');
+                const candidateName = row.querySelector('td').innerText.trim(); // First cell contains the candidate name
+
+                // Iterate through all the links in the current row and collect file URLs and names
+                row.querySelectorAll('td a').forEach(link => {
+                    if (link.href) {
+                        const fileName = link.querySelector('p').innerText || 'Unnamed File';
+                        filesToDownload.push({
+                            url: link.href,
+                            name: fileName
+                        });
+                    }
+                });
+
+                // If no files are available to download, show a SweetAlert error
+                if (filesToDownload.length === 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'No Files Available',
+                        text: 'There are no files to download for this entry.',
+                    });
+                    return;
+                }
+
+                // Show SweetAlert confirmation before proceeding with the download
+                Swal.fire({
+                    title: 'Download All Files',
+                    text: 'Are you sure you want to download all the available files as a ZIP?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, Download!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Create a new JSZip instance
+                        const zip = new JSZip();
+
+                        // Loop through each file and add it to the zip
+                        let fileCount = 0;
+                        filesToDownload.forEach(file => {
+                            fetch(file.url)
+                                .then(response => response.blob())
+                                .then(blob => {
+                                    zip.file(file.name, blob); // Add file to the zip
+
+                                    fileCount++;
+                                    // If all files are added, generate the zip file and trigger the download
+                                    if (fileCount === filesToDownload.length) {
+                                        zip.generateAsync({ type: "blob" })
+                                            .then(function(content) {
+                                                // Use the candidate name as the zip file name
+                                                const zipFileName = `${candidateName}.zip`;
+
+                                                // Trigger the download
+                                                const link = document.createElement('a');
+                                                const url = window.URL.createObjectURL(content);
+                                                link.href = url;
+                                                link.download = zipFileName; // Set the file name dynamically
+                                                link.click(); // Trigger the download
+                                            });
+                                    }
+                                })
+                                .catch(error => {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Download Failed',
+                                        text: 'There was an error while preparing your download.',
+                                    });
+                                });
+                        });
+                    }
+                });
+            });
         });
-
-        const submittedDocsTable = $('#submittedDocsTable').DataTable({
-            lengthMenu: [5, 10, 15], // Set options for "Show entries"
-            pageLength: 5, // Set the default number of entries
-        });
-
-        // Add custom search bar styles and behavior
-        $('.dataTables_filter input')
-            .addClass('form-control') // Apply Bootstrap form control class
-            .attr('placeholder', 'Search') // Add placeholder
-            .css({
-                display: 'flex',
-                width: '250px',
-                'background-color': '#f2f2f2',
-                'border-radius': '12px',
-                'box-shadow': '0 1px 5px rgba(0, 0, 0, 0.1)',
-                color: '#0c436d',
-                'font-weight': '600',
-                'padding-right': '35px', // Space for cancel button
-                position: 'relative',
-            })
-            .wrap('<div class="search-container position-relative mt-2 mb-2"></div>');
-
-        // Add magnifying glass and clear icons
-        $('.dataTables_filter input')
-            .parent()
-            .append(
-                '<i class="fa-solid fa-magnifying-glass position-absolute search-icon" style="right: 10px; top: 50%; transform: translateY(-50%); color: #0c436d;"></i>' +
-                '<i class="fa-solid fa-xmark position-absolute clear-search" style="right: 10px; top: 50%; transform: translateY(-50%); color: #0c436d; opacity: 0; cursor: pointer;"></i>'
-            );
-
-        const $searchInput = $('.dataTables_filter input');
-        const $searchContainer = $searchInput.parent();
-
-        $searchInput.on('input', function() {
-            const $magnifyingGlass = $searchContainer.find('.search-icon');
-            const $clearButton = $searchContainer.find('.clear-search');
-
-            if ($(this).val().length > 0) {
-                $magnifyingGlass.css('opacity', '0');
-                $clearButton.css('opacity', '1');
-            } else {
-                $magnifyingGlass.css('opacity', '1');
-                $clearButton.css('opacity', '0');
-            }
-        });
-
-        $searchContainer.find('.clear-search').on('click', function() {
-            $searchInput.val('').trigger('input'); // Clear input and reset icons
-            newHireTable.search('').draw(); // Reset table search
-        });
-
-        // Hide native cancel button
-        const style = document.createElement('style');
-        style.textContent = `
-            .dataTables_filter input::-webkit-search-cancel-button {
-                display: none;
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Remove "Search:" label
-        $('.dataTables_filter label').contents().filter(function() {
-            return this.nodeType === 3; // Text nodes
-        }).remove();
     });
-
-    function showTab(tabName) {
-        document.getElementById('new-hire-info').style.display = 'none';
-        document.getElementById('submitted-documents').style.display = 'none';
-        document.getElementById(tabName).style.display = 'block';
-
-        const tabs = document.querySelectorAll('.custom-tab');
-        tabs.forEach(tab => tab.classList.remove('active'));
-        event.target.closest('.custom-tab').classList.add('active');
-    }
 </script>
+
 
 @endsection

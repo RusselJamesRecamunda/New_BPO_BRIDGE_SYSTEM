@@ -159,6 +159,9 @@ Route::group(
 
                 //General Reports View and Controller
                 Route::resource('reports', ReportsController::class);
+                Route::post('/download-zip', [ReportsController::class, 'downloadZip'])->name('download.zip');
+
+
             });
         });
     }

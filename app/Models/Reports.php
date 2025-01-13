@@ -25,6 +25,7 @@ class Reports extends Model
         'project_department',
         'dept_manager',
         'hire_date',
+        'created_at',
     ];
 
     /**
