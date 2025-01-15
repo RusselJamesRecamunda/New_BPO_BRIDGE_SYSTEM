@@ -29,6 +29,7 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'agree' => 'accepted',
+            'g-recaptcha-response' => 'required|captcha',
         ]);
 
         if ($validator->fails()) {
@@ -120,7 +121,7 @@ class RegisterController extends Controller
         }
 
         if ($sessionData['otp_code'] == $request->otp_code) {
-            User::create([
+            $user =  User::create([
                 'first_name' => $sessionData['first_name'],
                 'last_name' => $sessionData['last_name'],
                 'email' => $sessionData['email'],
@@ -130,6 +131,8 @@ class RegisterController extends Controller
             ]);
 
             $request->session()->forget('registration_data');
+
+            $user->assignRole('applicant');
 
             return response()->json(['success' => true, 'message' => 'Successfully Registered New Account!']);
         }
