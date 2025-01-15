@@ -127,7 +127,11 @@ class ApplicantResultsController extends Controller
             $mail->addEmbeddedImage(public_path('asset/img/bpo_logo.png'), 'bpo_logo');
 
             // Generate URL for "Submit Requirements"
-            $details['submit_requirements_url'] = route('recruitment-submission.index');
+            $details['submit_requirements_url'] = route('recruitment-submission.index', [
+                'candidate_name' => urlencode($details['candidate_name']),
+                'email' => urlencode($details['email']),
+            ]);
+            
 
             // Render the Blade template
             $htmlContent = view('admin.result-notification', $details)->render();

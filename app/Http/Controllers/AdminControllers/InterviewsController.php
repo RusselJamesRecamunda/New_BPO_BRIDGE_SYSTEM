@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminControllers;
 use App\Http\Controllers\Controller; // Ensure base Controller is imported
 use App\Models\Interviews; // Ensure the model is imported
 use App\Models\JobCandidates;
+use App\Models\Applications;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -66,16 +67,31 @@ class InterviewsController extends Controller
             'virtual_meet_link' => 'nullable|string|max:255',
             'onsite_phone' => 'nullable|string|max:100'
         ]);
-
+    
         // Fetch candidate details by candidate_id
         $candidate = JobCandidates::find($request->input('candidate_name'));
-
+    
+        // Check if the candidate exists
+        if ($candidate) {
+            // Update application status to "Scheduled" in JobCandidates table
+            $candidate->update(['application_status' => 'Scheduled']);
+    
+            // Find the associated application by application_id
+            $application = Applications::find($candidate->application_id);
+    
+            // Check if the application exists
+            if ($application) {
+                // Update the application status to "Scheduled"
+                $application->update(['application_status' => 'Scheduled']);
+            }
+        }
+    
         // Save the interview, ensuring both candidate_name and candidate_id are correctly stored
         $interview = new Interviews($validatedData);
         $interview->candidate_id = $candidate->candidate_id;  // Store candidate_id
         $interview->candidate_name = $candidate->candidate_name;  // Store candidate_name
         $interview->save();
-
+    
         // Prepare details array with candidate_name instead of candidate_id
         $details = [
             'email' => $validatedData['email'],
@@ -87,12 +103,14 @@ class InterviewsController extends Controller
             'onsite_phone' => $validatedData['onsite_phone'],
             'interview_mode' => $validatedData['interview_mode'],
         ];
-
+    
         // Send interview notification email
         $this->sendInterviewNotification($details);
-
+    
         return response()->json(['message' => 'Interview scheduled successfully!']);
     }
+    
+    
 
     // Send interview notification email
     private function sendInterviewNotification($details)

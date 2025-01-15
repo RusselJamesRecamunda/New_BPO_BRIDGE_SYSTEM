@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\JobType;
 use App\Models\Reports;
+use App\Models\InterviewResults;
 
 use Illuminate\Http\Request;
 
@@ -20,11 +21,14 @@ class AddEmployeeController extends Controller
      */
     public function index()
     {
-        //
         $companyDepartment = Category::all();
         $workStatus = JobType::all();
-        return view('admin.add-employee', compact('companyDepartment', 'workStatus'));
+        $hiredCandidates = InterviewResults::where('result_status', 'Hired')
+        ->get(['result_id', 'candidate_name', 'interviewer', 'interview_date', 'email', 'phone']);
+    
+        return view('admin.add-employee', compact('companyDepartment', 'workStatus', 'hiredCandidates'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -51,9 +55,9 @@ class AddEmployeeController extends Controller
             'date_of_birth' => 'nullable|date',
             'marital_status' => 'nullable|string|in:single,married,divorced',
             'gender' => 'nullable|string|in:male,female,other',
-            'province' => 'nullable|string|max:100',
-            'city' => 'nullable|string|max:100',
-            'zip_code' => 'nullable|string|max:20',
+            // 'province' => 'nullable|string|max:100',
+            // 'city' => 'nullable|string|max:100',
+            // 'zip_code' => 'nullable|string|max:20',
             'profile_img' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
     
             // Professional Information
@@ -125,7 +129,7 @@ class AddEmployeeController extends Controller
         }
 
         // Combine province, city, and zip code into one address
-        $completeAddress = $request->province . ', ' . $request->city . ' ' . $request->zip_code;
+        // $completeAddress = $request->province . ', ' . $request->city . ' ' . $request->zip_code;
 
         // Create Employee Record
         $employee = Employees::create([
@@ -138,7 +142,7 @@ class AddEmployeeController extends Controller
             'date_of_birth' => $request->date_of_birth,
             'marital_status' => $request->marital_status,
             'gender' => $request->gender,
-            'complete_address' => $completeAddress,
+            // 'complete_address' => $completeAddress,
             'admin_id' => $adminInfo->admin_id, // Associate the employee with the admin
         ]);
 

@@ -142,7 +142,7 @@ Route::group(
 
                 Route::resource('applications', ApplicationsController::class);
                 // Custom updateStatus route
-                Route::patch('applications/{application}/updateStatus', [ApplicationsController::class, 'updateStatus'])->name('applications.updateStatus');
+                // Route::patch('applications/{application}/updateStatus', [ApplicationsController::class, 'updateStatus'])->name('applications.updateStatus');
                 // Define the route for exporting applications
                 Route::get('/admin/applications/export', [ApplicationsController::class, 'exportApplications'])->name('applications.exportApplications');
 

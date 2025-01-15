@@ -3,6 +3,33 @@
 @section('title', 'BPO-Bridge Job Listings')
 
 @section('home-content')
+@if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: "{{ session('success') }}",
+                confirmButtonText: 'OK'
+            });
+        });
+    </script>
+    @endif
+
+    @if(session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "{{ session('error') }}",
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    @endif
+
+
 <!-- Search Bar -->
 <div class="search-bar">
     <div class="container" id="search-container">

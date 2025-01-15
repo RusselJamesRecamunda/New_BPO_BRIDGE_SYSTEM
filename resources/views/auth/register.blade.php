@@ -53,35 +53,76 @@
                     @enderror
                 </div>
 
-                <!-- Password -->
-                <div class="form-group">
-                    <label for="password">{{ __('Password') }}</label>
-                    <div class="input-container">
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Enter password">
-                        <span class="toggle-password" onclick="togglePasswordVisibility('password')">
-                            <i class="fa-solid fa-eye-slash hide-password" style="display: inline;"></i>
-                            <i class="fa-solid fa-eye show-password" style="display: none;"></i>
-                        </span>
-                    </div>
-                    @error('password')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+              <!-- Password -->
+<div class="form-group">
+    <label for="password">{{ __('Password') }}</label>
+    <div class="input-container">
+        <input
+            id="password"
+            type="password"
+            class="form-control @error('password') is-invalid @enderror"
+            name="password"
+            required
+            autocomplete="new-password"
+            placeholder="Enter password"
+        />
+        <span
+            class="toggle-password"
+            onclick="togglePasswordVisibility('password')"
+        >
+            <i
+                class="fa-solid fa-eye-slash hide-password"
+                style="display: inline;"
+            ></i>
+            <i
+                class="fa-solid fa-eye show-password"
+                style="display: none;"
+            ></i>
+        </span>
+    </div>
+    <small id="password-validation-warning" class="text-danger" style="display: none;">
+        Password must be at least 12 characters long, contain an uppercase letter, a lowercase letter, and a symbol.
+    </small>
+    @error('password')
+    <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
 
-                <!-- Confirm Password -->
-                <div class="form-group">
-                    <label for="password_confirmation">{{ __('Confirm Password') }}</label>
-                    <div class="input-container">
-                        <input id="password_confirmation" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" required autocomplete="new-password" placeholder="Confirm password">
-                        <span class="toggle-password" onclick="togglePasswordVisibility('password_confirmation')">
-                            <i class="fa-solid fa-eye-slash hide-password" style="display: inline;"></i>
-                            <i class="fa-solid fa-eye show-password" style="display: none;"></i>
-                        </span>
-                    </div>
-                    @error('password_confirmation')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+<!-- Confirm Password -->
+<div class="form-group">
+    <label for="password_confirmation">{{ __('Confirm Password') }}</label>
+    <div class="input-container">
+        <input
+            id="password_confirmation"
+            type="password"
+            class="form-control @error('password_confirmation') is-invalid @enderror"
+            name="password_confirmation"
+            required
+            autocomplete="new-password"
+            placeholder="Confirm password"
+        />
+        <span
+            class="toggle-password"
+            onclick="togglePasswordVisibility('password_confirmation')"
+        >
+            <i
+                class="fa-solid fa-eye-slash hide-password"
+                style="display: inline;"
+            ></i>
+            <i
+                class="fa-solid fa-eye show-password"
+                style="display: none;"
+            ></i>
+        </span>
+    </div>
+    <small id="confirm-password-warning" class="text-danger" style="display: none;">
+        Passwords do not match.
+    </small>
+    @error('password_confirmation')
+    <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
 
                 <div class="form-group checkbox-group">
                     <input type="checkbox" id="agree-checkbox" name="agree" required>

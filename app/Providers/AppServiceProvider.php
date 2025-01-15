@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Interviews;
 use App\Observers\InterviewObserver;
+use App\Models\JobCandidates;
+use App\Observers\JobCandidateObserver;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,5 +29,7 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
             $event->extendSocialite('google', \SocialiteProviders\Google\Provider::class);
         });
+        // Register the observer
+        JobCandidates::observe(JobCandidateObserver::class);
     }
 }

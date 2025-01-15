@@ -70,15 +70,9 @@
                             <td>{{ $application->applicant_location }}</td>
                             <td>{{ $application->job_type }}</td>
                             <td>
-                                <form action="{{ route('applications.updateStatus', $application->application_id) }}" method="POST">
-                                    @csrf
-                                    @method('PATCH')
-                                    <select class="status-select badge-{{ strtolower(str_replace(' ', '-', $application->application_status)) }}" name="status" onchange="this.form.submit()">
-                                        <option value="Scheduled" @if($application->application_status == 'Scheduled') selected @endif class="badge-scheduled">Scheduled</option>
-                                        <option value="Pending" @if($application->application_status == 'Pending') selected @endif class="badge-pending">Pending</option>
-                                        <option value="Rejected" @if($application->application_status == 'Rejected') selected @endif class="badge-rejected">Rejected</option>
-                                    </select>
-                                </form>
+                                <span class="status-badge badge-{{ strtolower(str_replace(' ', '-', $application->application_status)) }}">
+                                    {{ $application->application_status }}
+                                </span>
                             </td>
                         </tr>
                         @endforeach
@@ -145,7 +139,7 @@
     <script>
     var exportUrl = "{{ route('applications.exportApplications') }}";
     </script>
-    <script>
+    <!-- <script>
     // Listen for form submission
     $('form').on('submit', function (e) {
         e.preventDefault(); // Prevent the form from submitting the usual way
@@ -170,6 +164,6 @@
             }
         });
     });
-</script>
+</script> -->
 
 @endsection

@@ -14,7 +14,8 @@
     font-weight: bold;
 }
 .badge-scheduled { background-color: #4CAF50; color: white;}
-.badge-pending { background-color: #FFC107; color: white;}
+.badge-approved { background-color: #FFC107; color: white;}
+.badge-pending { background-color: #d28716; color: white;}
 .badge-rejected { background-color: #F44336; color: white;}
 
 /* Status select styles */
@@ -34,8 +35,13 @@
     color: white;
 }
 
-.status-select option[value="Pending"] {
+.status-select option[value="Approved"] {
     background-color: #FFC107;
+    color: white;
+}
+
+.status-select option[value="Pending"] {
+    background-color: #f8a529;
     color: white;
 }
 

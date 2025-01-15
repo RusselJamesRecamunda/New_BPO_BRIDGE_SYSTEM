@@ -39,8 +39,9 @@
             <div id="personal-info" class="tab-content" style="display: block;">
                 <div class="container">
                 <!-- Profile Picture -->
-                    <div class="row mb-4 justify-content-start">
-                        <div class="col-md-4">
+                <div class="row mb-4">
+                    <div class="col-md-4 d-flex align-items-start">
+                        <div>
                             <div class="profile-pic">
                                 <img id="profile-img" name="profile-img" src="" alt="Profile Picture" class="rounded-circle">
                             </div>
@@ -54,6 +55,47 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Input Fields Section -->
+                    <div class="col-md-8 d-flex justify-content-end align-items-start">
+                        <div class="w-100" style="max-width: 400px;">
+                            <!-- Dropdown for Select Candidate -->
+                            <div class="mb-3">
+                                <label for="select-candidate" class="form-label fw-bold">Select Hired Candidate</label>
+                                <select id="select-candidate" name="select_candidate" class="form-select" required>
+                                    <option value="" disabled selected>--</option>
+                                    @forelse($hiredCandidates as $candidate)
+                                        <option value="{{ $candidate->result_id }}" 
+                                                data-candidate-name="{{ $candidate->candidate_name }}" 
+                                                data-interviewer="{{ $candidate->interviewer }}" 
+                                                data-date="{{ $candidate->interview_date }}" 
+                                                data-email="{{ $candidate->email }}" 
+                                                data-phone="{{ $candidate->phone }}">
+                                            {{ $candidate->candidate_name }}
+                                        </option>
+                                    @empty
+                                        <option value="" disabled>No Hired Candidates</option>
+                                    @endforelse
+                                </select>
+                            </div>
+
+                            <!-- Input Field for Interviewer -->
+                            <div class="mb-3">
+                                <label for="hired-candidate" class="form-label fw-bold">Interviewed By</label>
+                                <input type="text" id="hired-candidate" name="hired_candidate" class="form-control" placeholder="..." required readonly>
+                            </div>
+
+                            <!-- Input Field for Date Interviewed -->
+                            <div>
+                                <label for="date-interviewed" class="form-label fw-bold">Date Interviewed</label>
+                                <input type="text" id="date-interviewed-display" class="form-control" readonly>
+                                <input type="hidden" id="date-interviewed" name="date_interviewed" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                     
                     <!-- Personal Information Form -->
                     <div class="row mb-4">
@@ -108,18 +150,8 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="address" class="form-label fw-bold">Province</label>
-                                    <input type="text" class="form-control" id="province" name="province" placeholder="Address" required>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="city" class="form-label fw-bold">City</label>
-                                    <input type="text" class="form-control" id="city" name="city" placeholder="City" >
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="zip-code" class="form-label fw-bold">ZIP Code</label>
-                                    <input type="text" class="form-control" id="zip-code" name="zip-code" placeholder="ZIP Code">
+                                    <label for="complete_address" class="form-label fw-bold">Address</label>
+                                    <input type="text" class="form-control" id="complete_address" name="complete_address" placeholder="Complete Address" required>
                                 </div>
                             </div>
                             <div class="row">
@@ -312,4 +344,40 @@
 @section('scripts')
 <script src="{{ asset('asset/js/add-employee.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById('select-candidate').addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];
+
+        const candidateName = selectedOption.getAttribute('data-candidate-name');
+        const interviewer = selectedOption.getAttribute('data-interviewer');
+        const interviewDate = selectedOption.getAttribute('data-date');
+        const email = selectedOption.getAttribute('data-email');
+        const phone = selectedOption.getAttribute('data-phone');
+
+        // Split candidate_name into first and last name
+        const [firstName, ...lastNameParts] = candidateName.split(' ');
+        const lastName = lastNameParts.join(' ');
+
+        // Populate fields
+        document.getElementById('first_name').value = firstName || '';
+        document.getElementById('last_name').value = lastName || '';
+        document.getElementById('phone').value = phone || '';
+        document.getElementById('email').value = email || '';
+        document.getElementById('hired-candidate').value = interviewer || '';
+
+        if (interviewDate) {
+            const formattedDate = new Date(interviewDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            });
+
+            document.getElementById('date-interviewed-display').value = formattedDate;
+            document.getElementById('date-interviewed').value = interviewDate;
+        } else {
+            document.getElementById('date-interviewed-display').value = '';
+            document.getElementById('date-interviewed').value = '';
+        }
+    });
+</script>
 @endsection

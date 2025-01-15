@@ -13,7 +13,7 @@
         /* Ensure the chart adjusts correctly on resizing */
         #applicantChart {
             width: 100% !important;
-            height: 500px !important; /* Adjust height to your preference */
+            height: 600px !important; /* Adjust height to your preference */
         }
 
         /* Center the Upcoming Interviews and Applicants to Review sections */
@@ -58,7 +58,6 @@
                 <!-- Sidebar content here (if needed) -->
             </div>
 
-            <!-- Vacancy Stats Section -->
             <!-- Charts and Other Data -->
             <div class="row">
                 <div class="col-md-12">
@@ -70,6 +69,10 @@
                     </div>
                 </div>
             </div>
+
+            <!-- This div holds the data attributes and does not have the same ID as the canvas -->
+            <div id="applicantChartData" data-weeks="{{ json_encode($weeks) }}" data-chart-data="{{ json_encode($chartData) }}"></div>
+
 
             <!-- Chart and sections side by side -->
             <div class="chart-container">
@@ -93,48 +96,39 @@
                     </div>
                 </div>
 
-                <!-- Applicants to Review -->
+                <!-- Applications to Review -->
                 <div class="card applicants-to-review mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Applicants to Review</h5>
-                        <table class="table table-borderless">
-                            <thead>
-                                <tr>
-                                    <th>Position</th>
-                                    <th>Published</th>
-                                    <th>Number of Candidates</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Senior Python Developer</td>
-                                    <td>May 15, 2024</td>
-                                    <td><div class="progress"><div class="progress-bar bg-primary" style="width: 80%;"></div></div></td>
-                                </tr>
-                                <tr>
-                                    <td>Full Stack Developer</td>
-                                    <td>Jun 18, 2024</td>
-                                    <td><div class="progress"><div class="progress-bar bg-info" style="width: 50%;"></div></div></td>
-                                </tr>
-                                <tr>
-                                    <td>Full Stack Developer</td>
-                                    <td>Jun 18, 2024</td>
-                                    <td><div class="progress"><div class="progress-bar bg-info" style="width: 50%;"></div></div></td>
-                                </tr>
-                                <tr>
-                                    <td>Full Stack Developer</td>
-                                    <td>Jun 18, 2024</td>
-                                    <td><div class="progress"><div class="progress-bar bg-info" style="width: 50%;"></div></div></td>
-                                </tr>
-                                <tr>
-                                    <td>Full Stack Developer</td>
-                                    <td>Jun 18, 2024</td>
-                                    <td><div class="progress"><div class="progress-bar bg-info" style="width: 50%;"></div></div></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    <div class="card-body">
+        <h5 class="card-title">Applications to Review</h5>
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Total Applied</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($applications as $category => $data)
+                <tr>
+                    <td>{{ $category }}</td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar bg-primary" 
+                                data-percentage="{{ $data['percentage'] }}" 
+                                role="progressbar" 
+                                aria-valuemin="0" 
+                                aria-valuemax="100">
+                                {{ $data['percentage'] }}%
+                            </div>
+                        </div>
+                        <center><span>{{ $data['total'] }} pending applications</span></center>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
             </div>
         </div>
     </div>
@@ -143,36 +137,5 @@
 @section('scripts')
     <!-- Add chart.js script for the chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-    var ctx = document.getElementById('applicantChart').getContext('2d');
-    var applicantChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'], // Weekly tracking
-            datasets: [{
-                label: 'Applications Data',
-                data: [35, 59, 587, 25], // Data for each week
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 2,
-                fill: false, // Make sure the area under the line is not filled
-                tension: 0.1 // Smooth curve for the line
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Applications Data'
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-</script>
+    <script src="{{ asset('asset/js/applicant-tracker.js') }}"></script>
 @endsection

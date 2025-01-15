@@ -33,57 +33,49 @@ class OverviewJobController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        try {
-            // Validate the incoming data
-            $validated = $request->validate([
-                'application_id' => 'required|exists:applications,application_id', // Ensure the application exists
-                'status' => 'required|in:Qualified,Not Qualified', // Validate the status
-            ]);
+{
+    try {
+        // Validate the incoming datad
+        $validated = $request->validate([
+            'application_id' => 'required|exists:applications,application_id', // Ensure the application exists
+            'status' => 'required|in:Qualified,Not Qualified', // Validate the status
+        ]);
 
-            // Retrieve the application details based on application_id
-            $application = Applications::where('application_id', $validated['application_id'])->firstOrFail();
+        // Retrieve the application details
+        $application = Applications::where('application_id', $validated['application_id'])->firstOrFail();
 
-            // Initialize the applied job title
-            $appliedJobTitle = null;
+        // Determine the applied job title
+        $appliedJobTitle = $application->full_job_ID
+            ? FullTimeJobPosting::where('full_job_ID', $application->full_job_ID)->value('job_title') ?? 'Unknown Full-Time Job'
+            : FreelanceJobPosting::where('fl_jobID', $application->fl_jobID)->value('fl_job_title') ?? 'Unknown Freelance Job';
 
-            // Determine if the application is for a full-time or freelance job
-            if ($application->full_job_ID) {
-                // Retrieve the full-time job title
-                $fullTimeJob = FullTimeJobPosting::where('full_job_ID', $application->full_job_ID)->first();
-                $appliedJobTitle = $fullTimeJob->job_title ?? 'Unknown Full-Time Job';
-            } elseif ($application->fl_jobID) {
-                // Retrieve the freelance job title
-                $freelanceJob = FreelanceJobPosting::where('fl_jobID', $application->fl_jobID)->first();
-                $appliedJobTitle = $freelanceJob->fl_job_title ?? 'Unknown Freelance Job';
-            }
+        // Update or create the JobCandidates record
+        JobCandidates::updateOrCreate(
+            ['application_id' => $application->application_id], // Matching condition
+            [
+                'candidate_name' => $application->applicant_name,
+                'candidate_email' => $application->applicant_email,
+                'candidate_phone' => $application->applicant_phone,
+                'applied_job' => $appliedJobTitle,
+                'date_applied' => $application->app_date,
+                'application_id' => $application->application_id,
+                'application_status' => $application->application_status, // Sync application status
+                'candidate_status' => $validated['status'], // The status from the request
+                'candidate_resume' => $application->resume_cv,
+                'candidate_cover_letter' => $application->cover_letter,
+            ]
+        );
 
-            // Update or create the JobCandidates record
-            JobCandidates::updateOrCreate(
-                ['application_id' => $application->application_id], // Matching condition
-                [
-                    'candidate_name' => $application->applicant_name,
-                    'candidate_email' => $application->applicant_email,
-                    'candidate_phone' => $application->applicant_phone,
-                    'applied_job' => $appliedJobTitle, // Use the determined job title
-                    'date_applied' => $application->app_date,
-                    'application_id' => $application->application_id,
-                    'application_status' => $application->application_status,
-                    'candidate_status' => $validated['status'], // The status from the request
-                    'candidate_resume' => $application->resume_cv,
-                    'candidate_cover_letter' => $application->cover_letter,
-                ]
-            );
+        // Return a success response
+        return response()->json(['message' => 'Candidate status updated successfully.'], 200);
 
-            // Return a success response
-            return response()->json(['message' => 'Candidate status updated successfully.'], 200);
-
-        } catch (\Exception $e) {
-            // Log the error and return an error response
-            Log::error('Error updating candidate status: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to update candidate status. Please try again.'], 500);
-        }
+    } catch (\Exception $e) {
+        // Log the error and return an error response
+        Log::error('Error updating candidate status: ' . $e->getMessage());
+        return response()->json(['error' => 'Failed to update candidate status. Please try again.'], 500);
     }
+}
+
 
     
 

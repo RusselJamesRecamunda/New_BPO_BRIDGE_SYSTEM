@@ -6,12 +6,22 @@ document.addEventListener("DOMContentLoaded", function () {
         "password_confirmation"
     );
     const checkbox = document.getElementById("agree-checkbox");
+
     const emailWarning = document.getElementById("email-warning");
-    const passwordWarning = document.getElementById("password-warning");
+    const passwordValidationWarning = document.getElementById(
+        "password-validation-warning"
+    );
     const confirmPasswordWarning = document.getElementById(
         "confirm-password-warning"
     );
     const checkboxWarning = document.getElementById("checkbox-warning");
+
+    // Helper function for password validation
+    function isValidPassword(password) {
+        const regex =
+            /^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*_(),.?":{}|<>])[A-Za-z\d!@#$%^&*_(),.?":{}|<>]{12,}$/;
+        return regex.test(password);
+    }
 
     // Email validation
     emailInput.addEventListener("blur", function () {
@@ -25,22 +35,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Password validation
-    passwordInput.addEventListener("blur", function () {
-        if (passwordInput.value === "") {
-            passwordWarning.style.display = "block";
+    passwordInput.addEventListener("input", function () {
+        if (!isValidPassword(passwordInput.value)) {
+            passwordValidationWarning.style.display = "block";
             passwordInput.classList.add("error");
         } else {
-            passwordWarning.style.display = "none";
+            passwordValidationWarning.style.display = "none";
             passwordInput.classList.remove("error");
         }
     });
 
     // Confirm password validation
-    confirmPasswordInput.addEventListener("blur", function () {
-        if (
-            confirmPasswordInput.value !== passwordInput.value ||
-            confirmPasswordInput.value === ""
-        ) {
+    confirmPasswordInput.addEventListener("input", function () {
+        if (confirmPasswordInput.value !== passwordInput.value) {
             confirmPasswordWarning.style.display = "block";
             confirmPasswordInput.classList.add("error");
         } else {
@@ -73,19 +80,16 @@ document.addEventListener("DOMContentLoaded", function () {
             emailInput.classList.remove("error");
         }
 
-        if (passwordInput.value === "") {
-            passwordWarning.style.display = "block";
+        if (!isValidPassword(passwordInput.value)) {
+            passwordValidationWarning.style.display = "block";
             passwordInput.classList.add("error");
             valid = false;
         } else {
-            passwordWarning.style.display = "none";
+            passwordValidationWarning.style.display = "none";
             passwordInput.classList.remove("error");
         }
 
-        if (
-            confirmPasswordInput.value !== passwordInput.value ||
-            confirmPasswordInput.value === ""
-        ) {
+        if (confirmPasswordInput.value !== passwordInput.value) {
             confirmPasswordWarning.style.display = "block";
             confirmPasswordInput.classList.add("error");
             valid = false;

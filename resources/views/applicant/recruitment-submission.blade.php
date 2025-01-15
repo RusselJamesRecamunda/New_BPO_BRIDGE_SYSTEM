@@ -19,7 +19,7 @@
             </a>
         </div>
     </nav>
-    @if (session('error'))
+ @if (session('error'))
     <script>
         window.errorMessage = "{{ session('error') }}";
     </script>
@@ -30,29 +30,16 @@
         window.successMessage = "{{ session('success') }}";
     </script>
 @endif
-
     <!-- Form Container -->
     <div class="container mt-5 pt-5">
         <h2 class="text-center">Recruitment Submission:</h2>
         <form id="applicationForm" method="POST" action="{{ route('recruitment-submission.store') }}" enctype="multipart/form-data">
     @csrf
-    <div class="row mb-3">
-        <div class="col-md-6">
-            <label for="firstName" class="form-label">First Name:</label>
-            <input type="text" class="form-control" id="first_name" name="first_name" style="margin-bottom:20px;" required>
-        </div>
-        <div class="col-md-6">
-            <label for="lastName" class="form-label">Last Name:</label>
-            <input type="text" class="form-control" id="last_name" name="last_name" required>
-        </div>
-        <div class="col-md-6">
-            <label for="email" class="form-label">E-mail:</label>
-            <input type="text" class="form-control" id="email" name="email" required>
-        </div>
-        <div class="col-md-6">
-            <label for="pnumber" class="form-label">Phone Number:</label>
-            <input type="text" class="form-control" id="phone" name="phone">
-        </div>
+    <div class="row mb-3 justify-content-center align-items-center">
+            <input type="hidden" class="form-control" id="email" name="email" value="{{ urldecode($email) }}" required>
+            <h6> Hello,  {{ urldecode($candidateName) }}! Congratulations on being hired! To complete your hiring process, please submit the required documents for reviewing. You can upload here in PDF or PNG format. 
+                If you have any questions, let us know. Thank you!
+            </h6>
     </div>
     <div class="row mb-3">
         <div class="col-md-6">
