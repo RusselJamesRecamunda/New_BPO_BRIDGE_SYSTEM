@@ -22,7 +22,6 @@ class LoginController extends Controller
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
-            'g-recaptcha-response' => 'required|captcha',
         ]);
 
         // Verify the user's email and password using Auth::attempt
