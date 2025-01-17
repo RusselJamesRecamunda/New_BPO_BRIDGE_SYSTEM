@@ -33,7 +33,7 @@
                       </a> 
                       <div class="f-fallback">
                         <h1>Hello {{ $candidate_name }}!</h1>
-                        <p>We are pleased to inform you that your application for the {{ $applied_job }} has been successfully reviewed,
+                        <p>We are pleased to inform you that your application for the <strong>{{ $applied_job }} </strong> has been successfully reviewed,
                             and we would like to invite you for a job interview.
                         </p>
                         <p>This interview will provide us with an opportunity to further discuss your skills, suitability for the role, and to learn more about your career aspirations.
@@ -49,9 +49,7 @@
                         </p>
                         <p>Please confirm your availability <strong>by filling out the form below</strong>, within 48 hours of receiving this email. </p>
                         <p>
-                            Best regards,
-                            <br>
-                            Applied Job: <strong>{{ $applied_job }} </strong>
+                            Thank you for your understanding. We hope to see you soon!
                             <br>
                             BPO-BRIDGE
                             <br>
@@ -69,14 +67,15 @@
                                     <h2 style="font-size: 24px; color: #333; text-align: center; margin-bottom: 20px;">Confirm Your Availability</h2>
                                     <form style="width: 100%; margin: auto;">
                                       <div style="margin-bottom: 15px;">
-                                        <label for="name" style="display: block; font-size: 14px; color: #333; margin-bottom: 5px;"><strong>Enter Your Name:</strong></label>
-                                        <input type="text" id="name" name="name" placeholder="Enter Your Name" 
-                                              style="width: 94%; padding: 10px; font-size: 14px; border-radius: 5px; border: 1px solid #ccc;" required>
+                                        <label for="name" style="display: block; font-size: 14px; color: #333; margin-bottom: 5px;"><strong>Name:</strong></label>
+                                        <input type="text" id="name" name="name" value="{{ $candidate_name }}" 
+                                        style="width: 94%; padding: 10px; font-size: 14px; border-radius: 5px; border: 1px solid #ccc;" 
+                                        readonly required>
                                       </div>
                                       <div style="margin-bottom: 15px;">
-                                        <label for="email" style="display: block; font-size: 14px; color: #333; margin-bottom: 5px;"><strong>Enter Your Email:</strong></label>
-                                        <input type="email" id="email" name="email" placeholder="Enter Your Email" 
-                                              style="width: 94%; padding: 10px; font-size: 14px; border-radius: 5px; border: 1px solid #ccc;" required>
+                                        <label for="email" style="display: block; font-size: 14px; color: #333; margin-bottom: 5px;"><strong>Email:</strong></label>
+                                        <input type="email" id="email" name="email" value="{{ $email }}" 
+                                              style="width: 94%; padding: 10px; font-size: 14px; border-radius: 5px; border: 1px solid #ccc;" readonly required>
                                       </div>
                                       <div style="margin-bottom: 15px;">
                                         <label for="availability" style="display: block; font-size: 14px; color: #333; margin-bottom: 5px;"><strong>Availability:</strong></label>

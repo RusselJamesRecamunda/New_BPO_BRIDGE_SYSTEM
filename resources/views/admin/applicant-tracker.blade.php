@@ -81,54 +81,63 @@
                     <div class="card-body">
                         <h5 class="card-title">Upcoming Interviews</h5>
                         <ul class="list-group">
-                            <li class="list-group-item">John Doe <span class="text-muted">09:20 - 09:45</span></li>
-                            <li class="list-group-item">Jane Smith <span class="text-muted">10:20 - 10:45</span></li>
-                            <li class="list-group-item">John Doe <span class="text-muted">09:20 - 09:45</span></li>
-                            <li class="list-group-item">Jane Smith <span class="text-muted">10:20 - 10:45</span></li>
-                            <li class="list-group-item">John Doe <span class="text-muted">09:20 - 09:45</span></li>
-                            <li class="list-group-item">Jane Smith <span class="text-muted">10:20 - 10:45</span></li>
-                            <li class="list-group-item">John Doe <span class="text-muted">09:20 - 09:45</span></li>
-                            <li class="list-group-item">Jane Smith <span class="text-muted">10:20 - 10:45</span></li>
+                            @foreach($interviews as $interview)
+                                <li class="list-group-item">
+                                    <span class="me-3">{{ $interview->candidate_name }}</span> <!-- Widen gap between candidate name and date -->
+                                    <span class="text-muted">
+                                        {{ \Carbon\Carbon::parse($interview->interview_date)->format('F j, Y') }} at 
+                                        {{ \Carbon\Carbon::parse($interview->interview_time)->format('g:i A') }}
+                                    </span>
+                                    <span class="ms-3 fw-bold">{{ $interview->interview_mode }}</span>
+                                </li>
+                            @endforeach
                         </ul>
                         <div class="text-center mt-3">
-                            <a href="#" class="btn btn-primary">See Schedules</a>
+                            <a href="{{ route('interviews.index') }}" class="btn btn-primary"><i class="fa-regular fa-calendar-days me-2"></i>See Schedules</a>
                         </div>
                     </div>
                 </div>
 
+
                 <!-- Applications to Review -->
                 <div class="card applicants-to-review mb-4">
-    <div class="card-body">
-        <h5 class="card-title">Applications to Review</h5>
-        <table class="table table-borderless">
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Total Applied</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($applications as $category => $data)
-                <tr>
-                    <td>{{ $category }}</td>
-                    <td>
-                        <div class="progress">
-                            <div class="progress-bar bg-primary" 
-                                data-percentage="{{ $data['percentage'] }}" 
-                                role="progressbar" 
-                                aria-valuemin="0" 
-                                aria-valuemax="100">
-                                {{ $data['percentage'] }}%
-                            </div>
-                        </div>
-                        <center><span>{{ $data['total'] }} pending applications</span></center>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Applications to Review</h5>
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Total Applied</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($applications as $category => $data)
+                                <tr>
+                                    <td>{{ $category }}</td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-primary" 
+                                                data-percentage="{{ $data['percentage'] }}" 
+                                                role="progressbar" 
+                                                aria-valuemin="0" 
+                                                aria-valuemax="100">
+                                                {{ $data['percentage'] }}%
+                                            </div>
+                                        </div>
+                                        <center>
+                                            @if($data['percentage'] > 0)
+                                                <span>{{ $data['total'] }} pending applications</span>
+                                            @else
+                                                <span>No pending applications</span>
+                                            @endif
+                                        </center>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

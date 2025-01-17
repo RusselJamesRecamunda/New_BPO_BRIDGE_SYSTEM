@@ -141,26 +141,16 @@
                 <div class="card p-4 mb-4 d-flex flex-column" style="height: 130vh;">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="mb-0 fw-bold">Vacancy Status</h5>
-                        <button class="btn btn-primary fw-bold" type="button" data-bs-toggle="modal" data-bs-target="#datePickerModal">
-                            <i class="fa-solid fa-calendar-days me-2"></i>This Month
+                        <button id="monthYearButton" class="btn btn-primary fw-bold" type="button" data-bs-toggle="modal" data-bs-target="#datePickerModal">
+                            <i class="fa-solid fa-calendar-days me-2"></i>
+                            <span id="currentMonthYear" class="fw-bold"></span>
                         </button>
                     </div>
-                    <canvas id="vacancyStatsChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Modal for Date Picker -->
-            <div class="modal fade" id="datePickerModal" tabindex="-1" aria-labelledby="datePickerModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="datePickerModalLabel">Select Month and Year</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <input type="month" id="monthYearPicker" class="form-control">
-                        </div>
-                    </div>
+                    <canvas id="vacancyStatsChart" 
+                            data-pending="{{ json_encode($pendingApplications) }}"
+                            data-scheduled="{{ json_encode($scheduledInterviews) }}"
+                            data-rejected="{{ json_encode($rejectedApplications) }}">
+                    </canvas>
                 </div>
             </div>
         </div>
@@ -170,4 +160,6 @@
     <!-- Add additional scripts specific to this view here -->
     <script src="{{ asset('asset/js/dashboard.js') }}"></script>
     <script src="{{ asset('asset/js/sidebar.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @endsection
