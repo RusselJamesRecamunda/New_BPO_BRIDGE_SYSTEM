@@ -84,6 +84,20 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+                
+                <div class="mt-4">
+                    <!-- Render the necessary JavaScript for the reCAPTCHA widget -->
+                    {!! NoCaptcha::renderJs() !!}
+                    <!-- Display the reCAPTCHA widget -->
+                    {!! NoCaptcha::display() !!}
+                    <!-- Display validation error message for the reCAPTCHA response -->
+                    <span style="color: red;">
+                        @if($errors->has('g-recaptcha-response'))
+                        <!-- Show the first error message related to reCAPTCHA -->
+                        {{$errors->first('g-recaptcha-response')}}
+                        @endif
+                    </span>
+                </div>
 
                 <div class="form-group checkbox-group">
                     <input type="checkbox" id="agree-checkbox" name="agree" required>
