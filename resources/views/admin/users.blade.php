@@ -82,10 +82,9 @@
                 <div class="card p-3 shadow-sm">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
-                            <h6 class="mb-0">Sessions</h6>
-                            <h3 class="mb-0">100</h3>
+                            <h6 class="mb-0 fs-5">Sessions</h6>
                         </div>
-                        <canvas id="totalEmployeeChart" width="100" height="40"></canvas>
+                        <canvas id="sessionChart" width="80" height="80"></canvas>
                     </div>
                 </div>
             </div>
@@ -95,10 +94,9 @@
                 <div class="card p-3 shadow-sm">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
-                            <h6 class="mb-0">Overall Users</h6>
-                            <h3 class="mb-0">124</h3>
+                            <h6 class="mb-0 fs-5">Overall Users</h6>
                         </div>
-                        <canvas id="newEmployeeChart" width="100" height="40"></canvas>
+                        <canvas id="allUsersChart" width="80" height="80"></canvas>
                     </div>
                 </div>
             </div>
@@ -108,10 +106,9 @@
                 <div class="card p-3 shadow-sm">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
-                            <h6 class="mb-0">Active Users</h6>
-                            <h3 class="mb-0">504</h3>
+                            <h6 class="mb-0 fs-5">Active</h6>
                         </div>
-                        <canvas id="maleEmployeeChart" width="100" height="40"></canvas>
+                        <canvas id="activeUsersChart" width="80" height="80"></canvas>
                     </div>
                 </div>
             </div>
@@ -121,10 +118,9 @@
                 <div class="card p-3 shadow-sm">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
-                            <h6 class="mb-0">Suspended</h6>
-                            <h3 class="mb-0">110</h3>
+                            <h6 class="mb-0 fs-5">Offline</h6>
                         </div>
-                        <canvas id="femaleEmployeeChart" width="100" height="40"></canvas>
+                        <canvas id="offlineUsersChart" width="80" height="80"></canvas>
                     </div>
                 </div>
             </div>
@@ -142,7 +138,7 @@
                         <th data-column="role">Role</th>
                         <th data-column="email_verified_at">Date Verified</th>
                         <th data-column="activity_status">Activity Status</th>
-                        <th data-column="user_status">User Status</th>
+                        <!-- <th data-column="user_status">User Status</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -168,12 +164,12 @@
                                     <span class="fw-bold">{{ $user->activity_status }}</span> <!-- Handle any other statuses if needed -->
                                 @endif
                             </td>
-                            <td data-column="user_status">
+                            <!-- <td data-column="user_status">
                                 <select class="status-select badge-status" data-id="{{ $user->userID }}">
                                     <option value="Active" class="badge-active" {{ $user->user_status == 'Active' ? 'selected' : '' }}>Activate</option>
                                     <option value="Suspended" class="badge-suspended" {{ $user->user_status == 'Suspended' ? 'selected' : '' }}>Suspended</option>
                                 </select>
-                            </td>
+                            </td> -->
                         </tr>
                     @endforeach 
                 </tbody>
@@ -224,58 +220,97 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  // Generate ordered data for compact charts
-function generateCompactData() {
-    // Array of ascending values from small to high
-    return [10, 20, 30, 40, 50];
-}
+    // Generate percentage data for the charts
+    function generatePercentageData(total, value) {
+        const validValue = Math.min(value, total); // Ensure value does not exceed total
+        return [validValue, total - validValue]; // Create data for filled and empty sections
+    }
 
-// Initialize a compact chart
-function initializeCompactChart(ctx, color) {
-    return new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: Array.from({ length: 4 }, (_, i) => i + 1),
-            datasets: [{
-                label: 'Data',
-                backgroundColor: color,
-                borderColor: color,
-                data: generateCompactData(),
+    // Initialize a doughnut chart with a percentage in the center
+    function initializeDoughnutChart(ctx, color, total, value) {
+        return new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Filled', 'Remaining'],
+                datasets: [{
+                    label: 'Data',
+                    backgroundColor: [color, 'rgba(211, 211, 211, 0.5)'], // Main color and gray for remaining
+                    borderColor: ['transparent', 'transparent'], // Remove borders
+                    data: generatePercentageData(total, value),
+                }]
+            },
+            options: {
+                responsive: false,
+                maintainAspectRatio: false,
+                cutout: '70%', // Create space for the percentage text
+                plugins: {
+                    legend: {
+                        display: false // Hide legend
+                    },
+                    tooltip: {
+                        enabled: false // Disable tooltips
+                    }
+                }
+            },
+            plugins: [{
+                id: 'centerTextPlugin',
+                beforeDraw: function (chart) {
+                    const { width } = chart;
+                    const { ctx } = chart;
+                    ctx.save();
+
+                    // Dynamically adjust font size
+                    const fontSize = (width / 5).toFixed(2);
+                    ctx.font = `${fontSize}px Arial`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+
+                    // Calculate percentage
+                    const percentage = total > 0 ? Math.min(100, Math.round((value / total) * 100)) : 0;
+                    const text = `${percentage}%`;
+
+                    // Get chart center coordinates
+                    const centerX = chart.getDatasetMeta(0).data[0].x;
+                    const centerY = chart.getDatasetMeta(0).data[0].y;
+
+                    // Draw percentage text
+                    ctx.fillStyle = color;
+                    ctx.fillText(text, centerX, centerY);
+                    ctx.restore();
+                }
             }]
-        },
-        options: {
-            responsive: false,
-            maintainAspectRatio: false,
-            animation: {
-                duration: 1000 // Animation duration only on load
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    display: false
-                },
-                x: {
-                    display: false
-                }
-            },
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            layout: {
-                padding: 0
-            }
-        }
-    });
-}
+        });
+    }
 
-// Initialize charts for each card only once on page load
-const totalEmployeeChart = initializeCompactChart(document.getElementById('totalEmployeeChart'), 'rgba(54, 162, 235, 1)');
-const newEmployeeChart = initializeCompactChart(document.getElementById('newEmployeeChart'), 'rgba(75, 192, 192, 1)');
-const maleEmployeeChart = initializeCompactChart(document.getElementById('maleEmployeeChart'), 'rgba(153, 102, 255, 1)');
-const femaleEmployeeChart = initializeCompactChart(document.getElementById('femaleEmployeeChart'), 'rgba(255, 159, 64, 1)');
+    // Initialize charts for each card with dynamic data
+    const sessionChart = initializeDoughnutChart(
+        document.getElementById('sessionChart'),
+        'rgba(54, 162, 235, 1)',
+        {{ $totalSessions > 100 ? $totalSessions : 100 }},
+        {{ $totalSessions }}
+    );
+    const allUsersChart = initializeDoughnutChart(
+        document.getElementById('allUsersChart'),
+        'rgba(75, 192, 192, 1)',
+        {{ $totalUsers > 100 ? $totalUsers : 100 }},
+        {{ $totalUsers }}
+    );
+    const activeUsersChart = initializeDoughnutChart(
+        document.getElementById('activeUsersChart'),
+        'rgba(153, 102, 255, 1)',
+        {{ $totalUsers > 100 ? $totalUsers : 100 }},
+        {{ $activeUsers }}
+    );
+    const offlineUsersChart = initializeDoughnutChart(
+        document.getElementById('offlineUsersChart'),
+        'rgba(255, 159, 64, 1)',
+        {{ $totalUsers > 100 ? $totalUsers : 100 }},
+        {{ $offlineUsers }}
+    );
 </script>
+
+
+
 <script>
     // Pass Laravel variables to JavaScript
     const csrfToken = '{{ csrf_token() }}';

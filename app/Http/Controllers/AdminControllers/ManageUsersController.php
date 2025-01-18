@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class ManageUsersController extends Controller
 { 
@@ -16,10 +17,10 @@ class ManageUsersController extends Controller
     {
         $search = $request->input('search');
         $perPage = $request->input('per_page', 14); // Default to 14 if not specified
-
+    
         // Retrieve saved columns or default to available columns
         $savedColumns = session('selected_columns', []); // Start with empty array
-
+    
         // Define the actual database column names
         $databaseColumns = [
             'user_id', // Corresponds to User ID
@@ -32,7 +33,7 @@ class ManageUsersController extends Controller
             'created_at', // Corresponds to Created At
             'updated_at', // Corresponds to Updated At
         ];
-
+    
         // Check if it's a request to get columns
         if ($request->has('action') && $request->input('action') === 'get_columns') {
             return response()->json([
@@ -40,16 +41,16 @@ class ManageUsersController extends Controller
                 'savedColumns' => $savedColumns,
             ]);
         }
-
+    
         // Check if it's a request to save columns
         if ($request->has('action') && $request->input('action') === 'save_columns') {
             session(['selected_columns' => $request->input('columns', [])]); // Save the selected columns in the session
             return response()->json(['success' => true]);
         }
-
+    
         // Use saved columns for querying if they exist
-        $selectedColumns = $savedColumns ?: $databaseColumns; 
-
+        $selectedColumns = $savedColumns ?: $databaseColumns;
+    
         try {
             $users = User::select($selectedColumns)
                 ->when($search, function ($query, $search) {
@@ -65,22 +66,35 @@ class ManageUsersController extends Controller
                     });
                 })
                 ->paginate($perPage);
-
+    
+            // Fetch data for doughnut charts
+            $totalSessions = DB::table('sessions')->count(); // Replace with your sessions table
+            $totalUsers = User::count();
+            $activeUsers = User::where('activity_status', 'Online')->count();
+            $offlineUsers = User::where('activity_status', 'Offline')->count();
+    
+            // Determine the maximum total for scaling percentages
+            $maxTotal = max($totalSessions, $totalUsers);
+    
             if ($request->ajax()) {
                 if ($users->isEmpty()) {
                     return response()->json(['html' => '', 'message' => 'No results found.']);
                 }
-
-                return response()->json(['html' => view('admin.users', compact('users'))->render()]);
+    
+                return response()->json([
+                    'html' => view('admin.users', compact('users', 'totalSessions', 'totalUsers', 'activeUsers', 'offlineUsers', 'maxTotal'))->render(),
+                ]);
             }
-
-            return view('admin.users', compact('users', 'search'));
+    
+            return view('admin.users', compact('users', 'search', 'totalSessions', 'totalUsers', 'activeUsers', 'offlineUsers', 'maxTotal'));
         } catch (\Exception $e) {
             // Log the exception for debugging
             Log::error('Error fetching users: ' . $e->getMessage());
             return response()->json(['error' => 'An error occurred while fetching users: ' . $e->getMessage()], 500);
         }
     }
+    
+
     
     /**
      * Show the form for creating a new resource.
