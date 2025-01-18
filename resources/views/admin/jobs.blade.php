@@ -79,7 +79,7 @@
                                 <h6 class="card-subtitle mb-2 text-muted text-center">{{ $categories[$job->category_id]->category_name ?? 'Uncategorized' }}</h6>
                             </div>
                         </div>
-                        <p class="card-text">PHP {{ $job->basic_pay }}</p>
+                        <p class="card-text">{{ $job->basic_pay }}</p>
                         <p class="card-text">{!! Str::limit($job->job_description, 100, '...') !!}</p>
                         <p class="job-posted">{{ $job->creation_date->diffForHumans() }}</p>
                         <p class="card-text fw-bold">Opening Jobs (0/{{ $job->max_hires }})</p>
@@ -121,8 +121,8 @@
                                 <h6 class="card-subtitle mb-2 text-muted text-center">{{ $categories[$job->fl_category_id]->category_name ?? 'Uncategorized' }}</h6>
                             </div>
                         </div>
-                        <p class="card-text">PHP {{ $job->fl_basic_pay }}</p>
-                        <p class="card-text">{{ Str::limit($job->fl_job_description, 100, '...') }}</p>
+                        <p class="card-text">{{ $job->fl_basic_pay }}</p>
+                        <p class="card-text">{!! Str::limit($job->fl_job_description, 100, '...') !!}</p>
                         <p class="card-text fw-bold">Opening Jobs (0/{{ $job->max_hires }})</p>
                         <div class="progress mb-3">
                             <div class="progress-bar bg-primary" style="width: 0%;"></div>
