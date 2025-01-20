@@ -65,8 +65,16 @@
                             <i class="fa-solid fa-eye show-password" style="display: none;"></i>
                         </span>
                     </div>
+                    <small id="password-validation-warning" class="text-danger" style="display: none;">
+                        <ul>
+                            <li>Password must be at least 12 characters long</li>
+                            <li>Contain an uppercase letter</li>
+                            <li>Contain a lowercase letter</li>
+                            <li>Contain a symbol</li>
+                        </ul>
+                    </small>
                     @error('password')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                    <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
 
@@ -80,8 +88,11 @@
                             <i class="fa-solid fa-eye show-password" style="display: none;"></i>
                         </span>
                     </div>
+                    <small id="confirm-password-warning" class="text-danger" style="display: none;">
+                        Passwords do not match.
+                    </small>
                     @error('password_confirmation')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                    <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 
