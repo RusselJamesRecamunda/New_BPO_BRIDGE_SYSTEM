@@ -39,6 +39,7 @@
                     <button class="btn btn-secondary fw-bold" id="filterButton">
                         <i class="fa-solid fa-sliders me-2"></i>Filter
                     </button>
+                    <button class="btn btn-primary">Add HR Admin</button>
                    <!-- Filter Modal -->
                     <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
