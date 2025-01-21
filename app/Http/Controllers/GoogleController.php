@@ -34,6 +34,8 @@ class GoogleController extends Controller
                 ]);
 
                 $user->assignRole('applicant');
+                $user->role = 'applicant';
+                $user->save();
 
                 event(new Registered($user));
             }
