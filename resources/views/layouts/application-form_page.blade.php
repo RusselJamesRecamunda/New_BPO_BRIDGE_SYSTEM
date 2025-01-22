@@ -22,5 +22,6 @@
 
     <!-- Scripts -->
     @yield('scripts')
+    @yield('applicant-scripts')
 </body>
 </html>

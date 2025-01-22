@@ -47,7 +47,16 @@
                     </div>
                     <div class="col">
                         <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
-                        <input type="tel" name="phone" id="phone" class="form-control" required>
+                        <input 
+                            type="tel" 
+                            name="phone" 
+                            id="phone" 
+                            class="form-control" 
+                            maxlength="11" 
+                            required 
+                            pattern="\d{11}" 
+                            title="Phone number must be 11 digits."
+                        >
                         <div class="error-message" id="phoneError">Phone cannot be empty.</div>
                     </div>
                 </div>
@@ -87,10 +96,10 @@
                     <label class="form-label">Resume: <span class="text-danger">*</span></label>
                     <div class="file-upload" onclick="document.getElementById('resume').click()">
                         <img src="{{ asset('asset/img/applicant/upload.png') }}" alt="Upload Icon" class="upload-icon">
+                        <div class="uploaded-file-name" id="resumeFileName"></div>
                         <p>Upload a File<br><small>Drag and drop files here</small></p>
                         <input type="file" name="resume" id="resume" accept=".pdf" required style="display: none;">
                     </div>
-                    <div class="uploaded-file-name" id="resumeFileName"></div>
                     <div class="note">Note: File should be in PDF format.</div>
                 </div>
                 
@@ -98,10 +107,11 @@
                     <label class="form-label">Cover Letter:</label>
                     <div class="file-upload" onclick="document.getElementById('coverLetter').click()">
                         <img src="{{ asset('asset/img/applicant/upload.png') }}" alt="Upload Icon" class="upload-icon">
+                        <div class="uploaded-file-name" id="coverLetterFileName"></div>
                         <p>Upload a File<br><small>Drag and drop files here</small></p>
                         <input type="file" name="coverLetter" id="coverLetter" accept=".pdf" style="display: none;">
                     </div>
-                    <div class="uploaded-file-name" id="coverLetterFileName"></div>
+                    <div class="note">Note: File should be in PDF format.</div>
                 </div>
 
                 <div class="button-group">
